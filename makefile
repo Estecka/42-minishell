@@ -5,6 +5,7 @@ OBJS	= ${SRCS:.c=.o}
 LIBS = \
 	libft/libft.a \
 	dynarray/libdynarray.a \
+	get_next_line/libgnl.a \
 
 
 NAME	= minishell
@@ -14,6 +15,7 @@ CFLAGS	= -Wall -Wextra -Werror
 LIBFLAGS = \
 	-L libft -lft \
 	-L dynarray -ldynarray \
+	-L get_next_line -lgnl \
 
 
 
