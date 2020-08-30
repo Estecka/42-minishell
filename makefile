@@ -4,6 +4,7 @@ OBJS	= ${SRCS:.c=.o}
 
 LIBS = \
 	libft/libft.a \
+	dynarray/libdynarray.a \
 
 
 NAME	= minishell
@@ -12,6 +13,7 @@ CC		= clang
 CFLAGS	= -Wall -Wextra -Werror
 LIBFLAGS = \
 	-L libft -lft \
+	-L dynarray -ldynarray \
 
 
 
