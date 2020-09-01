@@ -25,10 +25,10 @@
 typedef enum e_iotype		t_iotype;
 enum	e_iotype
 {
-	standard = 0,
-	append = 1,
-	truncate = 2,
-	pipe = 3,
+	io_standard = 0,
+	io_append = 1,
+	io_truncate = 2,
+	io_pipe = 3,
 };
 
 /*
@@ -46,11 +46,19 @@ enum	e_iotype
 typedef struct s_cmdexpr	t_cmdexpr;
 struct	s_cmdexpr
 {
-	char const	**args;
+	const char	**args;
 	t_iotype	intype;
 	t_iotype	outtype;
 	void		*input;
 	void		*output;
 };
+
+/*
+** Fetches the next expression from stdin.
+** @var t_cmdexpr* expr	Outputs the resulting expression.
+** @return int	The return value from get_next_line.
+*/
+
+int		get_next_expr(t_cmdexpr *expr);
 
 #endif
