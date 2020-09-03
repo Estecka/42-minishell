@@ -17,6 +17,7 @@
 
 extern int	main()
 {
+	char *line;
 	t_cmdexpr expr;
 	short err;
 
@@ -24,8 +25,9 @@ extern int	main()
 	while(0 < err)
 	{
 		expr = (t_cmdexpr){ 0 };
-		write(1, "\n>", 2);
-		err = get_next_expr(&expr);
+		write(1, "\n> ", 3);
+		err = get_next_expr(&expr, &line);
+		printf("%s\n", line);
 		if (expr.args != NULL)
 		{
 			const char** cursor = expr.args;

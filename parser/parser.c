@@ -34,19 +34,15 @@ static char	**split_args(const char *line)
 	return (char**)(args.content);
 }
 
-extern int	get_next_expr(t_cmdexpr *expr)
+extern int	get_next_expr(t_cmdexpr *expr, char **line)
 {
-	char	*line;
 	int		err;
 
-	err = get_next_line(0, &line);
+	err = get_next_line(0, line);
 	if (err < 0)
 		return (err);
 	*expr = (t_cmdexpr){ 0 };
-	if (line)
-	{
-		expr->args = (const char**)split_args(line);
-		free(line);
-	}
+	if (*line)
+		expr->args = (const char**)split_args(*line);
 	return (err);
 }
