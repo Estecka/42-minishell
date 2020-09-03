@@ -1,5 +1,7 @@
 SRCS	= \
-	character.c character2.c \
+	character.c \
+	char_case.c \
+	whitespace.c \
 	integer.c integer2.c \
 	malloc.c \
 	memory.c memory2.c \
@@ -26,8 +28,7 @@ bonus: ${OBJS} ${OBJS_BONUS}
 all: bonus
 
 clean:
-	rm -f ${OBJS}
-	rm -f ${OBJS_BONUS}
+	rm -f *.o
 	rm -f *.gch
 
 fclean: clean

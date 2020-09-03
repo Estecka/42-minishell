@@ -1,8 +1,11 @@
 HDRS = \
 	parser.h \
+	parser_internals.h \
 
 SRCS = \
 	parser.c \
+	argument.c \
+	punctuation.c \
 
 OBJS = ${SRCS:.c=.o}
 
