@@ -43,6 +43,6 @@ extern int	get_next_expr(t_cmdexpr *expr, char **line)
 		return (err);
 	*expr = (t_cmdexpr){ 0 };
 	if (*line)
-		expr->args = (const char**)split_args(*line);
+		expr->args = split_args(*line);
 	return (err);
 }

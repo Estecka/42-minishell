@@ -21,7 +21,7 @@ typedef enum e_iotype		t_iotype;
 ** @var io_standard	No redirection
 ** @var io_truncate	(<, >) Input/output from/into a file. 
 ** @var io_append  	(>>) output only; append to existing file content
-** @var io_pipe    	(|)input/output is piped from/to another process.
+** @var io_pipe    	(|) input/output is piped from/to another process.
 */
 
 enum	e_iotype
@@ -48,19 +48,17 @@ union u_iotarget
 
 /*
 ** A breakdown of a single process.
-** @var char** args	The arguments passed to the process, this includes the
-** executable's name.
+** @var char** args	The arguments passed to the process, this includes the exec
+** utable's name.
 ** @var t_iotype outtype
 ** @var t_iotype outtype
 ** @var char*|t_cmdexpr* input	The file or process to read input from.
 ** @var char*|t_cmdexpr* output	The file or process to write outpur to.
-**  if any.
-** @var t_cmdexpr* pipe	A pointer to a piped process
 */
 
 struct	s_cmdexpr
 {
-	const char			**args;
+	char				**args;
 	t_iotype			intype;
 	t_iotype			outtype;
 	union u_iotarget	input;
