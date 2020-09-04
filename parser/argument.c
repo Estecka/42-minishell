@@ -15,12 +15,27 @@
 #include "../dynarray/dynarray.h"
 
 /*
+** Checks whether the next non-whitespace element of a string is an argument.
+** @param char* s	The string to search.
+** @return bool
+** 	true 	The next element of the command is an argument.
+** 	false	The next element is punctuation, or the end of the string.
+*/
+
+static short	peek_argument(const char *s)
+{
+	s = ft_skipspace(s);
+	return (*s && !is_punctuation(*s));
+}
+
+/*
 ** Parses a quoted argument and appends it to the current argument.
-** @param t_dynarray* chars	The character array where to store the quoted string.
+** @param t_dynarray* chars	The character array where to store the quoted strin
+** g.
 ** @param const char** cursor	A pointer to the first quote of the string.
 */
 
-static void	append_quoted_string(t_dynarray *chars, const char **cursor)
+static void		append_quoted_string(t_dynarray *chars, const char **cursor)
 {
 	char quote;
 
@@ -43,7 +58,7 @@ static void	append_quoted_string(t_dynarray *chars, const char **cursor)
 ** @return char*	The found argument or NULL if none were found.
 */
 
-char		*next_arg(const char **cursor)
+static char		*next_arg(const char **cursor)
 {
 	t_dynarray chars;
 
@@ -72,7 +87,7 @@ char		*next_arg(const char **cursor)
 ** @return char**	An array of arguments. This is NULL-terminated.
 */
 
-char		**parse_args(const char **cursor)
+char			**parse_args(const char **cursor)
 {
 	t_dynarray	args;
 	char		*current_arg;

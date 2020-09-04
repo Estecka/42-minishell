@@ -19,7 +19,7 @@ typedef enum e_iotype		t_iotype;
 /*
 ** The kind of input/output redirection used by a process.
 ** @var io_standard	No redirection
-** @var io_truncate	(<, >) Input/output from/into a file. 
+** @var io_truncate	(<, >) Input/output from/into a file.
 ** @var io_append  	(>>) output only; append to existing file content
 ** @var io_pipe    	(|) input/output is piped from/to another process.
 */
@@ -40,7 +40,7 @@ enum	e_iotype
 ** ble only if the io_type is `io_pipe`.
 */
 
-union u_iotarget
+union	u_iotarget
 {
 	char		*path;
 	t_cmdexpr	*expr;

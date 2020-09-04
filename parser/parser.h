@@ -22,7 +22,7 @@
 ** @return int	The return value from get_next_line.
 */
 
-int	get_next_expr_legacy(t_cmdexpr *expr, char **cmd);
+int			get_next_expr_legacy(t_cmdexpr *expr, char **cmd);
 
 /*
 ** Parses all commands in the given line.

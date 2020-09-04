@@ -18,10 +18,7 @@
 # include "../dynarray/dynarray.h"
 
 short	is_punctuation(char c);
-short	peek_argument(const char *s);
 
-char	*next_arg(const char **cursor);
 char	**parse_args(const char **cursor);
-
 
 #endif

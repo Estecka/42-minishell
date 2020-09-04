@@ -27,17 +27,3 @@ short	is_punctuation(char c)
 {
 	return (c == '>' || c == '<' || c == '|' || c == ';');
 }
-
-/*
-** Checks whether the next non-whitespace element of a string is an argument.
-** @param char* s	The string to search.
-** @return bool
-** 	true 	The next element of the command is an argument.
-** 	false	The next element is punctuation, or the end of the string.
-*/
-
-short	peek_argument(const char *s)
-{
-	s = ft_skipspace(s);
-	return (*s  && !is_punctuation(*s));
-}
