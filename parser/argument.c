@@ -64,3 +64,27 @@ char		*next_arg(const char **cursor)
 	free(chars.content);
 	return (NULL);
 }
+
+/*
+** Breaks the command down into an array of arguments.
+** @param const char* cursor	A cursor to the beginning of the command. This
+**  will be moved to the next punctuation following the last argument.
+** @return char**	An array of arguments. This is NULL-terminated.
+*/
+
+char		**parse_args(const char **cursor)
+{
+	t_dynarray	args;
+	char		*current_arg;
+
+	dyninit(&args, sizeof(char*), 8);
+	while (peek_argument(*cursor))
+	{
+		current_arg = next_arg(cursor);
+		dynappend(&args, &current_arg);
+	}
+	dynappend(&args, &(char*){NULL});
+	while (**cursor && !is_punctuation(**cursor))
+		(*cursor)++;
+	return (char**)(args.content);
+}

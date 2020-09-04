@@ -14,29 +14,34 @@
 #include <stdio.h>
 
 #include "../parser.h"
+#include "../../get_next_line/get_next_line.h"
 
 extern int	main()
 {
-	char *line;
-	t_cmdexpr expr;
-	short err;
+	const char* line;
+	t_cmdexpr** expr;
+	short gnl;
 
-	err = 1;
-	while(0 < err)
+	gnl = 1;
+	while(0 < gnl)
 	{
-		expr = (t_cmdexpr){ 0 };
+		expr = NULL;
 		write(1, "\n> ", 3);
-		err = get_next_expr(&expr, &line);
+		gnl = get_next_line(0, (char**)&line);
 		printf("%s\n", line);
-		if (expr.args != NULL)
+		expr = get_next_cmdline(line);
+
+		for (int i=0; expr[i]; i++)
 		{
-			const char** cursor = expr.args;
-			do {
-				printf("Arg: %s\n", *cursor);
-				cursor++;
-			}
-			while (*cursor != NULL);
+			printf("\tCommand #%i\n", i);
+			if (expr[i]->args == NULL)
+				printf("No Args\n");
+			else for (int j=0; expr[i]->args[j]; j++)
+				printf("\t\tArg[%i]: %s\n", j, expr[i]->args[j]);
 		}
-		printf("rvalue = %i\n", err);
+
+		printf("\tgnl = %d\n\n", gnl);
+		if (gnl == 0)
+			break;
 	}
 }
