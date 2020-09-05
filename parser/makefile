@@ -5,6 +5,7 @@ HDRS = \
 
 SRCS = \
 	parser.c \
+	exprbuilder.c \
 	argument.c \
 	punctuation.c \
 
