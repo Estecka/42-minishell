@@ -14,11 +14,13 @@
 # define MINISHELL_H
 
 typedef struct s_cmdexpr	t_cmdexpr;
+typedef struct s_ioredir	t_ioredir;
 typedef enum e_iotype		t_iotype;
+typedef union u_iotarget	t_iotarget;
 
 /*
 ** The kind of input/output redirection used by a process.
-** @var io_standard	No redirection
+** @var io_standard	Using stdin/stdout.
 ** @var io_truncate	(<, >) Input/output from/into a file.
 ** @var io_append  	(>>) output only; append to existing file content
 ** @var io_pipe    	(|) input/output is piped from/to another process.
@@ -47,22 +49,33 @@ union	u_iotarget
 };
 
 /*
+** Represents an input/output redirection.
+** @var t_iotype type	The type of redirection.
+** @var t_iotarget target	The target of the redirection.
+*/
+
+struct s_ioredir
+{
+	enum e_iotype		type;
+	union u_iotarget	target;
+};
+
+
+/*
 ** A breakdown of a single process.
 ** @var char** args	The arguments passed to the process, this includes the exec
 ** utable's name.
-** @var t_iotype outtype
-** @var t_iotype outtype
-** @var char*|t_cmdexpr* input	The file or process to read input from.
-** @var char*|t_cmdexpr* output	The file or process to write outpur to.
+** @var t_ioredir* inputs	The input sources from first to last.
+** 	This array will be null-terminated.
+** @var t_ioredir* outputs	The output destinations.
+** 	ŧHis array will be null-terminated.
 */
 
 struct	s_cmdexpr
 {
-	char				**args;
-	t_iotype			intype;
-	t_iotype			outtype;
-	union u_iotarget	input;
-	union u_iotarget	output;
+	char		**args;
+	t_ioredir	*inputs;
+	t_ioredir	*outputs;
 };
 
 #endif
