@@ -18,32 +18,27 @@
 # include "../dynarray/dynarray.h"
 
 /*
-** Environnement for parsing a command line.
-** @var const char*const line  	The full line that contains the commands.
-** @var const char*      cursor	The parser's current position within the comman
-** d line.
+** Environnement for parsing a single command. (';' separated)
+** @var const char* cursor	The parser's current position within the command li
+** ne.
 **
-** @var t_cmdexpr** processes  	The resulting array of process expressions.
-** @var t_cmdexpr* prevproc   	The process that was previously being parsed in
-**  the same command.
-** @var t_cmdexpr* currentproc	The process expression being currently parsed.
+** @var t_cmdexpr* firstproc  	The first process in the command.
+** 	This acts as the "return value" of the builder.
+** @var t_cmdexpr* currentproc	The process being currently parsed.
 **
-** @var t_dynarray procarray	Array builder for `processes`.
 ** @var t_dynarray argsarray	Array builder for `currentproc->args`
 ** @var t_dynarray inarray  	Array builder for `currentproc->inputs`
 ** @var t_dynarray outarray 	Array builder for `currentproc->outputs`
 */
 
 typedef struct s_exprbuilder	t_exprbuilder;
-struct	s_exprbuilder
+struct		s_exprbuilder
 {
-	const char*const	line;
 	const char			*cursor;
 
-	t_cmdexpr			*prevproc;
+	t_cmdexpr			*firstproc;
 	t_cmdexpr			*currentproc;
 
-	t_dynarray			procarray;
 	t_dynarray			argsarray;
 	t_dynarray			inarray;
 	t_dynarray			outarray;
@@ -51,6 +46,8 @@ struct	s_exprbuilder
 
 short	is_punctuation(char c);
 
-char	**parse_args(const char **cursor);
+char		**parse_args(const char **cursor);
+short		exprbuild_pipe(t_exprbuilder *this);
+t_cmdexpr	*exprbuild_complete(t_exprbuilder *this);
 
 #endif
