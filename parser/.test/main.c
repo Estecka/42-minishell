@@ -11,10 +11,32 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 #include "../parser.h"
 #include "../../get_next_line/get_next_line.h"
+
+static void	destroy_expr(t_cmdexpr *expr)
+{
+	while (expr)
+	{
+		for(char** arg=expr->args; *arg; arg++)
+			free(*arg);
+		free(expr->args);
+
+		// for (input in expr->inputs)
+		// 	free(input);
+		free(expr->inputs);
+
+		// for (output in expr->outputs)
+		// 	free(output);
+		free(expr->outputs);
+
+		free(expr);
+		expr = NULL;
+	}
+}
 
 extern int	main()
 {
@@ -41,6 +63,12 @@ extern int	main()
 		}
 
 		printf("\tgnl = %d\n\n", gnl);
+
+		for (t_cmdexpr** e=expr; *e; e++)
+			destroy_expr(*e);
+		free(expr);
+		free((void*)line);
+
 		if (gnl == 0)
 			break;
 	}

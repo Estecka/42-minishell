@@ -74,7 +74,8 @@ static char		*next_arg(const char **cursor)
 			(*cursor)++;
 		}
 	}
-	if (chars.length > 0)
+	dynappendnull(&chars);
+	if (chars.length > 1)
 		return (chars.content);
 	free(chars.content);
 	return (NULL);
@@ -91,13 +92,11 @@ void	parse_args(t_exprbuilder *builder)
 {
 	char		*current_arg;
 
-	dyninit(&builder->argsarray, sizeof(char*), 8);
 	while (peek_argument(builder->cursor))
 	{
 		current_arg = next_arg(&builder->cursor);
 		dynappend(&builder->argsarray, &current_arg);
 	}
-	dynappendnull(&builder->argsarray);
 	while (*builder->cursor && !is_punctuation(*builder->cursor))
 		builder->cursor++;
 }
