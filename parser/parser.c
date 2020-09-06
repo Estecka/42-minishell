@@ -23,19 +23,18 @@
 
 static t_cmdexpr	*get_next_cmd(const char **cursor)
 {
-	t_cmdexpr *result;
+	t_exprbuilder	builder;
 
 	*cursor = ft_skipspace(*cursor);
 	if (!**cursor)
 		return (NULL);
-	if (!(result = malloc(sizeof(t_cmdexpr))))
-		return (NULL);
-	result->args = parse_args(cursor);
-	// parse io()
+	exprbuild_init(&builder, *cursor);
+	parse_args(&builder);
+	*cursor = builder.cursor;
 	while (**cursor)
 		if (*((*cursor)++) == ';')
 			break ;
-	return (result);
+	return (exprbuild_complete(&builder));
 }
 
 extern t_cmdexpr	**get_next_cmdline(const char *line)
@@ -46,6 +45,6 @@ extern t_cmdexpr	**get_next_cmdline(const char *line)
 	dyninit(&commands, sizeof(t_cmdexpr*), 1);
 	while ((latest = get_next_cmd(&line)))
 		dynappend(&commands, &latest);
-	dynappend(&commands, &(void*){NULL});
+	dynappendnull(&commands);
 	return (t_cmdexpr**)(commands.content);
 }

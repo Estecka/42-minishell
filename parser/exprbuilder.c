@@ -26,7 +26,7 @@ static short	exprbuild_procinit(t_exprbuilder *this)
 	this->currentproc = malloc(sizeof(t_cmdexpr));
 	dyninit(&this->argsarray, sizeof(char*), 4);
 	dyninit(&this->inarray, sizeof(t_ioredir), 2);
-	dyninit(&this->inarray, sizeof(t_ioredir), 2);
+	dyninit(&this->outarray, sizeof(t_ioredir), 2);
 	return (1);
 }
 
@@ -43,6 +43,21 @@ static short	exprbuild_procend(t_exprbuilder *this)
 	this->currentproc->inputs = dynappendnull(&this->inarray);
 	this->currentproc->outputs = dynappendnull(&this->outarray);
 	this->currentproc = NULL;
+	return (1);
+}
+
+/*
+** Initializes the builder with a process expression.
+** @return bool	(To be implemented)
+** 	true 	OK
+** 	false	error
+*/
+
+short			exprbuild_init(t_exprbuilder *this, const char *cursor)
+{
+	exprbuild_procinit(this);
+	this->firstproc = this->currentproc;
+	this->cursor = cursor;
 	return (1);
 }
 

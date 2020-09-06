@@ -87,19 +87,17 @@ static char		*next_arg(const char **cursor)
 ** @return char**	An array of arguments. This is NULL-terminated.
 */
 
-char			**parse_args(const char **cursor)
+void	parse_args(t_exprbuilder *builder)
 {
-	t_dynarray	args;
 	char		*current_arg;
 
-	dyninit(&args, sizeof(char*), 8);
-	while (peek_argument(*cursor))
+	dyninit(&builder->argsarray, sizeof(char*), 8);
+	while (peek_argument(builder->cursor))
 	{
-		current_arg = next_arg(cursor);
-		dynappend(&args, &current_arg);
+		current_arg = next_arg(&builder->cursor);
+		dynappend(&builder->argsarray, &current_arg);
 	}
-	dynappend(&args, &(char*){NULL});
-	while (**cursor && !is_punctuation(**cursor))
-		(*cursor)++;
-	return (char**)(args.content);
+	dynappendnull(&builder->argsarray);
+	while (*builder->cursor && !is_punctuation(*builder->cursor))
+		builder->cursor++;
 }

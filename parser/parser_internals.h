@@ -46,7 +46,8 @@ struct		s_exprbuilder
 
 short	is_punctuation(char c);
 
-char		**parse_args(const char **cursor);
+void		parse_args(t_exprbuilder *builder);
+short		exprbuild_init(t_exprbuilder *this, const char *cursor);
 short		exprbuild_pipe(t_exprbuilder *this);
 t_cmdexpr	*exprbuild_complete(t_exprbuilder *this);
 
