@@ -55,7 +55,7 @@ struct		s_exprbuilder
 */
 
 typedef enum e_punctuation		t_punctuation;
-enum	e_punctuation
+enum		e_punctuation
 {
 	punc_none = 0,
 	punc_truncate = 1,
@@ -65,9 +65,8 @@ enum	e_punctuation
 	punc_end = 5,
 };
 
-short	is_punctuation(char c);
+short		is_punctuation(char c);
 
-void		parse_args(t_exprbuilder *builder);
 void		parse_cmd(t_exprbuilder *builder);
 short		exprbuild_init(t_exprbuilder *this, const char *cursor);
 short		exprbuild_pipe(t_exprbuilder *this);

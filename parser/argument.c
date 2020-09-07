@@ -15,20 +15,6 @@
 #include "../dynarray/dynarray.h"
 
 /*
-** Checks whether the next non-whitespace element of a string is an argument.
-** @param char* s	The string to search.
-** @return bool
-** 	true 	The next element of the command is an argument.
-** 	false	The next element is punctuation, or the end of the string.
-*/
-
-static short	peek_argument(const char *s)
-{
-	s = ft_skipspace(s);
-	return (*s && !is_punctuation(*s));
-}
-
-/*
 ** Extracts the next punctuation from the command line.
 ** @param char** cursor	A cursor to the string to search.
 ** 	This will be moved to the first non-whitespace following the punctuation.
@@ -70,7 +56,8 @@ static t_punctuation	next_punctuation(const char **cursor)
 ** @param const char** cursor	A pointer to the first quote of the string.
 */
 
-static void		append_quoted_string(t_dynarray *chars, const char **cursor)
+static void				append_quoted_string(t_dynarray *chars,
+const char **cursor)
 {
 	char quote;
 
@@ -93,7 +80,7 @@ static void		append_quoted_string(t_dynarray *chars, const char **cursor)
 ** @return char*	The found argument or NULL if none were found.
 */
 
-static char		*next_arg(const char **cursor)
+static char				*next_arg(const char **cursor)
 {
 	t_dynarray chars;
 
@@ -123,29 +110,9 @@ static char		*next_arg(const char **cursor)
 ** @return char**	An array of arguments. This is NULL-terminated.
 */
 
-void	parse_args(t_exprbuilder *builder)
+void					parse_cmd(t_exprbuilder *builder)
 {
-	char		*current_arg;
-
-	while (peek_argument(builder->cursor))
-	{
-		current_arg = next_arg(&builder->cursor);
-		dynappend(&builder->argsarray, &current_arg);
-	}
-	while (*builder->cursor && !is_punctuation(*builder->cursor))
-		builder->cursor++;
-}
-
-/*
-** Breaks the command down into an array of arguments.
-** @param const char* cursor	A cursor to the beginning of the command. This
-**  will be moved to the next punctuation following the last argument.
-** @return char**	An array of arguments. This is NULL-terminated.
-*/
-
-void	parse_cmd(t_exprbuilder *builder)
-{
-	char		*current_arg;
+	char			*current_arg;
 	t_punctuation	punc;
 
 	while ((punc = next_punctuation(&builder->cursor)) < punc_pipe)
