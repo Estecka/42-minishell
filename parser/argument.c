@@ -29,6 +29,41 @@ static short	peek_argument(const char *s)
 }
 
 /*
+** Extracts the next punctuation from the command line.
+** @param char** cursor	A cursor to the string to search.
+** 	This will be moved to the first non-whitespace following the punctuation.
+** @return t_punctuation	The matching punctuation.
+*/
+
+static t_punctuation	next_punctuation(const char **cursor)
+{
+	t_punctuation r;
+
+	*cursor = ft_skipspace(*cursor);
+	if (!**cursor || **cursor == ';')
+		r = punc_end;
+	else if (**cursor == '|')
+		r = punc_pipe;
+	else if (**cursor == '<')
+		r = punc_input;
+	else if (**cursor == '>')
+	{
+		if (*(*cursor + 1) == '>')
+		{
+			r = punc_append;
+			++*cursor;
+		}
+		else
+			r = punc_truncate;
+	}
+	else
+		r = punc_none;
+	if (**cursor && r != punc_none)
+		*cursor = ft_skipspace((*cursor) + 1);
+	return (r);
+}
+
+/*
 ** Parses a quoted argument and appends it to the current argument.
 ** @param t_dynarray* chars	The character array where to store the quoted strin
 ** g.
@@ -99,4 +134,34 @@ void	parse_args(t_exprbuilder *builder)
 	}
 	while (*builder->cursor && !is_punctuation(*builder->cursor))
 		builder->cursor++;
+}
+
+/*
+** Breaks the command down into an array of arguments.
+** @param const char* cursor	A cursor to the beginning of the command. This
+**  will be moved to the next punctuation following the last argument.
+** @return char**	An array of arguments. This is NULL-terminated.
+*/
+
+void	parse_cmd(t_exprbuilder *builder)
+{
+	char		*current_arg;
+	t_punctuation	punc;
+
+	while ((punc = next_punctuation(&builder->cursor)) < punc_pipe)
+	{
+		current_arg = next_arg(&builder->cursor);
+		if (punc == punc_none)
+			dynappend(&builder->argsarray, &current_arg);
+		else if (punc == punc_append || punc == punc_truncate)
+			dynappend(&builder->outarray, &(t_ioredir){
+				(punc == punc_append) ? io_append : io_truncate,
+				{current_arg}
+			});
+		else if (punc == punc_input)
+			dynappend(&builder->inarray, &(t_ioredir){
+				io_truncate,
+				{current_arg}
+			});
+	}
 }

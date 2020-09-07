@@ -29,7 +29,7 @@ static t_cmdexpr	*get_next_cmd(const char **cursor)
 	if (!**cursor)
 		return (NULL);
 	exprbuild_init(&builder, *cursor);
-	parse_args(&builder);
+	parse_cmd(&builder);
 	*cursor = builder.cursor;
 	while (**cursor)
 		if (*((*cursor)++) == ';')

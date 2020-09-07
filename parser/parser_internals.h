@@ -44,9 +44,31 @@ struct		s_exprbuilder
 	t_dynarray			outarray;
 };
 
+/*
+** Describes how to parse an element in a command.
+** @var punc_none    	The next element is a standard argument.
+** @var punc_append  	The next element is an output. (Append)
+** @var punc_truncate	The next element is an output. (Truncate)
+** @var punc_input   	The next element is an input.
+** @var punc_pipe    	The next element is part of a new process.
+** @var punc_end     	The next element is part of a new command.
+*/
+
+typedef enum e_punctuation		t_punctuation;
+enum	e_punctuation
+{
+	punc_none = 0,
+	punc_truncate = 1,
+	punc_append = 2,
+	punc_input = 3,
+	punc_pipe = 4,
+	punc_end = 5,
+};
+
 short	is_punctuation(char c);
 
 void		parse_args(t_exprbuilder *builder);
+void		parse_cmd(t_exprbuilder *builder);
 short		exprbuild_init(t_exprbuilder *this, const char *cursor);
 short		exprbuild_pipe(t_exprbuilder *this);
 t_cmdexpr	*exprbuild_complete(t_exprbuilder *this);
