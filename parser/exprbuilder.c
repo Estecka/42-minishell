@@ -25,8 +25,9 @@ static short	exprbuild_procinit(t_exprbuilder *this)
 {
 	this->currentproc = malloc(sizeof(t_cmdexpr));
 	dyninit(&this->argsarray, sizeof(char*), 4);
-	dyninit(&this->inarray, sizeof(t_ioredir), 2);
-	dyninit(&this->outarray, sizeof(t_ioredir), 2);
+	dyninit(&this->inarray, sizeof(char*), 2);
+	dyninit(&this->outarray, sizeof(char*), 2);
+	dyninit(&this->typearray, sizeof(short), 2);
 	return (1);
 }
 
@@ -42,6 +43,7 @@ static short	exprbuild_procend(t_exprbuilder *this)
 	this->currentproc->args = dynappendnull(&this->argsarray);
 	this->currentproc->inputs = dynappendnull(&this->inarray);
 	this->currentproc->outputs = dynappendnull(&this->outarray);
+	this->currentproc->outtypes = dynappendnull(&this->typearray);
 	this->currentproc = NULL;
 	return (1);
 }
@@ -71,21 +73,12 @@ short			exprbuild_init(t_exprbuilder *this, const char *cursor)
 short			exprbuild_pipe(t_exprbuilder *this)
 {
 	t_cmdexpr	*prevproc;
-	t_ioredir	*pipeout;
-	t_ioredir	*pipein;
 
 	prevproc = this->currentproc;
-	dynappendnull(&this->outarray);
-	pipeout = (t_ioredir*)this->outarray.content;
-	pipeout = &pipeout[this->outarray.length - 1];
 	exprbuild_procend(this);
 	exprbuild_procinit(this);
-	pipeout->type = io_pipe;
-	pipeout->target.expr = this->currentproc;
-	dynappendnull(&this->inarray);
-	pipein = (t_ioredir*)this->inarray.content;
-	pipein->type = io_pipe;
-	pipein->target.expr = prevproc;
+	prevproc->pipeout = this->currentproc;
+	this->currentproc->pipein = prevproc;
 	return (1);
 }
 

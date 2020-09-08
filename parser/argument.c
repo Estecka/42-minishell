@@ -121,14 +121,12 @@ void					parse_cmd(t_exprbuilder *builder)
 		if (punc == punc_none)
 			dynappend(&builder->argsarray, &current_arg);
 		else if (punc == punc_append || punc == punc_truncate)
-			dynappend(&builder->outarray, &(t_ioredir){
-				(punc == punc_append) ? io_append : io_truncate,
-				{current_arg}
-			});
+		{
+			dynappend(&builder->outarray, &current_arg);
+			dynappend(&builder->typearray,
+				&(short){(punc == punc_truncate) ? 1 : 0 });
+		}
 		else if (punc == punc_input)
-			dynappend(&builder->inarray, &(t_ioredir){
-				io_truncate,
-				{current_arg}
-			});
+			dynappend(&builder->inarray, &current_arg);
 	}
 }

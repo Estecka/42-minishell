@@ -29,6 +29,7 @@
 ** @var t_dynarray argsarray	Array builder for `currentproc->args`
 ** @var t_dynarray inarray  	Array builder for `currentproc->inputs`
 ** @var t_dynarray outarray 	Array builder for `currentproc->outputs`
+** @var t_dynarray outarray 	Array builder for `currentproc->outtypes`
 */
 
 typedef struct s_exprbuilder	t_exprbuilder;
@@ -42,6 +43,7 @@ struct		s_exprbuilder
 	t_dynarray			argsarray;
 	t_dynarray			inarray;
 	t_dynarray			outarray;
+	t_dynarray			typearray;
 };
 
 /*

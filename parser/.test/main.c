@@ -25,16 +25,15 @@ static void	destroy_expr(t_cmdexpr *expr)
 			free(*arg);
 		free(expr->args);
 
-		// Note for later:
-		// Triple free on piped expressions happening in the for below.
-
-		for (t_ioredir* in=expr->inputs; in->type; in++)
-			free(in->target.path);
+		for (char** in=expr->inputs; *in; in++)
+			free(*in);
 		free(expr->inputs);
 
-		for (t_ioredir* out=expr->outputs; out->type; out++)
-			free(out->target.path);
+		for (char** out=expr->outputs; *out; out++)
+			free(*out);
 		free(expr->outputs);
+
+		free(expr->outtypes);
 
 		free(expr);
 		expr = NULL;
@@ -67,27 +66,15 @@ extern int	main()
 
 			if (expr[i]->inputs == NULL)
 				printf("\t\t/!\\No Inputs\n");
-			else for (int j=0; expr[i]->inputs[j].type; j++)
-			{
-				switch (expr[i]->inputs[j].type)
-				{
-					default: printf("\t\t{%2d}\t%p", expr[i]->inputs[j].type, expr[i]->inputs[j].target.expr); break;
-					case io_truncate: printf("\t\t< \t%s\n", expr[i]->inputs[j].target.path); break;
-					case io_pipe:     printf("\t\t| \t[%p]\n", expr[i]->inputs[j].target.expr); break;
-				}
-			}
+			else for (int j=0; expr[i]->inputs[j]; j++)
+				printf("\t\t< \t%s\n", expr[i]->inputs[j]);
 
 			if (expr[i]->outputs == NULL)
 				printf("\t\t/!\\ No Outputs\n");
-			else for (int j=0; expr[i]->outputs[j].type; j++)
+			else for (int j=0; expr[i]->outputs[j]; j++)
 			{
-				switch (expr[i]->outputs[j].type)
-				{
-					default: printf("\t\t{%2d}\t%p", expr[i]->outputs[j].type, expr[i]->outputs[j].target.expr); break;
-					case io_truncate: printf("\t\t> \t%s\n", expr[i]->outputs[j].target.path); break;
-					case io_append:   printf("\t\t>>\t%s\n", expr[i]->outputs[j].target.path); break;
-					case io_pipe:     printf("\t\t| \t[%p]\n", expr[i]->outputs[j].target.expr); break;
-				}
+				char* type = expr[i]->outtypes[j] ? "> " : ">>";
+				printf("\t\t%s\t%s\n", type, expr[i]->outputs[j]);
 			}
 		}
 
