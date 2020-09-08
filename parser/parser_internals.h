@@ -22,9 +22,9 @@
 ** @var const char* cursor	The parser's current position within the command li
 ** ne.
 **
-** @var t_cmdexpr* firstproc  	The first process in the command.
+** @var t_procexpr* firstproc  	The first process in the command.
 ** 	This acts as the "return value" of the builder.
-** @var t_cmdexpr* currentproc	The process being currently parsed.
+** @var t_procexpr* currentproc	The process being currently parsed.
 **
 ** @var t_dynarray argsarray	Array builder for `currentproc->args`
 ** @var t_dynarray inarray  	Array builder for `currentproc->inputs`
@@ -37,8 +37,8 @@ struct		s_exprbuilder
 {
 	const char			*cursor;
 
-	t_cmdexpr			*firstproc;
-	t_cmdexpr			*currentproc;
+	t_procexpr			*firstproc;
+	t_procexpr			*currentproc;
 
 	t_dynarray			argsarray;
 	t_dynarray			inarray;
@@ -72,6 +72,6 @@ short		is_punctuation(char c);
 void		parse_cmd(t_exprbuilder *builder);
 short		exprbuild_init(t_exprbuilder *this, const char *cursor);
 short		exprbuild_pipe(t_exprbuilder *this);
-t_cmdexpr	*exprbuild_complete(t_exprbuilder *this);
+t_procexpr	*exprbuild_complete(t_exprbuilder *this);
 
 #endif

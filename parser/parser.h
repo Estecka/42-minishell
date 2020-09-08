@@ -17,18 +17,18 @@
 
 /*
 ** Fetches the next expression from stdin.
-** @param t_cmdexpr* expr	Outputs the resulting expression.
+** @param t_procexpr* expr	Outputs the resulting expression.
 ** @param char**	Outputs the full string that contains the command.
 ** @return int	The return value from get_next_line.
 */
 
-int			get_next_expr_legacy(t_cmdexpr *expr, char **cmd);
+int			get_next_expr_legacy(t_procexpr *expr, char **cmd);
 
 /*
 ** Parses all commands in the given line.
 ** @param char* line	The full line that contains the commands.
-** @return t_cmdexpr*	An array of command expressions.
+** @return t_procexpr*	An array of command expressions.
 */
-t_cmdexpr	**get_next_cmdline(const char *line);
+t_procexpr	**get_next_cmdline(const char *line);
 
 #endif

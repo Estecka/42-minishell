@@ -23,7 +23,7 @@
 
 static short	exprbuild_procinit(t_exprbuilder *this)
 {
-	this->currentproc = malloc(sizeof(t_cmdexpr));
+	this->currentproc = malloc(sizeof(t_procexpr));
 	dyninit(&this->argsarray, sizeof(char*), 4);
 	dyninit(&this->inarray, sizeof(char*), 2);
 	dyninit(&this->outarray, sizeof(char*), 2);
@@ -72,7 +72,7 @@ short			exprbuild_init(t_exprbuilder *this, const char *cursor)
 
 short			exprbuild_pipe(t_exprbuilder *this)
 {
-	t_cmdexpr	*prevproc;
+	t_procexpr	*prevproc;
 
 	prevproc = this->currentproc;
 	exprbuild_procend(this);
@@ -84,10 +84,10 @@ short			exprbuild_pipe(t_exprbuilder *this)
 
 /*
 ** Finalize the current command and returns it.
-** @return t_cmdexpr*	The resulting process expressions.
+** @return t_procexpr*	The resulting process expressions.
 */
 
-t_cmdexpr		*exprbuild_complete(t_exprbuilder *this)
+t_procexpr		*exprbuild_complete(t_exprbuilder *this)
 {
 	if (this->currentproc)
 		exprbuild_procend(this);

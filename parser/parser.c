@@ -17,11 +17,11 @@
 ** Parses the next command from a string, and moves the cursor accordingly.
 ** @param char** cursor	A pointer to the string to search. This cursor will be
 **  moved to the beginning of the following command.
-** @return t_cmdexpr*	The resulting command expression, or NULL if none were
+** @return t_procexpr*	The resulting command expression, or NULL if none were
 **  found.
 */
 
-static t_cmdexpr	*get_next_cmd(const char **cursor)
+static t_procexpr	*get_next_cmd(const char **cursor)
 {
 	t_exprbuilder	builder;
 
@@ -37,14 +37,14 @@ static t_cmdexpr	*get_next_cmd(const char **cursor)
 	return (exprbuild_complete(&builder));
 }
 
-extern t_cmdexpr	**get_next_cmdline(const char *line)
+extern t_procexpr	**get_next_cmdline(const char *line)
 {
 	t_dynarray	commands;
-	t_cmdexpr	*latest;
+	t_procexpr	*latest;
 
-	dyninit(&commands, sizeof(t_cmdexpr*), 1);
+	dyninit(&commands, sizeof(t_procexpr*), 1);
 	while ((latest = get_next_cmd(&line)))
 		dynappend(&commands, &latest);
 	dynappendnull(&commands);
-	return (t_cmdexpr**)(commands.content);
+	return (t_procexpr**)(commands.content);
 }

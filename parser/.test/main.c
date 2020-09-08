@@ -17,7 +17,7 @@
 #include "../parser.h"
 #include "../../get_next_line/get_next_line.h"
 
-static void	destroy_expr(t_cmdexpr *expr)
+static void	destroy_expr(t_procexpr *expr)
 {
 	while (expr)
 	{
@@ -43,7 +43,7 @@ static void	destroy_expr(t_cmdexpr *expr)
 extern int	main()
 {
 	const char* line;
-	t_cmdexpr** expr;
+	t_procexpr** expr;
 	short gnl;
 
 	gnl = 1;
@@ -80,7 +80,7 @@ extern int	main()
 
 		printf("\tgnl = %d\n\n", gnl);
 
-		for (t_cmdexpr** e=expr; *e; e++)
+		for (t_procexpr** e=expr; *e; e++)
 			destroy_expr(*e);
 		free(expr);
 		free((void*)line);
