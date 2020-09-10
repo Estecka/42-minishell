@@ -1,5 +1,4 @@
 HDRS = \
-	../minishell.h \
 	parser.h \
 	parser_internals.h \
 

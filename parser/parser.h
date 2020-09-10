@@ -13,16 +13,34 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "../minishell.h"
-
 /*
-** Fetches the next expression from stdin.
-** @param t_procexpr* expr	Outputs the resulting expression.
-** @param char**	Outputs the full string that contains the command.
-** @return int	The return value from get_next_line.
+** A breakdown of a single process.
+** @var char** args	The arguments passed to the process, this includes the exec
+** utable's name.
+** t_procexpr* pipein	The process expression that pipes into this.
+** t_procexpr* pipeout	The process expression this pipes into.
+** @var char** inputs	An array of pathes to the input files.
+** 	This array is null-terminated.
+** @var char** outputs	An array of pathes to the output files.
+** 	This array is null-terminated.
+** @var short* outtypes	For each output, whether this redirection is truncate (
+** TRUE) or append (FALSE).
+** 	This array is not NULL-terminated, but has the same length as `outputs` (mi
+** nus the null terminator);
 */
 
-int			get_next_expr_legacy(t_procexpr *expr, char **cmd);
+typedef struct s_procexpr	t_procexpr;
+struct		s_procexpr
+{
+	char		**args;
+
+	t_procexpr	*pipein;
+	t_procexpr	*pipeout;
+
+	char		**inputs;
+	char		**outputs;
+	short		*outtypes;
+};
 
 /*
 ** Parses all commands in the given line.
