@@ -47,6 +47,15 @@ struct		s_procexpr
 ** @param char* line	The full line that contains the commands.
 ** @return t_procexpr*	An array of command expressions.
 */
+
 t_procexpr	**get_next_cmdline(const char *line);
+
+/*
+** Recursively frees a process expression, all of its components and chained pr
+** ocesses.
+** @param t_procexpr* expr	The expression to destroy.
+*/
+
+void		procexpr_destroy(t_procexpr *expr);
 
 #endif
