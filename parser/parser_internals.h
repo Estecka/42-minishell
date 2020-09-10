@@ -73,5 +73,6 @@ void		parse_cmd(t_exprbuilder *builder);
 short		exprbuild_init(t_exprbuilder *this, const char *cursor);
 short		exprbuild_pipe(t_exprbuilder *this);
 t_procexpr	*exprbuild_complete(t_exprbuilder *this);
+void		exprbuild_abort(t_exprbuilder *this);
 
 #endif

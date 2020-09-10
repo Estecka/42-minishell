@@ -6,6 +6,7 @@ SRCS = \
 	parser.c \
 	procexpr.c \
 	exprbuilder.c \
+	exprbuilder_abort.c \
 	argument.c \
 	punctuation.c \
 

@@ -61,6 +61,8 @@ char		*ft_itoa_base(int nbr, const char *base);
 void		ft_bzero(void *s, size_t n);
 void		*ft_calloc(size_t count, size_t size);
 void*const	*malloc2d(size_t width, size_t height, size_t type);
+void		freearray(void **array);
+void		freearrayn(void **array, size_t size);
 
 void		*ft_memset(void *b, int c, size_t len);
 void		*ft_memcpy(void *dst, const void *src, size_t n);

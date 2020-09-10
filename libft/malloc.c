@@ -42,3 +42,30 @@ extern void*const	*malloc2d(size_t width, size_t height, size_t type)
 		result[i] = values + (i * height * type);
 	return ((void**)result);
 }
+
+/*
+** Frees all pointers in a null-terminated array.
+** Does not free the array itself.
+** @param void** array	A pointer to the first element of the array.
+*/
+
+extern void			freearray(void **array)
+{
+	array--;
+	while (*++array)
+		free(*array);
+}
+
+/*
+** Frees n pointers in an array.
+** Does not free the array itself.
+** This does not stop at a null-terminator.
+** @param void** array	A pointer to the first element to free.
+** @param size_t size	The amount of elements to free.
+*/
+
+extern void			freearrayn(void **array, size_t size)
+{
+	while (size--)
+		free(*(array++));
+}

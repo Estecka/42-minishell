@@ -15,21 +15,14 @@
 extern void	procexpr_destroy(t_procexpr *expr)
 {
 	t_procexpr	*prev;
-	char		**args;
 
 	while (expr)
 	{
-		args = expr->args - 1;
-		while (*++args)
-			free(*args);
+		freearray((void**)expr->args);
 		free(expr->args);
-		args = expr->inputs - 1;
-		while (*++args)
-			free(*args);
+		freearray((void**)expr->inputs);
 		free(expr->inputs);
-		args = expr->outputs - 1;
-		while (*++args)
-			free(*args);
+		freearray((void**)expr->outputs);
 		free(expr->outputs);
 		free(expr->outtypes);
 		prev = expr;
