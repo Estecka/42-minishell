@@ -31,9 +31,6 @@ static t_procexpr	*get_next_cmd(const char **cursor)
 	exprbuild_init(&builder, *cursor);
 	parse_cmd(&builder);
 	*cursor = builder.cursor;
-	while (**cursor)
-		if (*((*cursor)++) == ';')
-			break ;
 	return (exprbuild_complete(&builder));
 }
 

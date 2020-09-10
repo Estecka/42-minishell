@@ -24,6 +24,8 @@
 static short	exprbuild_procinit(t_exprbuilder *this)
 {
 	this->currentproc = malloc(sizeof(t_procexpr));
+	this->currentproc->pipein = NULL;
+	this->currentproc->pipeout = NULL;
 	dyninit(&this->argsarray, sizeof(char*), 4);
 	dyninit(&this->inarray, sizeof(char*), 2);
 	dyninit(&this->outarray, sizeof(char*), 2);

@@ -115,10 +115,12 @@ void					parse_cmd(t_exprbuilder *builder)
 	char			*current_arg;
 	t_punctuation	punc;
 
-	while ((punc = next_punctuation(&builder->cursor)) < punc_pipe)
+	while ((punc = next_punctuation(&builder->cursor)) != punc_end)
 	{
 		current_arg = next_arg(&builder->cursor);
-		if (punc == punc_none)
+		if (punc == punc_pipe)
+			exprbuild_pipe(builder);
+		if (punc == punc_none || punc == punc_pipe)
 			dynappend(&builder->argsarray, &current_arg);
 		else if (punc == punc_append || punc == punc_truncate)
 		{

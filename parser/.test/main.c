@@ -21,6 +21,8 @@ static void	destroy_expr(t_procexpr *expr)
 {
 	while (expr)
 	{
+		t_procexpr *prev;
+
 		for(char** arg=expr->args; *arg; arg++)
 			free(*arg);
 		free(expr->args);
@@ -35,54 +37,60 @@ static void	destroy_expr(t_procexpr *expr)
 
 		free(expr->outtypes);
 
-		free(expr);
-		expr = NULL;
+		prev = expr;
+		expr = expr->pipeout;
+		free(prev);
 	}
 }
 
 extern int	main()
 {
 	const char* line;
-	t_procexpr** expr;
+	t_procexpr** cmd;
 	short gnl;
 
 	gnl = 1;
 	while(0 < gnl)
 	{
-		expr = NULL;
+		cmd = NULL;
 		write(1, "\n> ", 3);
 		gnl = get_next_line(0, (char**)&line);
 		printf("%s\n", line);
-		expr = get_next_cmdline(line);
+		cmd = get_next_cmdline(line);
 
-		for (int i=0; expr[i]; i++)
+		for (int i=0; cmd[i]; i++)
 		{
-			printf("\tCommand #%i [%p]\n", i, expr + i);
-
-			if (expr[i]->args == NULL)
-				printf("No Args\n");
-			else for (int j=0; expr[i]->args[j]; j++)
-				printf("\t\tArg[%i]: %s\n", j, expr[i]->args[j]);
-
-			if (expr[i]->inputs == NULL)
-				printf("\t\t/!\\No Inputs\n");
-			else for (int j=0; expr[i]->inputs[j]; j++)
-				printf("\t\t< \t%s\n", expr[i]->inputs[j]);
-
-			if (expr[i]->outputs == NULL)
-				printf("\t\t/!\\ No Outputs\n");
-			else for (int j=0; expr[i]->outputs[j]; j++)
+			printf("\tCommand #%i\n", i);
+			for(t_procexpr *expr=cmd[i]; expr; expr=expr->pipeout)
 			{
-				char* type = expr[i]->outtypes[j] ? "> " : ">>";
-				printf("\t\t%s\t%s\n", type, expr[i]->outputs[j]);
+				printf("\t\tProcess [%p]\n", expr);
+				printf("\t\t\tPipe IN:  [%p]\n", expr->pipein);
+				if (expr->args == NULL)
+					printf("No Args\n");
+				else for (int j=0; expr->args[j]; j++)
+					printf("\t\t\tArg[%i]: %s\n", j, expr->args[j]);
+
+				if (expr->inputs == NULL)
+					printf("\t\t\t/!\\No Inputs\n");
+				else for (int j=0; expr->inputs[j]; j++)
+					printf("\t\t\t< \t%s\n", expr->inputs[j]);
+
+				if (expr->outputs == NULL)
+					printf("\t\t\t/!\\ No Outputs\n");
+				else for (int j=0; expr->outputs[j]; j++)
+				{
+					char* type = expr->outtypes[j] ? "> " : ">>";
+					printf("\t\t\t%s\t%s\n", type, expr->outputs[j]);
+				}
+				printf("\t\t\tPipe OUT: [%p]\n", expr->pipeout);
 			}
 		}
 
 		printf("\tgnl = %d\n\n", gnl);
 
-		for (t_procexpr** e=expr; *e; e++)
+		for (t_procexpr** e=cmd; *e; e++)
 			destroy_expr(*e);
-		free(expr);
+		free(cmd);
 		free((void*)line);
 
 		if (gnl == 0)
