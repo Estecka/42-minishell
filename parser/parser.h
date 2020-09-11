@@ -13,6 +13,8 @@
 #ifndef PARSER_H
 # define PARSER_H
 
+# include <unistd.h>
+
 /*
 ** A breakdown of a single process.
 ** @var char** args	The arguments passed to the process, this includes the exec
@@ -44,8 +46,9 @@ struct		s_procexpr
 
 /*
 ** Parses all commands in the given line.
+** This will overwrite errno, even in case of sucess !
 ** @param char* line	The full line that contains the commands.
-** @return t_procexpr*	An array of command expressions.
+** @return t_procexpr*	An array of command expressions, or NULL in case of error.
 */
 
 t_procexpr	**get_next_cmdline(const char *line);
@@ -57,5 +60,13 @@ t_procexpr	**get_next_cmdline(const char *line);
 */
 
 void		procexpr_destroy(t_procexpr *expr);
+
+/*
+** Destroys n command expressions from an array.
+** @param t_procexpr** array	A pointer to the array.
+** @param size_t lenght	The length of the array.
+*/
+
+void		procexpr_destroyarrayn(t_procexpr **array, size_t length);
 
 #endif
