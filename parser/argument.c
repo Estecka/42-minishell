@@ -107,7 +107,7 @@ static char				*next_arg(const char **cursor)
 }
 
 /*
-** Parses a single command. (';'-terminated) 
+** Parses a single command. (';'-terminated)
 ** @param t_exprbuilder* builder	The builder where to store the parsed comma
 ** nd.
 ** In case of error, the builder should then be cleansed withe exprbuild_abort.

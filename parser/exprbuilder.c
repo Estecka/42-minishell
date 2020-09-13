@@ -29,8 +29,7 @@ static short	exprbuild_procinit(t_exprbuilder *this)
 		&& dyninit(&this->argsarray, sizeof(char*), 4)
 		&& dyninit(&this->inarray, sizeof(char*), 2)
 		&& dyninit(&this->outarray, sizeof(char*), 2)
-		&& dyninit(&this->typearray, sizeof(short), 2)
-		)
+		&& dyninit(&this->typearray, sizeof(short), 2))
 	{
 		this->currentproc->pipein = NULL;
 		this->currentproc->pipeout = NULL;
@@ -53,8 +52,7 @@ static short	exprbuild_procend(t_exprbuilder *this)
 	if (dynappendnull(&this->argsarray)
 		&& dynappendnull(&this->inarray)
 		&& dynappendnull(&this->outarray)
-		&& dynappendnull(&this->typearray)
-	)
+		&& dynappendnull(&this->typearray))
 	{
 		this->currentproc->args = this->argsarray.content;
 		this->currentproc->inputs = this->inarray.content;
@@ -115,7 +113,7 @@ short			exprbuild_pipe(t_exprbuilder *this)
 ** 	false	Error
 */
 
-short		exprbuild_complete(t_exprbuilder *this)
+short			exprbuild_complete(t_exprbuilder *this)
 {
 	return (this->currentproc && exprbuild_procend(this));
 }

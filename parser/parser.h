@@ -48,7 +48,8 @@ struct		s_procexpr
 ** Parses all commands in the given line.
 ** This will overwrite errno, even in case of sucess !
 ** @param char* line	The full line that contains the commands.
-** @return t_procexpr*	An array of command expressions, or NULL in case of error.
+** @return t_procexpr*	An array of command expressions, or NULL in case of err
+** or.
 */
 
 t_procexpr	**get_next_cmdline(const char *line);

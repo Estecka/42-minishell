@@ -45,7 +45,7 @@ static t_procexpr	*get_next_cmd(const char **cursor)
 **
 ** ## Scenario 1: dyninit fails
 ** No resources are allocated, and nothing needs to be freed.
-** 
+**
 ** ## Scenario 2: get_next_cmd fails.
 ** get_next_cmd shall free its own pointers before returning, so `latest` will
 **  be NULL and shalls not be minded.
