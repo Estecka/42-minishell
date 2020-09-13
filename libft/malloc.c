@@ -59,13 +59,15 @@ extern void			freearray(void **array)
 /*
 ** Frees n pointers in an array.
 ** Does not free the array itself.
-** This does not stop at a null-terminator.
+** This does not stop at a null-pointer, but safely ignores them.
 ** @param void** array	A pointer to the first element to free.
 ** @param size_t size	The amount of elements to free.
 */
 
 extern void			freearrayn(void **array, size_t size)
 {
+	array--;
 	while (size--)
-		free(*(array++));
+		if (*++array)
+			free(*array);
 }

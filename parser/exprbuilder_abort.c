@@ -22,21 +22,23 @@ void	exprbuild_abort(t_exprbuilder *this)
 {
 	if (this->currentproc && this->currentproc->pipein)
 		this->currentproc->pipein->pipeout = NULL;
+	if (this->currentproc)
+		free(this->currentproc);
 	if (this->firstproc)
 		procexpr_destroy(this->firstproc);
 	if (this->argsarray.content)
 	{
-		freearrayn(&this->argsarray.content, this->argsarray.length);
+		freearrayn(this->argsarray.content, this->argsarray.length);
 		free(this->argsarray.content);
 	}
 	if (this->inarray.content)
 	{
-		freearrayn(&this->inarray.content, this->inarray.length);
+		freearrayn(this->inarray.content, this->inarray.length);
 		free(this->inarray.content);
 	}
 	if (this->outarray.content)
 	{
-		freearrayn(&this->outarray.content, this->outarray.length);
+		freearrayn(this->outarray.content, this->outarray.length);
 		free(this->outarray.content);
 	}
 	if (this->typearray.content)
