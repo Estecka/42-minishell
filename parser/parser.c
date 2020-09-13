@@ -19,20 +19,25 @@
 ** @param char** cursor	A pointer to the string to search. This cursor will be
 **  moved to the beginning of the following command.
 ** @return t_procexpr*	The resulting command expression, NULL if none were fou
-** nd or an error occured. Errno will also be set in case of error.
+** nd or an error occured. In case of error, errno will be set.
 */
 
 static t_procexpr	*get_next_cmd(const char **cursor)
 {
 	t_exprbuilder	builder;
 
+	builder = (t_exprbuilder){0};
 	*cursor = ft_skipspace(*cursor);
 	if (!**cursor)
 		return (NULL);
-	exprbuild_init(&builder, *cursor);
-	parse_cmd(&builder);
-	*cursor = builder.cursor;
-	return (exprbuild_complete(&builder));
+	if (exprbuild_init(&builder, *cursor) && parse_cmd(&builder))
+	{
+		*cursor = builder.cursor;
+		if (exprbuild_complete(&builder))
+			return (builder.firstproc);
+	}
+	exprbuild_abort(&builder);
+	return (NULL);
 }
 
 /*

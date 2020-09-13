@@ -75,9 +75,12 @@ const char **cursor)
 /*
 ** Extracts the next argument from the string, and advances the cursors accordi
 ** ngly.
+** No dangling pointers will be created in case of error. (To be implemented.)
 ** @param char** cursor	A pointer to where to start seeking the next argument.
 ** 	This pointer is moved after the end of the argument on return.
-** @return char*	The found argument or NULL if none were found.
+** @return char*	The found argument NULL if none were found or an error occu
+** red (To be implemented).
+** In case of error, errno will also be set.
 */
 
 static char				*next_arg(const char **cursor)
@@ -104,13 +107,16 @@ static char				*next_arg(const char **cursor)
 }
 
 /*
-** Breaks the command down into an array of arguments.
-** @param const char* cursor	A cursor to the beginning of the command. This
-**  will be moved to the next punctuation following the last argument.
-** @return char**	An array of arguments. This is NULL-terminated.
+** Parses a single command. (';'-terminated) 
+** @param t_exprbuilder* builder	The builder where to store the parsed comma
+** nd.
+** In case of error, the builder should then be cleansed withe exprbuild_abort.
+** @return bool	(To be implemented)
+** 	true 	OK
+** 	false	Error
 */
 
-void					parse_cmd(t_exprbuilder *builder)
+short					parse_cmd(t_exprbuilder *builder)
 {
 	char			*current_arg;
 	t_punctuation	punc;
@@ -131,4 +137,5 @@ void					parse_cmd(t_exprbuilder *builder)
 		else if (punc == punc_input)
 			dynappend(&builder->inarray, &current_arg);
 	}
+	return (1);
 }

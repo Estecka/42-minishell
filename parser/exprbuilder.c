@@ -16,53 +16,76 @@
 
 /*
 ** Initializes a new process expression within the builder.
-** @return bool	(To be implemented)
+** In cas of error, the process may be left partially initialized, but is clean
+** sable with exprbuild_abort.
+** @return bool
 ** 	true 	OK
 ** 	false	error
 */
 
 static short	exprbuild_procinit(t_exprbuilder *this)
 {
-	this->currentproc = malloc(sizeof(t_procexpr));
-	this->currentproc->pipein = NULL;
-	this->currentproc->pipeout = NULL;
-	dyninit(&this->argsarray, sizeof(char*), 4);
-	dyninit(&this->inarray, sizeof(char*), 2);
-	dyninit(&this->outarray, sizeof(char*), 2);
-	dyninit(&this->typearray, sizeof(short), 2);
-	return (1);
+	if ((this->currentproc = malloc(sizeof(t_procexpr)))
+		&& dyninit(&this->argsarray, sizeof(char*), 4)
+		&& dyninit(&this->inarray, sizeof(char*), 2)
+		&& dyninit(&this->outarray, sizeof(char*), 2)
+		&& dyninit(&this->typearray, sizeof(short), 2)
+		)
+	{
+		this->currentproc->pipein = NULL;
+		this->currentproc->pipeout = NULL;
+		return (1);
+	}
+	else
+		return (0);
 }
 
 /*
 ** Finalizes the currently parsed process expression.
-** @return bool	(To be implemented)
+** In case of error, the builder should be cleansed with exprbuild_abort.
+** @return bool
 ** 	true 	OK
 ** 	false	error
 */
 
 static short	exprbuild_procend(t_exprbuilder *this)
 {
-	this->currentproc->args = dynappendnull(&this->argsarray);
-	this->currentproc->inputs = dynappendnull(&this->inarray);
-	this->currentproc->outputs = dynappendnull(&this->outarray);
-	this->currentproc->outtypes = dynappendnull(&this->typearray);
-	this->currentproc = NULL;
-	return (1);
+	if (dynappendnull(&this->argsarray)
+		&& dynappendnull(&this->inarray)
+		&& dynappendnull(&this->outarray)
+		&& dynappendnull(&this->typearray)
+	)
+	{
+		this->currentproc->args = this->argsarray.content;
+		this->currentproc->inputs = this->inarray.content;
+		this->currentproc->outputs = this->outarray.content;
+		this->currentproc->outtypes = this->typearray.content;
+		if (!this->firstproc)
+			this->firstproc = this->currentproc;
+		this->currentproc = NULL;
+		return (1);
+	}
+	else
+		return (0);
 }
 
 /*
 ** Initializes the builder with a process expression.
-** @return bool	(To be implemented)
+** If it fails, the builder should then be cleansed with exprbuild_abort.
+** @return bool
 ** 	true 	OK
 ** 	false	error
 */
 
 short			exprbuild_init(t_exprbuilder *this, const char *cursor)
 {
-	exprbuild_procinit(this);
-	this->firstproc = this->currentproc;
-	this->cursor = cursor;
-	return (1);
+	if (exprbuild_procinit(this))
+	{
+		this->cursor = cursor;
+		return (1);
+	}
+	else
+		return (0);
 }
 
 /*
@@ -85,13 +108,14 @@ short			exprbuild_pipe(t_exprbuilder *this)
 }
 
 /*
-** Finalize the current command and returns it.
-** @return t_procexpr*	The resulting process expressions.
+** Finalizes the current command.
+** The result may then be recovered in this->firstproc.
+** @return bool
+** 	true 	OK
+** 	false	Error
 */
 
-t_procexpr		*exprbuild_complete(t_exprbuilder *this)
+short		exprbuild_complete(t_exprbuilder *this)
 {
-	if (this->currentproc)
-		exprbuild_procend(this);
-	return (this->firstproc);
+	return (this->currentproc && exprbuild_procend(this));
 }
