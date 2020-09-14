@@ -26,10 +26,10 @@
 static short	exprbuild_procinit(t_exprbuilder *this)
 {
 	if ((this->currentproc = malloc(sizeof(t_procexpr)))
-		&& dyninit(&this->argsarray, sizeof(char*), 4)
-		&& dyninit(&this->inarray, sizeof(char*), 2)
-		&& dyninit(&this->outarray, sizeof(char*), 2)
-		&& dyninit(&this->typearray, sizeof(short), 2))
+		&& dyninit(&this->argsarray, sizeof(char*), 4, 1)
+		&& dyninit(&this->inarray, sizeof(char*), 1, 1)
+		&& dyninit(&this->outarray, sizeof(char*), 1, 1)
+		&& dyninit(&this->typearray, sizeof(short), 1, 1))
 	{
 		this->currentproc->pipein = NULL;
 		this->currentproc->pipeout = NULL;
@@ -41,30 +41,17 @@ static short	exprbuild_procinit(t_exprbuilder *this)
 
 /*
 ** Finalizes the currently parsed process expression.
-** In case of error, the builder should be cleansed with exprbuild_abort.
-** @return bool
-** 	true 	OK
-** 	false	error
 */
 
-static short	exprbuild_procend(t_exprbuilder *this)
+static void		exprbuild_procend(t_exprbuilder *this)
 {
-	if (dynappendnull(&this->argsarray)
-		&& dynappendnull(&this->inarray)
-		&& dynappendnull(&this->outarray)
-		&& dynappendnull(&this->typearray))
-	{
-		this->currentproc->args = this->argsarray.content;
-		this->currentproc->inputs = this->inarray.content;
-		this->currentproc->outputs = this->outarray.content;
-		this->currentproc->outtypes = this->typearray.content;
-		if (!this->firstproc)
-			this->firstproc = this->currentproc;
-		this->currentproc = NULL;
-		return (1);
-	}
-	else
-		return (0);
+	this->currentproc->args = this->argsarray.content;
+	this->currentproc->inputs = this->inarray.content;
+	this->currentproc->outputs = this->outarray.content;
+	this->currentproc->outtypes = this->typearray.content;
+	if (!this->firstproc)
+		this->firstproc = this->currentproc;
+	this->currentproc = NULL;
 }
 
 /*
@@ -108,12 +95,10 @@ short			exprbuild_pipe(t_exprbuilder *this)
 /*
 ** Finalizes the current command.
 ** The result may then be recovered in this->firstproc.
-** @return bool
-** 	true 	OK
-** 	false	Error
 */
 
-short			exprbuild_complete(t_exprbuilder *this)
+void			exprbuild_complete(t_exprbuilder *this)
 {
-	return (this->currentproc && exprbuild_procend(this));
+	if (this->currentproc)
+		exprbuild_procend(this);
 }

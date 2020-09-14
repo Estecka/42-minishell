@@ -87,7 +87,7 @@ static char				*next_arg(const char **cursor)
 {
 	t_dynarray chars;
 
-	dyninit(&chars, sizeof(char), 8);
+	dyninit(&chars, sizeof(char), 8, 1);
 	*cursor = ft_skipspace(*cursor);
 	while (**cursor && !ft_isspace(**cursor) && !is_punctuation(**cursor))
 	{
@@ -99,8 +99,7 @@ static char				*next_arg(const char **cursor)
 			(*cursor)++;
 		}
 	}
-	dynappendnull(&chars);
-	if (chars.length > 1)
+	if (chars.length > 0)
 		return (chars.content);
 	free(chars.content);
 	return (NULL);

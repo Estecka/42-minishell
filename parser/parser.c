@@ -33,8 +33,8 @@ static t_procexpr	*get_next_cmd(const char **cursor)
 	if (exprbuild_init(&builder, *cursor) && parse_cmd(&builder))
 	{
 		*cursor = builder.cursor;
-		if (exprbuild_complete(&builder))
-			return (builder.firstproc);
+		exprbuild_complete(&builder);
+		return (builder.firstproc);
 	}
 	exprbuild_abort(&builder);
 	return (NULL);
@@ -53,8 +53,7 @@ static t_procexpr	*get_next_cmd(const char **cursor)
 **  which may be fully freed using `procexp_destroy()`.
 **
 ** ## Scenario 3: dynexpand fails
-** As long as dynexpand succeeds, the following dynappend and dynappendnull can
-** not fails.
+** As long as dynexpand succeeds, the following dynappend can not fails.
 ** `command` shall be handled with the same requirement as when get_next_cmd fa
 ** ils.
 ** dynappend will not be called, thus `latest` will contain a valid command exp
@@ -69,12 +68,9 @@ extern t_procexpr	**get_next_cmdline(const char *line)
 	t_procexpr	*latest;
 
 	errno = 0;
-	if (dyninit(&commands, sizeof(t_procexpr*), 2))
-	{
-		while ((latest = get_next_cmd(&line)) && dynexpand(&commands, 2))
+	if (dyninit(&commands, sizeof(t_procexpr*), 1, 1))
+		while ((latest = get_next_cmd(&line)) && dynexpand(&commands, 1))
 			dynappend(&commands, &latest);
-		dynappendnull(&commands);
-	}
 	if (errno && latest)
 		procexpr_destroy(latest);
 	if (errno && commands.content)
