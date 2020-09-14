@@ -15,9 +15,18 @@
 #include "../get_next_line/get_next_line.h"
 
 /*
+** # get_next_cmd abortion procedure
+**
+** exprbuild_init() and parse_cmd() are the only possible points of failure. Bo
+** th are expected to leave the exprbuilder in a state such as exprbuild_abort(
+** ) can safely destroy every dangling pointers.
+*/
+
+/*
 ** Parses the next command from a string, and moves the cursor accordingly.
-** @param char** cursor	A pointer to the string to search. This cursor will be
-**  moved to the beginning of the following command.
+** @param char** cursor	A pointer to the string to search.
+** 	This cursor will be moved to the beginning of the following command. Its va
+** lue is undefined in case of error.
 ** @return t_procexpr*	The resulting command expression, NULL if none were fou
 ** nd or an error occured. In case of error, errno will be set.
 */
