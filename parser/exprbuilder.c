@@ -86,7 +86,8 @@ short			exprbuild_pipe(t_exprbuilder *this)
 
 	prevproc = this->currentproc;
 	exprbuild_procend(this);
-	exprbuild_procinit(this);
+	if (!exprbuild_procinit(this))
+		return (0);
 	prevproc->pipeout = this->currentproc;
 	this->currentproc->pipein = prevproc;
 	return (1);
