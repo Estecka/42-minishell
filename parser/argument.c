@@ -137,7 +137,7 @@ short					parse_cmd(t_exprbuilder *builder)
 			return (0);
 		if (punc == punc_pipe && !exprbuild_pipe(builder))
 			return (0);
-		if (!(current_arg = next_arg(&builder->cursor)))
+		if (!(current_arg = next_arg(&builder->cursor)) && errno)
 			return (0);
 		if (punc == punc_none || punc == punc_pipe)
 			dynappend(&builder->argsarray, &current_arg);

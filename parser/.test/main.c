@@ -35,7 +35,11 @@ extern int	main()
 
 		if (errno)
 			printf ("\tParsing failed with errno : %d\n", errno);
-		else if (cmd)
+		else if (!cmd)
+			printf("\tParsing failed with no error.\n");
+		else if (!cmd[0])
+			printf("\tParsing yielded an empty array with no error.\n");
+		else
 		{
 			for (int i=0; cmd[i]; i++)
 			{
@@ -64,7 +68,10 @@ extern int	main()
 					printf("\t\t\tPipe OUT: [%p]\n", expr->pipeout);
 				}
 			}
+		}
 
+		if (cmd)
+		{
 			for (t_procexpr** e=cmd; *e; e++)
 				procexpr_destroy(*e);
 			free(cmd);
