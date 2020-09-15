@@ -137,18 +137,18 @@ short					parse_cmd(t_exprbuilder *builder)
 			return (0);
 		if (punc == punc_pipe && !exprbuild_pipe(builder))
 			return (0);
-		if (!(current_arg = next_arg(&builder->cursor)))
-			return (0);
-		if (punc == punc_none || punc == punc_pipe)
-			dynappend(&builder->argsarray, &current_arg);
-		else if (punc == punc_append || punc == punc_truncate)
+		if ((current_arg = next_arg(&builder->cursor)))
 		{
-			dynappend(&builder->outarray, &current_arg);
-			dynappend(&builder->typearray,
-				&(short){(punc == punc_truncate) ? 1 : 0 });
+			if (punc == punc_none || punc == punc_pipe)
+				dynappend(&builder->argsarray, &current_arg);
+			else if (punc == punc_append || punc == punc_truncate)
+				(void)(dynappend(&builder->outarray, &current_arg) && dynappend(
+&builder->typearray, &(short){(punc == punc_truncate) ? 1 : 0 }));
+			else if (punc == punc_input)
+				dynappend(&builder->inarray, &current_arg);
 		}
-		else if (punc == punc_input)
-			dynappend(&builder->inarray, &current_arg);
+		else if (errno)
+			return (0);
 	}
 	return (1);
 }

@@ -14,6 +14,9 @@
 # define PARSER_INTERNALS_H
 
 # include "parser.h"
+
+# include <errno.h>
+
 # include "../libft/libft.h"
 # include "../dynarray/dynarray.h"
 
