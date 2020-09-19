@@ -54,9 +54,12 @@ static t_punctuation	next_punctuation(const char **cursor)
 ** @param t_dynarray* chars	The character array where to store the quoted strin
 ** g.
 ** @param const char** cursor	A pointer to the first quote of the string.
+** @return bool
+** 	true 	OK
+** 	false	Error
 */
 
-static void				append_quoted_string(t_dynarray *chars,
+static short			append_quoted_string(t_dynarray *chars,
 const char **cursor)
 {
 	char quote;
@@ -67,9 +70,12 @@ const char **cursor)
 	{
 		dynappend(chars, *cursor);
 		(*cursor)++;
+		if (errno)
+			return (0);
 	}
 	if (**cursor == quote)
 		(*cursor)++;
+	return (1);
 }
 
 /*
@@ -88,9 +94,8 @@ static char				*next_arg(const char **cursor)
 	t_dynarray chars;
 
 	*cursor = ft_skipspace(*cursor);
-	if (!**cursor || is_punctuation(**cursor))
+	if (!**cursor || is_punctuation(**cursor) || !dyninit(&chars, sizeof(char), 16, 1))
 		return (NULL);
-	dyninit(&chars, sizeof(char), 8, 1);
 	while (**cursor && !ft_isspace(**cursor) && !is_punctuation(**cursor))
 	{
 		if (**cursor == '"' || **cursor == '\'')
@@ -99,6 +104,11 @@ static char				*next_arg(const char **cursor)
 		{
 			dynappend(&chars, &(**cursor));
 			(*cursor)++;
+		}
+		if (errno)
+		{
+			free(chars.content);
+			return (NULL);
 		}
 	}
 	return (chars.content);
