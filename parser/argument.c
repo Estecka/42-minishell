@@ -87,8 +87,10 @@ static char				*next_arg(const char **cursor)
 {
 	t_dynarray chars;
 
-	dyninit(&chars, sizeof(char), 8, 1);
 	*cursor = ft_skipspace(*cursor);
+	if (!**cursor || is_punctuation(**cursor))
+		return (NULL);
+	dyninit(&chars, sizeof(char), 8, 1);
 	while (**cursor && !ft_isspace(**cursor) && !is_punctuation(**cursor))
 	{
 		if (**cursor == '"' || **cursor == '\'')
@@ -99,10 +101,7 @@ static char				*next_arg(const char **cursor)
 			(*cursor)++;
 		}
 	}
-	if (chars.length > 0)
-		return (chars.content);
-	free(chars.content);
-	return (NULL);
+	return (chars.content);
 }
 
 /*
