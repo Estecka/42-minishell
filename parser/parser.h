@@ -47,6 +47,8 @@ struct		s_procexpr
 /*
 ** Parses all commands in the given line.
 ** This will overwrite errno, even in case of sucess !
+** The arguments of the command aren't fully processed at this points, they wil
+** l still contain ariable names, and the escape sequences "\\" and "\$".
 ** @param char* line	The full line that contains the commands.
 ** @return t_procexpr*	An array of command expressions, or NULL in case of err
 ** or.

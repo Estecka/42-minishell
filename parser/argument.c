@@ -50,35 +50,6 @@ static t_punctuation	next_punctuation(const char **cursor)
 }
 
 /*
-** Parses a quoted argument and appends it to the current argument.
-** @param t_dynarray* chars	The character array where to store the quoted strin
-** g.
-** @param const char** cursor	A pointer to the first quote of the string.
-** @return bool
-** 	true 	OK
-** 	false	Error
-*/
-
-static short			append_quoted_string(t_dynarray *chars,
-const char **cursor)
-{
-	char quote;
-
-	quote = **cursor;
-	(*cursor)++;
-	while (**cursor && **cursor != quote)
-	{
-		dynappend(chars, *cursor);
-		(*cursor)++;
-		if (errno)
-			return (0);
-	}
-	if (**cursor == quote)
-		(*cursor)++;
-	return (1);
-}
-
-/*
 ** Extracts the next argument from the string, and advances the cursors accordi
 ** ngly.
 ** No dangling pointers will be created in case of error. (To be implemented.)
@@ -98,8 +69,10 @@ static char				*next_arg(const char **cursor)
 		return (NULL);
 	while (**cursor && !ft_isspace(**cursor) && !is_punctuation(**cursor))
 	{
-		if (**cursor == '"' || **cursor == '\'')
-			append_quoted_string(&chars, cursor);
+		if (**cursor == '\'')
+			append_single_quote(&chars, cursor);
+		else if(**cursor == '"')
+			append_double_quote(&chars, cursor);
 		else
 		{
 			dynappend(&chars, &(**cursor));

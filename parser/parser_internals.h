@@ -71,6 +71,8 @@ enum		e_punctuation
 };
 
 short		is_punctuation(char c);
+short		append_single_quote(t_dynarray *chars, const char **cursor);
+short		append_double_quote(t_dynarray *chars, const char **cursor);
 
 short		parse_cmd(t_exprbuilder *builder);
 short		exprbuild_init(t_exprbuilder *this, const char *cursor);

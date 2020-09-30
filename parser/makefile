@@ -8,6 +8,7 @@ SRCS = \
 	exprbuilder.c \
 	exprbuilder_abort.c \
 	argument.c \
+	quotes.c \
 	punctuation.c \
 
 OBJS = ${SRCS:.c=.o}
