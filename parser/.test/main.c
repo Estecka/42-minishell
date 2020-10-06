@@ -13,10 +13,33 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <strings.h>
 #include <errno.h>
 
 #include "../parser.h"
 #include "../../get_next_line/get_next_line.h"
+
+
+/*
+** Placeholder function for getting a variable's value.
+*/
+#define WCYAN  "\033[1;36m${"
+#define WCLEAR "}\033[0m"
+extern char* get_env_var(const char* name)
+{
+	char* result;
+
+	result = malloc(strlen(WCYAN) + strlen(WCLEAR) + strlen(name) + 1);
+	if (!result)
+		return NULL;
+
+	result[0] = '\0';
+	strcat(result, WCYAN);
+	strcat(result, name);
+	strcat(result, WCLEAR);
+	return result;
+}
+
 
 extern int	main()
 {
@@ -51,7 +74,10 @@ extern int	main()
 					if (expr->args == NULL)
 						printf("No Args\n");
 					else for (int j=0; expr->args[j]; j++)
+					{
+						expr->args[j] = postproc_arg(expr->args[j]);
 						printf("\t\t\tArg[%i]: %s\n", j, expr->args[j]);
+					}
 
 					if (expr->inputs == NULL)
 						printf("\t\t\t/!\\No Inputs\n");
