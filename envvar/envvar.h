@@ -14,6 +14,14 @@
 # define ENVVAR_H
 
 /*
+** Dumb initialization of the environnement.
+** @param char** environ	An array of strings that will be used as environnem
+** ent variables. These are not checked for invalid syntax.
+*/
+
+void		envvarinit(char **environ);
+
+/*
 ** Fetches the value of an environnement variable.
 ** @param const char* name	The name of the variable.
 ** @return char*	An allocated copy of the variable's value.

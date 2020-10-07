@@ -12,16 +12,44 @@
 
 #include "../envvar.h"
 
+#include <stdlib.h>
 #include <stdio.h>
+#include <errno.h>
+
+static char* defaultTestSet[] = {
+	"PWD",
+	"HOME",
+	"USER",
+	"SHELL",
+	"TERM",
+	"LOGNAME",
+	"bulle",
+	NULL
+};
 
 extern int main(int argc, char** args, char** environ)
 {
 	(void)argc;
 	(void)args;
 
+	envvarinit(environ);
+
 	printf("\n\tImported environnement : \n");
 	for (char** vars=environ; *vars; vars++)
 		printf("%s\n", *vars);
+
+	printf("\n\tget_env_var()\n");
+	for (char** names=defaultTestSet; *names; names++) {
+		printf("%s:\t", *names);
+		char* value = get_env_var(*names);
+		if (!value)
+			printf("Errno %d\n", errno);
+		else
+		{
+			printf("\"%s\"\n", value);
+			free (value);
+		}
+	}
 
 	return 0;
 }

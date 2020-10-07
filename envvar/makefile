@@ -15,12 +15,14 @@ NAME = libenvvar.a
 TEST = envvar.out
 
 LIBS = \
+	../dynarray/libdynarray.a \
 
 CC     = clang
 CFLAGS = -Wall -Wextra -Werror
 TESTFLAGS = \
 	-Wall -Wextra \
 	-L ./ -lenvvar \
+	-L ../dynarray/ -ldynarray \
 
 
 ${NAME}: ${OBJS}
