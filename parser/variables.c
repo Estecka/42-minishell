@@ -79,19 +79,21 @@ static short	append_var(t_dynarray *narg, char **cursor)
 extern char		*postproc_arg(char *arg)
 {
 	t_dynarray	narg;
+	char		*cursor;
 
 	if (!dyninit(&narg, sizeof(char), ft_strlen(arg), 1))
 		return (NULL);
-	while(*arg)
+	cursor = arg;
+	while(*cursor)
 	{
-		if (*arg != '$')
+		if (*cursor != '$')
 		{
-			if (*arg == '\\' && *(arg + 1))
-				arg++;
-			dynappend(&narg, arg);
-			arg++;
+			if (*cursor == '\\' && *(cursor + 1))
+				cursor++;
+			dynappend(&narg, cursor);
+			cursor++;
 		}
-		else if (!append_var(&narg, &arg))
+		else if (!append_var(&narg, &cursor))
 		{
 			free(narg.content);
 			return (NULL);
