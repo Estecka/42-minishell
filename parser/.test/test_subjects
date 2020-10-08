@@ -1,5 +1,5 @@
-aa bb cc dd ee
-aa "bb;cc" '"dd" "ee"' "'ff' 'gg'"
+aa $bb cc d$d ee
+aa "bb;cc" '"dd" "$ee"' "'f\$f' 'gg'"
 aa bb>cc dd
 aa >bb cc <dd
 aa>> bb|cc dd
@@ -9,3 +9,4 @@ aa bb;
 "" | | ""
 aa >>b <c |<d ee >f > g | h; i
 aa "\\ \a \" \$" '\\ \a \" \$'
+aa $bb cc$dd ee

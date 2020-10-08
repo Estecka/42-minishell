@@ -57,6 +57,18 @@ struct		s_procexpr
 t_procexpr	**get_next_cmdline(const char *line);
 
 /*
+** Process an argument from a parsed command, turning it into its final, defini
+** tive form.
+** This involves parsing environnement variables, and the fe remaining escape s
+** equences.
+** @param char* arg	The argument's temporary value.
+** 	this pointer will be freed on success.
+** @return char*	The argument's final form, or NULL in case of error.
+*/
+
+char 		*postproc_arg(char *arg);
+
+/*
 ** Recursively frees a process expression, all of its components and chained pr
 ** ocesses.
 ** @param t_procexpr* expr	The expression to destroy.
@@ -71,5 +83,15 @@ void		procexpr_destroy(t_procexpr *expr);
 */
 
 void		procexpr_destroyarrayn(t_procexpr **array, size_t length);
+
+
+/*
+** Fonction to be defined in another module, used in postproc_arg.
+** @param const char* name	The name of an environnement variable.
+** @param char*	A copy of the variable's value.
+** @return char*	The variable's value, or NULL in case of error.
+*/
+
+extern char	*get_env_var(const char *name);
 
 #endif

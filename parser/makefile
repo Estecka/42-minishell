@@ -10,6 +10,7 @@ SRCS = \
 	argument.c \
 	quotes.c \
 	punctuation.c \
+	variables.c \
 
 OBJS = ${SRCS:.c=.o}
 
