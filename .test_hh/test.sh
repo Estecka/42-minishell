@@ -1,0 +1,1 @@
+./.test_hh/test.out < .test_hh/test_subjects

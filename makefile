@@ -6,7 +6,7 @@ LIBS = \
 	libft/libft.a \
 	dynarray/libdynarray.a \
 	get_next_line/libgnl.a \
-
+	builtins/lib_builtins.a
 
 NAME	= minishell
 
@@ -16,13 +16,26 @@ LIBFLAGS = \
 	-L libft -lft \
 	-L dynarray -ldynarray \
 	-L get_next_line -lgnl \
+	-L parser -lparser \
+	-L builtins -l_builtins
 
+TEST = .test_hh/test.out
+
+TEST_SRCS = \
+	main.c \
+
+TEST_OBJS = ${TEST_SRCS:.c=.o}
 
 
 ${NAME}: ${LIBS} ${OBJS}
 	clang ${OBJS} -o ${NAME} \
 		${LIBFLAGS} \
 		${CFLAGS} \
+
+test: ${TEST} ${TEST_OBJS}
+${TEST}: ${NAME} ${TEST_OBJS} ${LIBS}
+	${CC} ${TEST_OBJS} -o ${TEST} \
+		${LIBFLAGS}
 
 %.a: sub_makefile
 	make $(@F) -C $(@D)

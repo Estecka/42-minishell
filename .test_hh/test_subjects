@@ -1,0 +1,8 @@
+echo bb cc dd ee
+echo "bb cc" '"dd" "ee"' "'ff' 'gg'"
+echo bb cc dd
+echo bb cc dd
+echo  bb cc dd
+echo bb cc dd
+echo bb 
+echo "\\ \a \" \$" '\\ \a \" \$'
