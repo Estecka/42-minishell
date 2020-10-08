@@ -23,6 +23,12 @@
 char		**envvarinit(char **environ);
 
 /*
+** Frees all the internal pointers of the environnement.
+*/
+
+void		envvardeinit(void);
+
+/*
 ** Fetches the value of an environnement variable.
 ** @param const char* name	The name of the variable.
 ** @return char*	An allocated copy of the variable's value.

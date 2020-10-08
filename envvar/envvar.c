@@ -38,6 +38,20 @@ extern char			**envvarinit(char **environ)
 	return (char**)(g_envarray.content);
 }
 
+extern void			envvardeinit(void)
+{
+	char	**vars;
+
+	vars = (char**)g_envarray.content;
+	while (*vars)
+	{
+		free(*vars);
+		vars++;
+	}
+	free(g_envarray.content);
+	g_envarray = (t_dynarray){0};
+}
+
 extern char			*get_env_var(const char *name)
 {
 	char	**cursor;

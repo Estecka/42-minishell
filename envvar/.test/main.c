@@ -61,5 +61,6 @@ extern int main(int argc, char** args, char** environ)
 		}
 	}
 
+	envvardeinit();
 	return 0;
 }
