@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/08 14:29:52 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/08 16:55:12 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ extern int	main()
 			for (int i=0; cmd[i]; i++)
 			{
 				expr = cmd[i];
+				clear_array(expr->args);
 				if (expr->args == NULL)
 					printf("No Args\n");
 				if (!ft_strncmp(expr->args[0], "echo", 4))

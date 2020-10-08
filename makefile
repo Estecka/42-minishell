@@ -6,6 +6,8 @@ LIBS = \
 	libft/libft.a \
 	dynarray/libdynarray.a \
 	get_next_line/libgnl.a \
+	envvar/libenvvar.a \
+	parser/libparser.a \
 	builtins/lib_builtins.a
 
 NAME	= minishell
@@ -17,7 +19,8 @@ LIBFLAGS = \
 	-L dynarray -ldynarray \
 	-L get_next_line -lgnl \
 	-L parser -lparser \
-	-L builtins -l_builtins
+	-L builtins -l_builtins \
+	-L envvar -lenvvar
 
 TEST = .test_hh/test.out
 

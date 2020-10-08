@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/28 16:12:34 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/08 16:37:26 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,9 @@ void		procexpr_destroyarrayn(t_procexpr **array, size_t length);
 
 extern char	*get_env_var(const char *name);
 
+
+/*
+**
+*/
+void		clear_array(char **args);
 #endif
