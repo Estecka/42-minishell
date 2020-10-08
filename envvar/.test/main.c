@@ -32,11 +32,21 @@ extern int main(int argc, char** args, char** environ)
 	(void)argc;
 	(void)args;
 
-	envvarinit(environ);
-
 	printf("\n\tImported environnement : \n");
 	for (char** vars=environ; *vars; vars++)
 		printf("%s\n", *vars);
+
+	if (!(environ = envvarinit(environ)))
+	{
+		printf("Init failed.\n");
+		return (-1);
+	}
+	else
+	{
+		printf("\n\tDuplicated environnement : \n");
+		for (char** vars=environ; *vars; vars++)
+			printf("%s\n", *vars);
+	}
 
 	printf("\n\tget_env_var()\n");
 	for (char** names=defaultTestSet; *names; names++) {

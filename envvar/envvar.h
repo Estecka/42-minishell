@@ -14,12 +14,13 @@
 # define ENVVAR_H
 
 /*
-** Dumb initialization of the environnement.
+** Duplicates the provided array to initialize the environnement.
 ** @param char** environ	An array of strings that will be used as environnem
 ** ent variables. These are not checked for invalid syntax.
+** @param char**	The resulting environnement, or NULL in case of error.
 */
 
-void		envvarinit(char **environ);
+char		**envvarinit(char **environ);
 
 /*
 ** Fetches the value of an environnement variable.

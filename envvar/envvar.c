@@ -17,14 +17,25 @@
 static t_dynarray	g_envarray = {0};
 static char			***g_environ;
 
-extern void			envvarinit(char **environ)
+extern char			**envvarinit(char **environ)
 {
-	g_envarray.content = environ;
-	g_envarray.type = sizeof(char*);
-	g_envarray.nullterm = 1;
-	g_envarray.length = 0;
-	g_envarray.capacity = g_envarray.length + 1;
+	const char		*var;
+
+	if (!dyninit(&g_envarray, sizeof(char**), 15, 1))
+		return (NULL);
+	while(*environ)
+	{
+		if (!dynexpand(&g_envarray, 1) || !(var = ft_strdup(*environ)))
+		{
+			free(g_envarray.content);
+			g_envarray = (t_dynarray){0};
+			return (NULL);
+		}
+		dynappend(&g_envarray, &var);
+		environ++;
+	}
 	g_environ = (char***)&g_envarray.content;
+	return (char**)(g_envarray.content);
 }
 
 extern char			*get_env_var(const char *name)
