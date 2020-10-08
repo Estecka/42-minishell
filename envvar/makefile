@@ -15,6 +15,7 @@ NAME = libenvvar.a
 TEST = envvar.out
 
 LIBS = \
+	../libft/libft.a \
 	../dynarray/libdynarray.a \
 
 CC     = clang
@@ -22,6 +23,7 @@ CFLAGS = -Wall -Wextra -Werror
 TESTFLAGS = \
 	-Wall -Wextra \
 	-L ./ -lenvvar \
+	-L ../libft/ -lft \
 	-L ../dynarray/ -ldynarray \
 
 

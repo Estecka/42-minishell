@@ -27,9 +27,15 @@ extern void			envvarinit(char **environ)
 	g_environ = (char***)&g_envarray.content;
 }
 
-
 extern char			*get_env_var(const char *name)
 {
-	(void)name;
-	return(0);
+	char	**cursor;
+
+	cursor = *g_environ;
+	while (*cursor && (ft_strcmp(*cursor, name) != '='))
+		cursor++;
+	if (*cursor)
+		return (ft_strdup(ft_strchr(*cursor, '=') + 1));
+	else
+		return (ft_strdup(""));
 }

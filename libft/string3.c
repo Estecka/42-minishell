@@ -97,3 +97,19 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (diff);
 }
+
+int		ft_strcmp(const char *s1, const char *s2)
+{
+	int	diff;
+
+	diff = 0;
+	while (!diff)
+	{
+		diff = (unsigned char)*s1 - (unsigned char)*s2;
+		if (!*s1 || !*s2)
+			break ;
+		s1++;
+		s2++;
+	}
+	return (diff);
+}
