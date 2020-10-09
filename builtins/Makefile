@@ -1,5 +1,7 @@
 SRCS	=	echo.c \
-			pwd.c
+			pwd.c \
+			env.c \
+			final_builtins.c
 
 OBJS	= ${SRCS:.c=.o}
 

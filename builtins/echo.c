@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 10:53:41 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/09 10:57:30 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/09 11:09:11 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,6 @@ int		 echo_built(char **args)
 	i = 0;
 	nl_bool = 1;
 	wd_bool = 0;
-	if (ft_strlen(args[0]) != 4)
-	{
-		ft_putstr(args[0]);
-		ft_putstr(": command not found\n");
-		return (0);
-	}
 	while (++i < size && size > 1)
 	{
 		if (!ft_strncmp(args[i], "-n", 2) && !wd_bool)

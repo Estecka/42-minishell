@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/06 14:44:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/09 11:44:56 by hherin           ###   ########.fr       */
+/*   Created: 2020/10/09 11:19:10 by hherin            #+#    #+#             */
+/*   Updated: 2020/10/09 12:16:34 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "builtins.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <sys/errno.h>
-# include "../libft/libft.h"
-
-#include <stdio.h>
-
-int		echo_built(char **args);
-int		pwd_built(char **args);
-int		env_built(char **args, char *env[]);
-int		builtins_process(char **args, char *env[]);
-
-#endif
+int		env_built(char **args, char **env)
+{
+	int i = 0;
+	(void)args;
+	while (env[i])
+	{	
+		ft_putstr(env[i++]);
+		write(1, "\n", 1);	
+	}
+	return (errno);
+}

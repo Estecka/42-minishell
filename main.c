@@ -6,19 +6,20 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/09 11:00:40 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/09 12:08:48 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser/parser.h"
 #include "builtins/builtins.h"
 #include "get_next_line/get_next_line.h"
+#include "envvar/envvar.h"
 #include <sys/errno.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
 
-extern int	main()
+extern int	main(int ac, char **av, char **environ)
 {
 	const char* line;
 	t_procexpr** cmd;
@@ -26,6 +27,13 @@ extern int	main()
 	short gnl;
 
 	gnl = 1;
+	(void)ac;
+	(void)av;
+	if (!(environ = envvarinit(environ)))
+	{
+		printf("Init failed.\n");
+		return (-1);
+	}
 	while(0 < gnl)
 	{
 		cmd = NULL;
@@ -47,22 +55,7 @@ extern int	main()
 				clear_array(expr->args);
 				if (expr->args == NULL)
 					printf("No Args\n");
-				if (!ft_strncmp(expr->args[0], "echo ", 4))
-				{	
-					if (echo_built(expr->args))
-					{
-						printf("ERRNO RETURN IN ECHO\n");
-						exit(EXIT_FAILURE);
-					}
-				}
-				if (!ft_strncmp(expr->args[0], "pwd ", 3))
-				{
-					if (pwd_built(expr->args))
-					{
-							printf("ERRNO RETURN IN PWD\n");
-							exit(EXIT_FAILURE);
-					}
-				}
+				builtins_process(expr->args, environ);
 			}
 		
 		}
@@ -72,7 +65,7 @@ extern int	main()
 				procexpr_destroy(*e);
 			free(cmd);
 		}
-
+		envvardeinit();
 		free((void*)line);
 
 

@@ -8,6 +8,7 @@ LIBS = \
 	get_next_line/libgnl.a \
 	envvar/libenvvar.a \
 	parser/libparser.a \
+	envvar/libenvvar.a \
 	builtins/lib_builtins.a
 
 NAME	= minishell
