@@ -13,6 +13,8 @@
 #ifndef ENVVAR_H
 # define ENVVAR_H
 
+t_dynarray	g_envarray;
+
 /*
 ** Duplicates the provided array to initialize the environnement.
 ** @param char** environ	An array of strings that will be used as environnem
