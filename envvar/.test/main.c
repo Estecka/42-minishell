@@ -14,6 +14,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <strings.h>
 #include <errno.h>
 
 static char* defaultTestSet[] = {
@@ -58,6 +59,24 @@ extern int main(int argc, char** args, char** environ)
 		{
 			printf("\"%s\"\n", value);
 			free (value);
+		}
+	}
+
+	printf("\n\tset_env_var_raw()\n");
+	for (char** values = (char*[]){"test=Beep", "test=Boop", "test=Baap", NULL};
+		*values;
+		values++)
+	{
+		char* raw = strdup(*values);
+		char* rawvalue = strchr(raw, '=') + 1;
+		if (!set_env_var_raw(raw))
+			printf("[%s] Error\n", raw);
+		else {
+			char* r = get_env_var("test");
+			if (strcmp(r, rawvalue))
+				printf("[%s] Got :\t%s\n", rawvalue, r);
+			if (r)
+				free(r);
 		}
 	}
 

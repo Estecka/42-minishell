@@ -23,7 +23,7 @@ extern char			**envvarinit(char **environ)
 
 	if (!dyninit(&g_envarray, sizeof(char**), 15, 1))
 		return (NULL);
-	while(*environ)
+	while (*environ)
 	{
 		if (!dynexpand(&g_envarray, 1) || !(var = ft_strdup(*environ)))
 		{
@@ -63,4 +63,26 @@ extern char			*get_env_var(const char *name)
 		return (ft_strdup(ft_strchr(*cursor, '=') + 1));
 	else
 		return (ft_strdup(""));
+}
+
+extern short		set_env_var_raw(char *value)
+{
+	char	**vars;
+	size_t	namelen;
+
+	namelen = ft_strchr(value, '=') - value;
+	vars = *g_environ - 1;
+	while (*++vars)
+	{
+		if (!ft_strncmp(*vars, value, namelen))
+			break;
+	}
+	if (*vars)
+	{
+		free(*vars);
+		*vars = value;
+		return (1);
+	}
+	else
+		return (dynappend(&g_envarray, &value) != NULL);
 }
