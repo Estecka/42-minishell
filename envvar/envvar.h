@@ -66,4 +66,14 @@ short		set_env_var_raw(char *value);
 
 short		set_env_var(const char *name, const char *value);
 
+/*
+** Checks the validity of an environnement variable's name.
+** The special name '?' is considered valid.
+** @param const char* name	The name to validate
+** @return char*	A pointer to the first invalid character, else a pointer to
+**  the null terminator.
+*/
+
+char		*validate_var_name(const char *name);
+
 #endif
