@@ -86,3 +86,27 @@ extern short		set_env_var_raw(char *value)
 	else
 		return (dynappend(&g_envarray, &value) != NULL);
 }
+
+extern short		set_env_var(const char *name, const char *value)
+{
+	char	*raw;
+	size_t	namelen;
+	size_t	valulen;
+
+	if (ft_strcontain(name, '='))
+		return (0);
+	namelen = ft_strlen(name);
+	valulen = ft_strlen(value);
+	if (!(raw = malloc(namelen + 1 + valulen + 1)))
+		return (0);
+	ft_memcpy(raw, name, namelen);
+	ft_memcpy(raw + namelen, "=", 1);
+	ft_memcpy(raw + namelen + 1, value, valulen + 1);
+	if (set_env_var_raw(raw))
+		return (1);
+	else
+	{
+		free(raw);
+		return (0);
+	}
+}

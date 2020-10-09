@@ -42,7 +42,7 @@ char		*get_env_var(const char *name);
 
 /*
 ** Sets an environnement variable.
-** @param value 	A string formated as "name=value".
+** @param char* value 	A string formated as "name=value".
 ** 	This string is NOT checked for invalid syntax.
 ** 	This exact pointer is stored internally, and should notbe modified or freed
 **  afterward.
@@ -52,5 +52,18 @@ char		*get_env_var(const char *name);
 */
 
 short		set_env_var_raw(char *value);
+
+
+/*
+** Sets an environnement variable.
+** @param const char* name	The name of the variable to set.
+** 	This name is NOT checked for invalid caracters, except for '='.
+** @param const char* value	The value to set.
+** return bool
+** 	true 	OK
+** 	false	Error
+*/
+
+short		set_env_var(const char *name, const char *value);
 
 #endif
