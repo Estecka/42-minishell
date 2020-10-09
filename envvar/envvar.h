@@ -13,6 +13,8 @@
 #ifndef ENVVAR_H
 # define ENVVAR_H
 
+# include "../dynarray/dynarray.h"
+
 t_dynarray	g_envarray;
 
 /*

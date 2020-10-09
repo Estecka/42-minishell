@@ -14,7 +14,7 @@
 #include "../dynarray/dynarray.h"
 #include "../libft/libft.h"
 
-extern t_dynarray	g_envarray = {0};
+extern t_dynarray	g_envarray;
 static char			***g_environ;
 
 extern char			**envvarinit(char **environ)
