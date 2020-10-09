@@ -17,17 +17,6 @@
 #include <strings.h>
 #include <errno.h>
 
-static char* defaultTestSet[] = {
-	"PWD",
-	"HOME",
-	"USER",
-	"SHELL",
-	"TERM",
-	"LOGNAME",
-	"bulle",
-	NULL
-};
-
 extern int main(int argc, char** args, char** environ)
 {
 	(void)argc;
@@ -49,37 +38,34 @@ extern int main(int argc, char** args, char** environ)
 			printf("%s\n", *vars);
 	}
 
-	printf("\n\tget_env_var()\n");
-	for (char** names=defaultTestSet; *names; names++) {
-		printf("%s:\t", *names);
-		char* value = get_env_var(*names);
-		if (!value)
-			printf("Errno %d\n", errno);
-		else
-		{
-			printf("\"%s\"\n", value);
-			free (value);
-		}
-	}
-
-	printf("\n\tset_env_var_raw()\n");
-	for (char** values = (char*[]){"test=Beep", "test=Boop", "test=Baap", NULL};
-		*values;
-		values++)
+	printf("\n\tset_var && get_var\n");
+	char*** testvars = (char**[]){
+		(char*[2]){"test", "a"},
+		(char*[2]){"test", "b"},
+		(char*[2]){"test", "c"},
+		(char*[2]){"fishtre", "douille"},
+		NULL
+	};
+	for ((void)testvars; *testvars; testvars++)
 	{
-		char* raw = strdup(*values);
-		char* rawvalue = strchr(raw, '=') + 1;
-		if (!set_env_var_raw(raw))
-			printf("[%s] Error\n", raw);
-		else {
-			char* r = get_env_var("test");
-			if (strcmp(r, rawvalue))
-				printf("[%s] Got :\t%s\n", rawvalue, r);
-			if (r)
-				free(r);
+		#define TESTVARKEY ((*testvars)[0])
+		#define TESTVARVAL ((*testvars)[1])
+		if (!set_env_var(TESTVARKEY, TESTVARVAL))
+		{
+			printf("Set(%s, %s) : Errno %d\n", TESTVARKEY, TESTVARVAL, errno);
+			continue;
 		}
+		char* r = get_env_var(TESTVARKEY);
+		if (!r)
+			printf("Get(%s) : Errno %d\n", TESTVARKEY, errno);
+		else if (strcmp(r, TESTVARVAL))
+			printf("Get(%s) : Expected \"%s\" Got \"%s\"", TESTVARKEY, TESTVARVAL, r);
+		if (r)
+			free(r);
 	}
 
 	envvardeinit();
+
+	printf("Done.\n");
 	return 0;
 }
