@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 11:50:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/08 17:00:52 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/09 10:09:16 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ extern char		*postproc_arg(char *arg)
 	return (narg.content);
 }
 
-0void		clear_array(char **args)
+void		clear_array(char **args)
 {
 	int		i;
 

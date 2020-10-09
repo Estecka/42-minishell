@@ -1,4 +1,5 @@
-SRCS	= echo.c \
+SRCS	=	echo.c \
+			pwd.c
 
 OBJS	= ${SRCS:.c=.o}
 

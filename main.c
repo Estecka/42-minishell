@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/08 16:55:12 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/09 11:00:40 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,22 @@ extern int	main()
 				clear_array(expr->args);
 				if (expr->args == NULL)
 					printf("No Args\n");
-				if (!ft_strncmp(expr->args[0], "echo", 4))
-					echo_built(expr->args);
+				if (!ft_strncmp(expr->args[0], "echo ", 4))
+				{	
+					if (echo_built(expr->args))
+					{
+						printf("ERRNO RETURN IN ECHO\n");
+						exit(EXIT_FAILURE);
+					}
+				}
+				if (!ft_strncmp(expr->args[0], "pwd ", 3))
+				{
+					if (pwd_built(expr->args))
+					{
+							printf("ERRNO RETURN IN PWD\n");
+							exit(EXIT_FAILURE);
+					}
+				}
 			}
 		
 		}
