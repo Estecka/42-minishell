@@ -22,21 +22,23 @@ extern int main(int argc, char** args, char** environ)
 	(void)argc;
 	(void)args;
 
-	printf("\n\tImported environnement : \n");
-	for (char** vars=environ; *vars; vars++)
-		printf("%s\n", *vars);
 
-	if (!(environ = envvarinit(environ)))
+	printf ("\n\tenvvarinit\n");
+	char** dupenviron = envvarinit(environ);
+	if (!dupenviron)
 	{
-		printf("Init failed.\n");
+		printf("Init failed with errno %d\n", errno);
 		return (-1);
 	}
-	else
+	while(*dupenviron || *environ)
 	{
-		printf("\n\tDuplicated environnement : \n");
-		for (char** vars=environ; *vars; vars++)
-			printf("%s\n", *vars);
+		if ((!dupenviron != !environ) || strcmp(*dupenviron, *environ))
+			printf("Got:\t\"%s\" \tExpected: \t\"%s\"\n", *dupenviron, *environ);
+		dupenviron += !!dupenviron;
+		environ    += !!environ;
 	}
+
+	// --------
 
 	printf("\n\tset_var && get_var\n");
 	char*** testvars = (char**[]){
@@ -63,6 +65,8 @@ extern int main(int argc, char** args, char** environ)
 		if (r)
 			free(r);
 	}
+
+	// --------
 
 	envvardeinit();
 
