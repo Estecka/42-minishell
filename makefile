@@ -16,30 +16,19 @@ NAME	= minishell
 CC		= clang
 CFLAGS	= -Wall -Wextra -Werror
 LIBFLAGS = \
+	-L builtins -l_builtins \
+	-L parser -lparser \
+	-L envvar -lenvvar \
 	-L libft -lft \
 	-L dynarray -ldynarray \
 	-L get_next_line -lgnl \
-	-L parser -lparser \
-	-L builtins -l_builtins \
-	-L envvar -lenvvar
 
-TEST = .test_hh/test.out
-
-TEST_SRCS = \
-	main.c \
-
-TEST_OBJS = ${TEST_SRCS:.c=.o}
-
-
-${NAME}: ${LIBS} ${OBJS}
-	clang ${OBJS} -o ${NAME} \
+test: ${NAME}
+${NAME}: ${LIBS} ${OBJS} 
+	${CC} ${OBJS} -o ${NAME} \
 		${LIBFLAGS} \
 		${CFLAGS} \
 
-test: ${TEST} ${TEST_OBJS}
-${TEST}: ${NAME} ${TEST_OBJS} ${LIBS}
-	${CC} ${TEST_OBJS} -o ${TEST} \
-		${LIBFLAGS}
 
 %.a: sub_makefile
 	make $(@F) -C $(@D)
@@ -68,4 +57,4 @@ re: fclean ${NAME}
 .PHONY: \
 	sub_makefile \
 	all clean fclean re \
-	minilibx \
+	test \
