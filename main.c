@@ -65,11 +65,11 @@ extern int	main(int ac, char **av, char **environ)
 				procexpr_destroy(*e);
 			free(cmd);
 		}
-		envvardeinit();
 		free((void*)line);
 
 
 		if (gnl == 0)
 			break;
 	}
+	envvardeinit();
 }
