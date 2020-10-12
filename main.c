@@ -19,7 +19,14 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-extern int	main(int ac, char **av, char **environ)
+static int	builtin_main(int argc, char **argv)
+{
+	for (int i=0; i<argc; i++)
+		printf("%s\n", argv[i]);
+	return (0);
+}
+
+static int	shell_main()
 {
 	const char* line;
 	t_procexpr** cmd;
@@ -27,13 +34,6 @@ extern int	main(int ac, char **av, char **environ)
 	short gnl;
 
 	gnl = 1;
-	(void)ac;
-	(void)av;
-	if (!(environ = envvarinit(environ)))
-	{
-		printf("Init failed.\n");
-		return (-1);
-	}
 	while(0 < gnl)
 	{
 		cmd = NULL;
@@ -55,7 +55,7 @@ extern int	main(int ac, char **av, char **environ)
 				clear_array(expr->args);
 				if (expr->args == NULL)
 					printf("No Args\n");
-				builtins_process(expr->args, environ);
+				builtins_process(expr->args, g_envarray.content);
 			}
 		
 		}
@@ -71,5 +71,20 @@ extern int	main(int ac, char **av, char **environ)
 		if (gnl == 0)
 			break;
 	}
+	return (0);
+}
+
+extern int	main(int argc, char **argv, char **environ)
+{
+	if (!envvarinit(environ))
+	{
+		write(2, "Init failed.\n", 14);
+		return (errno);
+	}
+	if (argc > 1)
+		builtin_main(argc - 1, argv + 1);
+	else
+		shell_main();
 	envvardeinit();
+	return (0);
 }
