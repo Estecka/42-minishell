@@ -13,7 +13,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <strings.h>
+#include <string.h>
 #include <errno.h>
 
 #include "../parser.h"
@@ -71,6 +71,7 @@ extern int	main()
 				{
 					printf("\t\tProcess [%p]\n", expr);
 					printf("\t\t\tPipe IN:  [%p]\n", expr->pipein);
+					printf("\t\t\tArg count: %u\n", expr->argc);
 					if (expr->args == NULL)
 						printf("No Args\n");
 					else for (int j=0; expr->args[j]; j++)

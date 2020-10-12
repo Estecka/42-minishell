@@ -45,6 +45,7 @@ static short	exprbuild_procinit(t_exprbuilder *this)
 
 static void		exprbuild_procend(t_exprbuilder *this)
 {
+	this->currentproc->argc = this->argsarray.length;
 	this->currentproc->args = this->argsarray.content;
 	this->currentproc->inputs = this->inarray.content;
 	this->currentproc->outputs = this->outarray.content;

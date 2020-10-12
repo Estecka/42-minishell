@@ -52,7 +52,7 @@ static int	shell_main()
 			for (int i=0; cmd[i]; i++)
 			{
 				expr = cmd[i];
-				clear_array(expr->args);
+				postproc_args_all(expr->args);
 				if (expr->args == NULL)
 					printf("No Args\n");
 				builtins_process(expr->args, g_envarray.content);

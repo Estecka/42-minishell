@@ -103,7 +103,7 @@ extern char		*postproc_arg(char *arg)
 	return (narg.content);
 }
 
-void		clear_array(char **args)
+void		postproc_args_all(char **args)
 {
 	int		i;
 
