@@ -87,6 +87,14 @@ void		postproc_args_all(char **args);
 void		procexpr_destroy(t_procexpr *expr);
 
 /*
+** Destroys all process expressions in an array, and the array itself.
+** @param t_procexpr* exprarray	The array to destroy.
+** 	This is expected to be a valid array of valid t_procexpr.
+*/
+
+void	procexpr_destroy_all(t_procexpr **exprarray);
+
+/*
 ** Destroys n command expressions from an array.
 ** @param t_procexpr** array	A pointer to the array.
 ** @param size_t lenght	The length of the array.

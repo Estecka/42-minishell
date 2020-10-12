@@ -21,55 +21,46 @@
 
 static int	builtin_main(int argc, char **argv)
 {
-	for (int i=0; i<argc; i++)
-		printf("%s\n", argv[i]);
-	return (0);
+	(void)argc;
+	return (builtins_process(argv, g_envarray.content));
 }
 
-static int	shell_main()
+static int	execute_cmds_all(t_procexpr **cmdarray)
 {
-	const char* line;
-	t_procexpr** cmd;
-	t_procexpr*expr;
-	short gnl;
+	int			status;
+	t_procexpr	**cmd;
+
+	status = 0;
+	cmd = cmdarray;
+	while (*cmd)
+	{
+		postproc_args_all((*cmd)->args);
+		status = builtin_main((*cmd)->argc, (*cmd)->args);
+		cmd++;
+	}
+	if (cmdarray)
+		procexpr_destroy_all(cmdarray);
+	return (status);
+}
+
+static int	shell_main(void)
+{
+	char		*line;
+	t_procexpr	**cmd;
+	short		gnl;
 
 	gnl = 1;
-	while(0 < gnl)
+	while (0 < gnl)
 	{
-		cmd = NULL;
 		write(2, "> ", 2);
 		gnl = get_next_line(0, (char**)&line);
 		cmd = get_next_cmdline(line);
-
-		if (errno)
-			printf ("\tParsing failed with errno : %d\n", errno);
-		else if (!cmd)
-			printf("\tParsing failed with no error.\n");
-		else if (!cmd[0])
-			printf("\tParsing yielded an empty array with no error.\n");
+		if (errno || !cmd)
+			printf("\tParsing failed with errno : %d\n", errno);
 		else
-		{
-			for (int i=0; cmd[i]; i++)
-			{
-				expr = cmd[i];
-				postproc_args_all(expr->args);
-				if (expr->args == NULL)
-					printf("No Args\n");
-				builtins_process(expr->args, g_envarray.content);
-			}
-		
-		}
-		if (cmd) // libere memoire
-		{
-			for (t_procexpr** e=cmd; *e; e++)
-				procexpr_destroy(*e);
-			free(cmd);
-		}
-		free((void*)line);
-
-
-		if (gnl == 0)
-			break;
+			execute_cmds_all(cmd);
+		if (line)
+			free(line);
 	}
 	return (0);
 }
