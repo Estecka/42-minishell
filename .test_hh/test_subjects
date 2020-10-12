@@ -1,0 +1,18 @@
+echo bb cc dd ee
+echo "bb cc" '"dd" "ee"' "'ff' 'gg'"
+echo bb cc dd
+echo bb cc dd
+echo  bb cc dd
+echo bb cc dd
+echo bb 
+echo "\\ \a \" \$" '\\ \a \" \$'
+echo -nnnnnnnnnn fdsgf -nnnnnnnnnn
+echo
+echo -n
+echo                                           s                        s
+echo salujjja     asjslad              jdjadnja     "         "       "" "" salut
+echosw fsag fdhs
+
+pwd sfbsg
+pwd
+pwdf

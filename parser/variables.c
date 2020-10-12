@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 11:50:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/06 11:50:00 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/09 10:09:16 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,16 @@ extern char		*postproc_arg(char *arg)
 	}
 	free (arg);
 	return (narg.content);
+}
+
+void		clear_array(char **args)
+{
+	int		i;
+
+	i = 0;
+	while (args[i])
+	{
+		args[i] = postproc_arg(args[i]);
+		i++;
+	}
 }
