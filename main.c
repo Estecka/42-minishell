@@ -22,7 +22,7 @@
 static int	builtin_main(int argc, char **argv)
 {
 	(void)argc;
-	return (builtins_process(argv, g_envarray.content));
+	return (builtins_process(argc, argv, g_envarray.content));
 }
 
 static int	execute_cmds_all(t_procexpr **cmdarray)

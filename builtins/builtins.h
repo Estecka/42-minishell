@@ -23,6 +23,7 @@
 int		echo_built(char **args);
 int		pwd_built(char **args);
 int		env_built(char **args, char *env[]);
-int		builtins_process(char **args, char *env[]);
+int		export_built(int argc, char*const *args);
+int		builtins_process(int argc, char **args, char *env[]);
 
 #endif

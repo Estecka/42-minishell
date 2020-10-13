@@ -5,7 +5,7 @@ SRCS	= \
 	integer.c integer2.c \
 	malloc.c \
 	memory.c memory2.c \
-	put_things.c \
+	put_things.c put_things_fd.c \
 	string.c string2.c string3.c \
 
 SRCS_BONUS = list.c list2.c

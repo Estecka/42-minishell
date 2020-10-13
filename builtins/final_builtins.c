@@ -18,8 +18,10 @@ static void	print_error(char *args)
 	ft_putstr(": command not found\n");
 }
 
-int			builtins_process(char **args, char **environ)
+int			builtins_process(int argc, char **args, char **environ)
 {
+	if (!ft_strcmp(args[0], "export"))
+		return (export_built(argc, args));
 	if (!ft_strncmp(args[0], "echo", 4) && ft_strlen(args[0]) == 4)
 	{	
 		if (echo_built(args))
