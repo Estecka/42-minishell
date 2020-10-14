@@ -1,6 +1,7 @@
 SRCS	=	echo.c \
 			pwd.c \
 			env.c \
+			cd.c \
 			final_builtins.c
 
 OBJS	= ${SRCS:.c=.o}

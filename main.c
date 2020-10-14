@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/09 12:08:48 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/14 18:05:29 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdlib.h>
 
 extern int	main(int ac, char **av, char **environ)
 {
 	const char* line;
 	t_procexpr** cmd;
 	t_procexpr*expr;
+	t_builtin built;
 	short gnl;
 
 	gnl = 1;
@@ -55,7 +57,11 @@ extern int	main(int ac, char **av, char **environ)
 				clear_array(expr->args);
 				if (expr->args == NULL)
 					printf("No Args\n");
-				builtins_process(expr->args, environ);
+				if (!(built = builtins_process(expr->args)))
+					break;
+				built(expr->args);
+				system("leaks minishell");
+
 			}
 		
 		}
@@ -65,11 +71,11 @@ extern int	main(int ac, char **av, char **environ)
 				procexpr_destroy(*e);
 			free(cmd);
 		}
-		envvardeinit();
 		free((void*)line);
 
 
 		if (gnl == 0)
 			break;
 	}
+	envvardeinit();
 }
