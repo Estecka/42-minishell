@@ -42,13 +42,38 @@ char		*get_env_var(const char *name);
 
 /*
 ** Sets an environnement variable.
-** @param const char* name
-** @param const char* value
+** @param char* value 	A string formated as "name=value".
+** 	This string is NOT checked for invalid syntax.
+** 	This exact pointer is stored internally, and should notbe modified or freed
+**  afterward.
 ** @return bool
+** 	true 	OK;
+** 	false 	Error;
+*/
+
+short		set_env_var_raw(char *value);
+
+
+/*
+** Sets an environnement variable.
+** @param const char* name	The name of the variable to set.
+** 	This name is NOT checked for invalid caracters, except for '='.
+** @param const char* value	The value to set.
+** return bool
 ** 	true 	OK
 ** 	false	Error
 */
 
 short		set_env_var(const char *name, const char *value);
+
+/*
+** Checks the validity of an environnement variable's name.
+** The special name '?' is considered valid.
+** @param const char* name	The name to validate
+** @return char*	A pointer to the first invalid character, else a pointer to
+**  the null terminator.
+*/
+
+char		*validate_var_name(const char *name);
 
 #endif

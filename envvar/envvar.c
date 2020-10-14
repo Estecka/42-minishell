@@ -23,7 +23,7 @@ extern char			**envvarinit(char **environ)
 
 	if (!dyninit(&g_envarray, sizeof(char**), 15, 1))
 		return (NULL);
-	while(*environ)
+	while (*environ)
 	{
 		if (!dynexpand(&g_envarray, 1) || !(var = ft_strdup(*environ)))
 		{
@@ -63,4 +63,50 @@ extern char			*get_env_var(const char *name)
 		return (ft_strdup(ft_strchr(*cursor, '=') + 1));
 	else
 		return (ft_strdup(""));
+}
+
+extern short		set_env_var_raw(char *value)
+{
+	char	**vars;
+	size_t	namelen;
+
+	namelen = ft_strchr(value, '=') - value;
+	vars = *g_environ - 1;
+	while (*++vars)
+	{
+		if (!ft_strncmp(*vars, value, namelen))
+			break;
+	}
+	if (*vars)
+	{
+		free(*vars);
+		*vars = value;
+		return (1);
+	}
+	else
+		return (dynappend(&g_envarray, &value) != NULL);
+}
+
+extern short		set_env_var(const char *name, const char *value)
+{
+	char	*raw;
+	size_t	namelen;
+	size_t	valulen;
+
+	if (ft_strcontain(name, '='))
+		return (0);
+	namelen = ft_strlen(name);
+	valulen = ft_strlen(value);
+	if (!(raw = malloc(namelen + 1 + valulen + 1)))
+		return (0);
+	ft_memcpy(raw, name, namelen);
+	ft_memcpy(raw + namelen, "=", 1);
+	ft_memcpy(raw + namelen + 1, value, valulen + 1);
+	if (set_env_var_raw(raw))
+		return (1);
+	else
+	{
+		free(raw);
+		return (0);
+	}
 }
