@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:27:11 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/15 11:24:21 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/15 11:52:21 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,14 @@ static int		change_dir(char **args)
 }
 
 
-int		cd_built(char **args)
+int		cd_built(int argc, char **args)
 {
 	int		i;
 	char	**tmp;
 	char	*tmp2;
 	char	*tmp3;
 
+	(void)argc;
 	i = 0;
 	tmp2 = NULL;
 	tmp = (char**)(g_envarray.content);

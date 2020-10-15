@@ -1,3 +1,5 @@
+HDRS	=	builtins.h \
+
 SRCS	=	echo.c \
 			pwd.c \
 			env.c \
@@ -16,6 +18,8 @@ CFLAGS	= -Wall -Wextra -Werror
 
 ${NAME}: ${OBJS}
 	ar rcs ${NAME} ${OBJS}
+
+${OBJS}: ${HDRS}
 
 all: ${NAME}
 

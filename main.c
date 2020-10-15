@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/15 11:45:52 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/15 11:59:58 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	print_error(char *args)
 	ft_putstr_fd(": command not found\n", 2);
 }
 
-static int	builtin_main(int argc, char **argv)
+static int	builtin_main(int argc, char **argv) //else if execve + changer nom
 {
 	t_builtin builtin;
 	
