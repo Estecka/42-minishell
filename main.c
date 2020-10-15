@@ -83,15 +83,18 @@ static int	shell_main(void)
 
 extern int	main(int argc, char **argv, char **environ)
 {
+	int status;
+
 	if (!envvarinit(environ))
 	{
 		write(2, "Init failed.\n", 14);
 		return (errno);
 	}
+	status = 0;
 	if (argc > 1)
-		builtin_main(argc - 1, argv + 1);
+		status = builtin_main(argc - 1, argv + 1);
 	else
 		shell_main();
 	envvardeinit();
-	return (0);
+	return (status);
 }
