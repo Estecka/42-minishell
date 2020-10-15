@@ -20,8 +20,8 @@
 
 static int	print_env(void)
 {
-	printf("Functionnality not yet implemented\n");
-	return (-1);
+	ft_putstr("Functionnality not yet implemented\n");
+	return (1);
 }
 
 static int	export_one(const char *var)
