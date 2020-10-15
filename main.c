@@ -14,11 +14,11 @@
 #include "builtins/builtins.h"
 #include "get_next_line/get_next_line.h"
 #include "envvar/envvar.h"
-#include <sys/errno.h>
-#include <stdio.h>
+#include <errno.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <string.h>
 
 static void	print_error(char *args)
 {
@@ -72,7 +72,11 @@ static int	shell_main(void)
 		gnl = get_next_line(0, (char**)&line);
 		cmd = get_next_cmdline(line);
 		if (errno || !cmd)
-			printf("\tParsing failed with errno : %d\n", errno);
+		{
+			ft_putstr_fd("Parsing failed unexpectedly: ", 2);
+			ft_putstr_fd(strerror(errno), 2);
+			ft_putchar_fd('\n', 1);
+		}
 		else
 			execute_cmds_all(cmd);
 		if (line)
