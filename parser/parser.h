@@ -17,6 +17,7 @@
 
 /*
 ** A breakdown of a single process.
+** @var unsigned int argc	The amount of arguments in `args`.
 ** @var char** args	The arguments passed to the process, this includes the exec
 ** utable's name.
 ** t_procexpr* pipein	The process expression that pipes into this.
@@ -34,14 +35,15 @@
 typedef struct s_procexpr	t_procexpr;
 struct		s_procexpr
 {
-	char		**args;
+	unsigned int	argc;
+	char			**args;
 
-	t_procexpr	*pipein;
-	t_procexpr	*pipeout;
+	t_procexpr		*pipein;
+	t_procexpr		*pipeout;
 
-	char		**inputs;
-	char		**outputs;
-	short		*outtypes;
+	char			**inputs;
+	char			**outputs;
+	short			*outtypes;
 };
 
 /*
@@ -59,8 +61,8 @@ t_procexpr	**get_next_cmdline(const char *line);
 /*
 ** Process an argument from a parsed command, turning it into its final, defini
 ** tive form.
-** This involves parsing environnement variables, and the fe remaining escape s
-** equences.
+** This involves parsing environnement variables, and the few remaining escape
+** sequences.
 ** @param char* arg	The argument's temporary value.
 ** 	this pointer will be freed on success.
 ** @return char*	The argument's final form, or NULL in case of error.
@@ -69,12 +71,28 @@ t_procexpr	**get_next_cmdline(const char *line);
 char 		*postproc_arg(char *arg);
 
 /*
+** Process all arguments from an array jus as `postproc_arg` would.
+** @param char** args	A null-terminated array of argument to process.
+** 	The argument are processed in-place.
+*/
+
+void		postproc_args_all(char **args);
+
+/*
 ** Recursively frees a process expression, all of its components and chained pr
 ** ocesses.
 ** @param t_procexpr* expr	The expression to destroy.
 */
 
 void		procexpr_destroy(t_procexpr *expr);
+
+/*
+** Destroys all process expressions in an array, and the array itself.
+** @param t_procexpr* exprarray	The array to destroy.
+** 	This is expected to be a valid array of valid t_procexpr.
+*/
+
+void	procexpr_destroy_all(t_procexpr **exprarray);
 
 /*
 ** Destroys n command expressions from an array.
@@ -94,9 +112,4 @@ void		procexpr_destroyarrayn(t_procexpr **array, size_t length);
 
 extern char	*get_env_var(const char *name);
 
-
-/*
-**
-*/
-void		clear_array(char **args);
 #endif

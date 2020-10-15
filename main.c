@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/14 18:05:29 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/15 11:45:52 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,62 +20,78 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-extern int	main(int ac, char **av, char **environ)
+static void	print_error(char *args)
 {
-	const char* line;
-	t_procexpr** cmd;
-	t_procexpr*expr;
-	t_builtin built;
-	short gnl;
+	ft_putstr_fd("bash: ", 2);
+	ft_putstr_fd(args, 2);
+	ft_putstr_fd(": command not found\n", 2);
+}
+
+static int	builtin_main(int argc, char **argv)
+{
+	t_builtin builtin;
+	
+	builtin = builtins_process(argv[0]);
+	if (builtin)
+		return(builtin(argc, argv));
+	else
+	{
+		print_error(argv[0]);
+		return (127);	
+	}
+}
+
+static int	execute_cmds_all(t_procexpr **cmdarray)
+{
+	int			status;
+	t_procexpr	**cmd;
+
+	status = 0;
+	cmd = cmdarray;
+	while (*cmd)
+	{
+		postproc_args_all((*cmd)->args);
+		status = builtin_main((*cmd)->argc, (*cmd)->args);
+		cmd++;
+	}
+	if (cmdarray)
+		procexpr_destroy_all(cmdarray);
+	return (status);
+}
+
+static int	shell_main(void)
+{
+	char		*line;
+	t_procexpr	**cmd;
+	short		gnl;
 
 	gnl = 1;
-	(void)ac;
-	(void)av;
-	if (!(environ = envvarinit(environ)))
+	while (0 < gnl)
 	{
-		printf("Init failed.\n");
-		return (-1);
-	}
-	while(0 < gnl)
-	{
-		cmd = NULL;
-		write(2, "> ", 2);
+		write(0, "> ", 2);
 		gnl = get_next_line(0, (char**)&line);
 		cmd = get_next_cmdline(line);
-
-		if (errno)
-			printf ("\tParsing failed with errno : %d\n", errno);
-		else if (!cmd)
-			printf("\tParsing failed with no error.\n");
-		else if (!cmd[0])
-			printf("\tParsing yielded an empty array with no error.\n");
+		if (errno || !cmd)
+			printf("\tParsing failed with errno : %d\n", errno);
 		else
-		{
-			for (int i=0; cmd[i]; i++)
-			{
-				expr = cmd[i];
-				clear_array(expr->args);
-				if (expr->args == NULL)
-					printf("No Args\n");
-				if (!(built = builtins_process(expr->args)))
-					break;
-				built(expr->args);
-				system("leaks minishell");
-
-			}
-		
-		}
-		if (cmd) // libere memoire
-		{
-			for (t_procexpr** e=cmd; *e; e++)
-				procexpr_destroy(*e);
-			free(cmd);
-		}
-		free((void*)line);
-
-
-		if (gnl == 0)
-			break;
+			execute_cmds_all(cmd);
+		if (line)
+			free(line);
 	}
+	return (0);
+}
+
+extern int	main(int argc, char **argv, char **environ)
+{
+	if (!envvarinit(environ))
+	{
+		write(2, "Init failed.\n", 14);
+		return (errno);
+	}
+	if (argc > 1)
+		builtin_main(argc - 1, argv + 1);
+	else
+		shell_main();
 	envvardeinit();
+	return (0);
 }

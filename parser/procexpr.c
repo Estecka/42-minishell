@@ -31,6 +31,19 @@ extern void	procexpr_destroy(t_procexpr *expr)
 	}
 }
 
+extern void	procexpr_destroy_all(t_procexpr **exprarray)
+{
+	t_procexpr **expr;
+
+	expr = exprarray;
+	while (*expr)
+	{
+		procexpr_destroy(*expr);
+		expr++;
+	}
+	free(exprarray);
+}
+
 extern void	procexpr_destroyarrayn(t_procexpr **array, size_t length)
 {
 	while (length--)

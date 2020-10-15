@@ -1,0 +1,15 @@
+#!/bin/bash
+
+EXEC=./minishell
+LOG=valgrind.log
+
+valgrind \
+	--tool=memcheck \
+	--leak-check=full \
+	--leak-resolution=high \
+	--show-reachable=yes \
+	--log-file=$LOG \
+	$EXEC $@ \
+;
+
+grep -A1 "valgrind" ${LOG}|grep $EXEC;
