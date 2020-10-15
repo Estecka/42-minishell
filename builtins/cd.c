@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:27:11 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/14 18:11:31 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/15 11:24:21 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,13 @@ static void	print_error(char **args, int error)
 static int		change_dir(char **args)
 {
 	char *dir;
+	char	*tmp;
 
 	dir = (!args[1] || !args[1][1] || !ft_strncmp(args[1], "~", 1)) ? \
-	get_env_var("HOME") : args[1];
+	get_env_var("HOME") : ft_strdup(args[1]);
+	tmp = dir;
+	dir = ft_strjoin(dir, args[1]);
+	free(tmp);
 	if (chdir(dir) == -1)
 		print_error(args, errno);
 	free(dir);
@@ -64,11 +68,8 @@ int		cd_built(char **args)
 	{
 		if (!ft_strncmp("OLDPWD", tmp[i], 6))
 		{
-			// printf("1\n");
 			free(((char**)(g_envarray.content))[i]);
 			((char**)(g_envarray.content))[i] = ft_strjoin("OLDPWD=", tmp2 + 4);
-			// printf("2\n");
-			// printf("3\n");
 		}
 		i++;
 	}
