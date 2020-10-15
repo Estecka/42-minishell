@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/15 11:59:58 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/15 17:53:56 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,35 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <string.h>
 
 static void	print_error(char *args)
 {
+	printf("HOME %s\n", strerror(errno));
 	ft_putstr_fd("bash: ", 2);
 	ft_putstr_fd(args, 2);
 	ft_putstr_fd(": command not found\n", 2);
 }
 
-static int	builtin_main(int argc, char **argv) //else if execve + changer nom
+static int	exec_cmd(int argc, char **argv) //else if execve + changer nom
 {
-	t_builtin builtin;
+	t_builtin	builtin;
+	struct stat	*buf;
 	
+	buf = NULL;
 	builtin = builtins_process(argv[0]);
 	if (builtin)
 		return(builtin(argc, argv));
 	else
 	{
-		print_error(argv[0]);
-		return (127);	
+		builtin = command_exec();
+		if ((stat(argv[0], buf)))
+			return (builtin(argc, argv));
+		else
+		{
+			print_error(argv[0]);
+			return (127);
+		}
 	}
 }
 
@@ -51,7 +61,7 @@ static int	execute_cmds_all(t_procexpr **cmdarray)
 	while (*cmd)
 	{
 		postproc_args_all((*cmd)->args);
-		status = builtin_main((*cmd)->argc, (*cmd)->args);
+		status = exec_cmd((*cmd)->argc, (*cmd)->args);
 		cmd++;
 	}
 	if (cmdarray)
@@ -89,7 +99,7 @@ extern int	main(int argc, char **argv, char **environ)
 		return (errno);
 	}
 	if (argc > 1)
-		builtin_main(argc - 1, argv + 1);
+		exec_cmd(argc - 1, argv + 1);
 	else
 		shell_main();
 	envvardeinit();

@@ -6,14 +6,15 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:27:11 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/15 11:52:21 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/15 17:04:06 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include <stdio.h>
 #include <string.h>
- 
+
+
 static void	print_error(char **args, int error)
 {
 	ft_putstr_fd("bash: cd: ", 2);
@@ -26,13 +27,12 @@ static void	print_error(char **args, int error)
 static int		change_dir(char **args)
 {
 	char *dir;
-	char	*tmp;
-
-	dir = (!args[1] || !args[1][1] || !ft_strncmp(args[1], "~", 1)) ? \
-	get_env_var("HOME") : ft_strdup(args[1]);
-	tmp = dir;
-	dir = ft_strjoin(dir, args[1]);
-	free(tmp);
+	
+	if (!args[1] || !args[1][0] || !ft_strncmp(args[1], "~", 2) || \
+		!ft_strncmp(args[1], "~/", 2))
+		dir = home_dir(args[1]);
+	else
+		dir = ft_strdup(args[1]);
 	if (chdir(dir) == -1)
 		print_error(args, errno);
 	free(dir);
