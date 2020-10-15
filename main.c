@@ -52,7 +52,7 @@ static int	shell_main(void)
 	gnl = 1;
 	while (0 < gnl)
 	{
-		write(2, "> ", 2);
+		write(0, "> ", 2);
 		gnl = get_next_line(0, (char**)&line);
 		cmd = get_next_cmdline(line);
 		if (errno || !cmd)
