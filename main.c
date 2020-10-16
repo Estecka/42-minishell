@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/15 17:53:56 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/16 11:30:19 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void	print_error(char *args)
-{
-	printf("HOME %s\n", strerror(errno));
-	ft_putstr_fd("bash: ", 2);
-	ft_putstr_fd(args, 2);
-	ft_putstr_fd(": command not found\n", 2);
-}
-
 static int	exec_cmd(int argc, char **argv) //else if execve + changer nom
 {
 	t_builtin	builtin;
-	struct stat	*buf;
 	
-	buf = NULL;
 	builtin = builtins_process(argv[0]);
 	if (builtin)
 		return(builtin(argc, argv));
 	else
 	{
-		builtin = command_exec();
-		if ((stat(argv[0], buf)))
+		builtin = command_exec(argv);
+		if (builtin)
 			return (builtin(argc, argv));
 		else
 		{
-			print_error(argv[0]);
+			print_error("bash: ", ": command not found\n", argv[0]);
 			return (127);
 		}
 	}

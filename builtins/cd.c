@@ -6,16 +6,13 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:27:11 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/15 17:04:06 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/16 12:01:30 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-#include <stdio.h>
-#include <string.h>
 
-
-static void	print_error(char **args, int error)
+static void	print_error_cd(char **args, int error)
 {
 	ft_putstr_fd("bash: cd: ", 2);
 	ft_putstr_fd(args[1], 2);
@@ -26,7 +23,7 @@ static void	print_error(char **args, int error)
 
 static int		change_dir(char **args)
 {
-	char *dir;
+	char		*dir;
 	
 	if (!args[1] || !args[1][0] || !ft_strncmp(args[1], "~", 2) || \
 		!ft_strncmp(args[1], "~/", 2))
@@ -34,13 +31,13 @@ static int		change_dir(char **args)
 	else
 		dir = ft_strdup(args[1]);
 	if (chdir(dir) == -1)
-		print_error(args, errno);
+		print_error_cd(args, errno);
 	free(dir);
 	return (errno);
 }
 
 
-int		cd_built(int argc, char **args)
+int			cd_built(int argc, char **args)
 {
 	int		i;
 	char	**tmp;
@@ -80,5 +77,4 @@ int		cd_built(int argc, char **args)
 
 /*
 ** cas //tmp pas gere
-** cd et ~ donne une erreur
 */

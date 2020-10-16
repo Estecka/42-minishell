@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:20:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/15 18:04:05 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/16 12:00:55 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,53 +41,58 @@ char			*get_path(char *args)
 	return (NULL);
 }
 
-int			go_fork(char **args)
+int				go_fork(int argc, char **args)
 {
-	pid_t	pid;
-	int		status;
+	pid_t		pid;
+	int			status;
+	struct stat	buf;
 
+	(void)argc;
 	pid = fork();
+	stat(args[0], &buf);
 	if (!pid)
 	{
-		execve(args[0], args, (char**)(g_envarray.content));
-		return (errno);
+		if (S_ISDIR(buf.st_mode) && 
+				print_error("minishell: exe: ", ": is a directoy\n", args[0]))
+			exit(EXIT_FAILURE);
+		else if (!(buf.st_mode & S_IXUSR) && 
+				print_error("minishell: exe: ", ": Permission denied\n", args[0]))
+			exit(EXIT_FAILURE);
+		else
+		{
+			execve(args[0], args, (char**)(g_envarray.content));
+			exit(EXIT_SUCCESS);
+		}
 	}
 	else
 		wait(&status);
 	return(errno);
 }
 
-int			execve_cmd(int argc, char **args)
+int				error_exec(int argc, char **args)
 {
-	struct stat	buf;
+	(void)argc;
+	(void)args;
+	return (-1);
+}
+
+t_builtin		command_exec(char **args)
+{
 	char		*path;
 	char		*tmp;
+	struct stat	buf;
 
-	(void)argc;
-	tmp = NULL;
 	if (!(stat(args[0], &buf)))
-		go_fork(args);
+		return(&go_fork);
 	else
 	{
-		path = get_path(args[0]);
-		if ((path))
-		{	
+		if ((path = get_path(args[0])))
+		{
 			tmp = args[0];
 			args[0] = path;
 			free(tmp);
-			go_fork(args);
+			return(&go_fork);
 		}
-		else
-			printf("bash: %s: %s\n", args[0], strerror(errno));
 	}
-	return (errno);
+	return (NULL);
 }
-
-
-t_builtin     command_exec(void)
-{
-	// system("leaks minishell");
-	return(&execve_cmd);
-}
-
-//  /Users/hherin/Minishell/dynarray

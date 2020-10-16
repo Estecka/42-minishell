@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 14:44:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/15 17:33:33 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/16 14:46:00 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ int			env_built(int argc, char **args);
 int			cd_built(int argc, char **args);
 int			exit_built(int argc, char **args);
 int			export_built(int argc, char **args);
-t_builtin	command_exec(void);
+t_builtin	command_exec(char **args);
 t_builtin	builtins_process(char *name);
 
 char		*home_dir(char *args);
-void        free_mtab(char ***tab);
+void		free_mtab(char ***tab);
+int			print_error(char *s1, char *s2, char *args);
+long long	ft_atoi_ll(const char *str);
 
 #endif

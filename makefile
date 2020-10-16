@@ -14,7 +14,7 @@ LIBS = \
 NAME	= minishell
 
 CC		= clang
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -g3 -fsanitize=address
 LIBFLAGS = \
 	-L builtins -l_builtins \
 	-L parser -lparser \
