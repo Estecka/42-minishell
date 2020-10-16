@@ -6,13 +6,13 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:19:10 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/16 15:19:40 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/16 15:21:26 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-static char	*get_name(char *s)
+static char	*get_envname(char *s)
 {
 	int		i;
 	char	*ret;
@@ -43,7 +43,7 @@ int		env_built(int argc, char **args)
 	(void)args;
 	while (env[i])
 	{
-		name = get_name(env[i]);
+		name = get_envname(env[i]);
 		value = (name) ? get_env_var(name) : NULL;
 		if (value) 
 		{
