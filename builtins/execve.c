@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:20:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/16 12:00:55 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/19 10:28:55 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,6 @@ int				go_fork(int argc, char **args)
 	else
 		wait(&status);
 	return(errno);
-}
-
-int				error_exec(int argc, char **args)
-{
-	(void)argc;
-	(void)args;
-	return (-1);
 }
 
 t_builtin		command_exec(char **args)

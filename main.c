@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/16 11:30:19 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/19 10:23:57 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 #include "builtins/builtins.h"
 #include "get_next_line/get_next_line.h"
 #include "envvar/envvar.h"
-#include <sys/errno.h>
-#include <stdio.h>
+#include <errno.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
@@ -72,7 +71,11 @@ static int	shell_main(void)
 		gnl = get_next_line(0, (char**)&line);
 		cmd = get_next_cmdline(line);
 		if (errno || !cmd)
-			printf("\tParsing failed with errno : %d\n", errno);
+		{
+			ft_putstr_fd("Parsing failed unexpectedly: ", 2);
+			ft_putstr_fd(strerror(errno), 2);
+			ft_putchar_fd('\n', 1);
+		}
 		else
 			execute_cmds_all(cmd);
 		if (line)
@@ -83,15 +86,18 @@ static int	shell_main(void)
 
 extern int	main(int argc, char **argv, char **environ)
 {
+	int status;
+
 	if (!envvarinit(environ))
 	{
 		write(2, "Init failed.\n", 14);
 		return (errno);
 	}
+	status = 0;
 	if (argc > 1)
-		exec_cmd(argc - 1, argv + 1);
+		status = exec_cmd(argc - 1, argv + 1);
 	else
 		shell_main();
 	envvardeinit();
-	return (0);
+	return (status);
 }

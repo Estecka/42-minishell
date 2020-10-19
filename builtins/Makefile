@@ -8,6 +8,7 @@ SRCS	=	echo.c \
 			exit.c \
 			execve.c \
 			utils.c \
+			unset.c \
 			final_builtins.c
 
 OBJS	= ${SRCS:.c=.o}
