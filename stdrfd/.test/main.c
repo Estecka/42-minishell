@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 13:59:54 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/19 14:58:54 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/19 15:19:17 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,16 @@ extern int main()
 		dprintf(2, "Fd backup failed: [%s]\n", strerror(errno));
 		return (-1);
 	}
+	dprintf(2, "New FD's are : %d %d\n", g_stdrfd[0], g_stdrfd[1]);
 
 	while(get_next_line(0, &line) > 0)
 	{
-		char*	filepath;
 		int		fd = -1;
+		char*	filepath = locate_file(line);
 
-		filepath = locate_file(line);
 		if (*filepath)
 		{
-			fd = open(filepath, O_RDWR | O_CREAT);
+			fd = open(filepath, O_RDWR | O_CREAT | O_APPEND);
 			if (fd < 0)
 			{
 				dprintf(2, "Could not open file : [%s] \"%s\"\n", strerror(errno), filepath);
@@ -62,7 +62,8 @@ extern int main()
 			close(fd);
 		}
 		dprintf(0, "Argument is: \"%.*s\"\n", (int)(filepath - line), line);
-
+		if (*filepath && !restore_stdrfd())
+			dprintf(2, "Fd restore failed: [%s]\n", strerror(errno));
 		free(line);
 	}
 
