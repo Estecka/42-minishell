@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 13:59:54 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/19 15:19:17 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/19 15:27:08 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 
 static char* locate_file(const char* line)
 {
-	while (*line && *line != ' ')
+	while (*line && *line != '>')
 		line++;
-	while (*line == ' ')
+	while (*line == '>')
 		line++;
 	return (char*)line;
 }
@@ -48,7 +48,10 @@ extern int main()
 
 		if (*filepath)
 		{
-			fd = open(filepath, O_RDWR | O_CREAT | O_APPEND);
+			fd = open(filepath, 
+				O_RDWR | O_CREAT | O_APPEND,
+				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH
+				);
 			if (fd < 0)
 			{
 				dprintf(2, "Could not open file : [%s] \"%s\"\n", strerror(errno), filepath);
