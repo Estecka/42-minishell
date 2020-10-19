@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:20:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/19 10:28:55 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/19 13:23:53 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,18 @@ char			*get_path(char *args)
 	i = -1;
 	tmp = (!ft_strncmp(args, "~", 1)) ? home_dir(args) : ft_strjoin("/", args);
 	if (!stat(tmp, &buf))
+	{
+		free(tmp);	
+		free_mtab(&a_path);
 		return (tmp);
+	}
 	while (a_path[++i])
 	{
 		if ((path = ft_strjoin(a_path[i], tmp)) && !stat(path, &buf))
 		{
-			return (path);
+			free(tmp);
 			free_mtab(&a_path);
+			return (path);
 		}
 		free(path);
 	}

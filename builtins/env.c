@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:19:10 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/16 15:21:26 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/19 13:25:32 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int		env_built(int argc, char **args)
 			ft_putstr(env[i]);
 			write(1, "\n", 1);
 		}
+		free(name);
+		free(value);
 		i++;
 	}	
 	return (errno);

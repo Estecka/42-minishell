@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/19 11:49:16 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/19 13:21:16 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static int	shell_main(void)
 			execute_cmds_all(cmd);
 		if (line)
 			free(line);
+		system("leaks minishell");
 	}
 	return (0);
 }

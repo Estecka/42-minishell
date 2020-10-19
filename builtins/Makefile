@@ -17,8 +17,7 @@ OBJS	= ${SRCS:.c=.o}
 NAME	= lib_builtins.a
 
 CC		= clang
-CFLAGS	= -Wall -Wextra -Werror -g3 -fsanitize=address
-
+CFLAGS	= -Wall -Wextra -Werror
 
 ${NAME}: ${OBJS}
 	ar rcs ${NAME} ${OBJS}

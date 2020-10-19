@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 10:16:19 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/19 11:58:00 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/19 13:28:01 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,21 @@ static int	is_envvar(char **env, char *delet)
 	return (-1);
 }
 
-void	envclear(char *delet)
+int		envclear(char *delet)
 {
 	int		curs;
 	char 	**env;
 
 	env = (char**)(g_envarray.content);
-	curs = is_envvar(env, delet);
+	if ((curs = is_envvar(env, delet)) == -1)
+		return (0);
+	free(env[curs]);
 	while (env[curs++])
 		env[curs - 1] = env[curs]; 
-	if (curs > 0)
+	if (curs >= 0)
 	{
 		env[curs] = NULL;
 		g_envarray.length--;
 	}
+	return (1);
 }

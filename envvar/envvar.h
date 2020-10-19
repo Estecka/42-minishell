@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 13:51:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/19 11:29:45 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/19 13:27:44 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,5 @@ char		*validate_var_name(const char *name);
 /*
 ** delete a variable of g_envarray.content and update his lenght
 */
-void		envclear(char *delet);
+int		envclear(char *delet);
 #endif
