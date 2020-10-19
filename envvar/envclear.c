@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 10:16:19 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/19 11:52:28 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/19 11:58:00 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ void	envclear(char *delet)
 	curs = is_envvar(env, delet);
 	while (env[curs++])
 		env[curs - 1] = env[curs]; 
-	env[curs] = NULL;
-	g_envarray.length--;
+	if (curs > 0)
+	{
+		env[curs] = NULL;
+		g_envarray.length--;
+	}
 }
