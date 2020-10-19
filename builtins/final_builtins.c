@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:36:36 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/15 12:09:23 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/19 11:17:13 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_builtin			builtins_process(char *name)
 		return (&cd_built);
 	else if (!ft_strncmp(name, "exit", 5))
 		return (&exit_built);
+	else if (!ft_strncmp(name, "unset", 6))
+		return (&unset_built);
 	else
 		return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/19 10:23:57 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/19 11:49:16 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static int	exec_cmd(int argc, char **argv) //else if execve + changer nom
+static int	exec_cmd(int argc, char **argv)
 {
 	t_builtin	builtin;
 	
