@@ -6,13 +6,13 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 13:47:05 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/19 15:13:08 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/19 15:36:18 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-int		g_stdrfd[2] = {0, 0};
+static int		g_stdrfd[2] = {0, 0};
 
 extern short	backup_stdrfd(void)
 {
