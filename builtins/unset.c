@@ -6,27 +6,28 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:23:50 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/19 13:45:49 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/19 17:01:38 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int		unset_built(int argc, char **args)
+int			unset_built(int argc, char **args)
 {
 	size_t	i;
 	int		ret;
+	size_t	equ;
 	
 	i = 1;
 	(void)argc;
 	while (args[i])
 	{
-		if (!ft_isalpha(args[i][0]) && args[i][0] != '_')
-		{
+		equ = ft_strlen(args[i]) - 1;
+		if ((!ft_isalpha(args[i][0]) && args[i][0] != '_') || 
+		args[i][equ] == '=')
 			print_error("bash: unset: `", "': not a valid identifier", args[i]);
-			return (1);
-		}
-		ret = envclear(args[i]);
+		else
+			ret = envclear(args[i]);
 		i++;
 	}
 	return(0);
