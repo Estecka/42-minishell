@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 14:17:25 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/20 14:53:01 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/20 15:07:41 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,18 @@ static int	bootstraps_inputs(t_procexpr *proc)
 	int fd;
 	int status;
 
-	errno = 0;
 	i = -1;
-	if (proc->inputs[++i])
+	while (proc->inputs[++i])
 	{
-		status = open(proc->inputs[i], O_RDONLY);
-		if (status < 0)
-			goto endif;
-		fd = status;
+		fd = open(proc->inputs[i], O_RDONLY);
+		if (fd < 0)
+			return (-1);
 		status = dup2(fd, 0);
-		if (status < 0)
-			goto endif;
 		close(fd);
+		if (status < 0)
+			return (-1);
 	}
-	endif:
-	status = errno;
-	errno = 0;
-	return (status);
+	return (0);
 }
 
 int	bootstraps_outputs(t_procexpr *proc)
