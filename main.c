@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/20 10:04:59 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/20 11:02:50 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,19 @@ static int	shell_main(void)
 	return (0);
 }
 
+static int	subprocess_main(int argc, char** argv)
+{
+	int	status;
+
+	argv = ft_strdupr((const char**)argv);
+	if (!argv)
+		return (EXIT_FAILURE);
+	status = exec_cmd(argc, argv);
+	freearray((void**)argv);
+	free(argv);
+	return (status);
+}
+
 extern int	main(int argc, char **argv, char **environ)
 {
 	int status;
@@ -95,9 +108,9 @@ extern int	main(int argc, char **argv, char **environ)
 	}
 	status = 0;
 	if (argc > 1)
-		status = exec_cmd(argc - 1, argv + 1);
+		status = subprocess_main(argc - 1, argv + 1);
 	else
-		shell_main();
+		status = shell_main();
 	envvardeinit();
 	return (status);
 }
