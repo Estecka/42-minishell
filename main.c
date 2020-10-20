@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/20 11:02:50 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/20 12:18:41 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "builtins/builtins.h"
 #include "get_next_line/get_next_line.h"
 #include "envvar/envvar.h"
+#include "stdrfd/stdrfd.h"
+
 #include <errno.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -102,10 +104,9 @@ extern int	main(int argc, char **argv, char **environ)
 	int status;
 
 	if (!envvarinit(environ))
-	{
-		write(2, "Init failed.\n", 14);
-		return (errno);
-	}
+		return (errno | (0 & write(2, "Environnement init failed.\n", 14)));
+	if (!backup_stdrfd())
+		return (errno | (0 & write(2, "Stdrfd init failed.\n", 14)));
 	status = 0;
 	if (argc > 1)
 		status = subprocess_main(argc - 1, argv + 1);

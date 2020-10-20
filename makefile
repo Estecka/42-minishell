@@ -9,7 +9,8 @@ LIBS = \
 	envvar/libenvvar.a \
 	parser/libparser.a \
 	envvar/libenvvar.a \
-	builtins/lib_builtins.a
+	builtins/lib_builtins.a \
+	stdrfd/libstdrfd.a \
 
 NAME	= minishell
 
@@ -19,6 +20,7 @@ LIBFLAGS = \
 	-L builtins -l_builtins \
 	-L parser -lparser \
 	-L envvar -lenvvar \
+	-L stdrfd -lstdrfd \
 	-L libft -lft \
 	-L dynarray -ldynarray \
 	-L get_next_line -lgnl \
