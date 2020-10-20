@@ -6,22 +6,11 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 16:32:09 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/18 12:17:15 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/17 15:25:54 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-int			indexof(char c, const char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-		if (str[i] == c)
-			return (i);
-	return (-1);
-}
 
 static int	base_size(const char *base)
 {
