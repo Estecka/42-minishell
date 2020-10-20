@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 14:17:25 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/20 15:24:57 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/20 15:37:55 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,32 @@ static int	bootstraps_inputs(t_procexpr *proc)
 	return (0);
 }
 
-int	bootstraps_outputs(t_procexpr *proc)
+static int	bootstraps_outputs(t_procexpr *proc)
 {
-	(void)proc;
-	return (-1);
+	int i;
+	int fd;
+	int status;
+
+	i = -1;
+	while (proc->outputs[++i])
+	{
+		fd = open(proc->outputs[i], 
+			O_RDWR | O_CREAT | (proc->outtypes[i] ? O_TRUNC : O_APPEND),
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH
+			);
+		if (fd < 0)
+			return (err_msg(proc->outputs[i], errno));
+		status = dup2(fd, 1);
+		close(fd);
+		if (status < 0)
+			return (err_msg("STDOUT hook", errno));
+	}
+	return (0);
 }
 
 extern int	bootstrap_fds(t_procexpr *proc)
 {
-	if (bootstraps_inputs(proc) /*|| bootstraps_outputs(proc)*/)
+	if (bootstraps_inputs(proc) || bootstraps_outputs(proc))
 		return (-1);
 	else
 		return (0);
