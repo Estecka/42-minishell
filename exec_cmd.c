@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/20 14:57:20 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/20 15:14:57 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ int	execute_cmds_all(t_procexpr **cmdarray)
 	while (*cmd)
 	{
 		postproc_args_all((*cmd)->args);
-		bootstrap_fds(*cmd);
-		status = exec_cmd((*cmd)->argc, (*cmd)->args);
+		status = bootstrap_fds(*cmd);
+		if (!status)
+			status = exec_cmd((*cmd)->argc, (*cmd)->args);
 		cmd++;
 		if (!restore_stdrfd())
 		{
