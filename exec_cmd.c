@@ -6,12 +6,15 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/20 12:47:32 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/20 14:57:20 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+
 #include "builtins/builtins.h"
 #include "parser/parser.h"
+#include "stdrfd/stdrfd.h"
 
 
 int	exec_cmd(int argc, char **argv)
@@ -37,8 +40,14 @@ int	execute_cmds_all(t_procexpr **cmdarray)
 	while (*cmd)
 	{
 		postproc_args_all((*cmd)->args);
+		bootstrap_fds(*cmd);
 		status = exec_cmd((*cmd)->argc, (*cmd)->args);
 		cmd++;
+		if (!restore_stdrfd())
+		{
+			ft_putstr_fd("restore_stdrfd failed", 2);
+			ft_putstr_fd(strerror(errno), 2);
+		}
 	}
 	if (cmdarray)
 		procexpr_destroy_all(cmdarray);
