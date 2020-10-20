@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/19 13:21:16 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/20 11:02:50 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,21 @@ static int	shell_main(void)
 			execute_cmds_all(cmd);
 		if (line)
 			free(line);
-		system("leaks minishell");
 	}
 	return (0);
+}
+
+static int	subprocess_main(int argc, char** argv)
+{
+	int	status;
+
+	argv = ft_strdupr((const char**)argv);
+	if (!argv)
+		return (EXIT_FAILURE);
+	status = exec_cmd(argc, argv);
+	freearray((void**)argv);
+	free(argv);
+	return (status);
 }
 
 extern int	main(int argc, char **argv, char **environ)
@@ -96,9 +108,9 @@ extern int	main(int argc, char **argv, char **environ)
 	}
 	status = 0;
 	if (argc > 1)
-		status = exec_cmd(argc - 1, argv + 1);
+		status = subprocess_main(argc - 1, argv + 1);
 	else
-		shell_main();
+		status = shell_main();
 	envvardeinit();
 	return (status);
 }

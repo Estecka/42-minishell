@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 16:46:03 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/16 14:45:54 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/19 17:04:54 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	print_error(char *s1, char *s2, char *args)
 	ft_putstr_fd(s1, 2);
 	ft_putstr_fd(args, 2);
 	ft_putstr_fd(s2, 2);
+	write(2, "\n", 1);
 	return (1);
 }
 

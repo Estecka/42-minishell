@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string.c                                           :+:      :+:    :+:   */
+/*   strdup.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 11:58:31 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/14 17:35:03 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/20 11:00:05 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../libft_string.h"
+#include "../libft_malloc.h"
+
 #include <stdlib.h>
 
-/*
-** Allocates and duplicates the given string.
-*/
-
-char	*ft_strdup(const char *s1)
+extern char	*ft_strdup(const char *s1)
 {
 	size_t		len;
 	char		*result;
@@ -37,24 +36,34 @@ char	*ft_strdup(const char *s1)
 	return (result);
 }
 
-/*
-** Returns wether the given string contains the given character.
-*/
-
-short	ft_strcontain(const char *s, char c)
+extern char	**ft_strdupr(const char*const *array)
 {
-	while (s && *s != '\0')
-		if (*(s++) == c)
-			return (1);
-	return (0);
+	size_t	len;
+	char	**result;
+
+	len = 0;
+	while (array[len] != NULL)
+		len++;
+	result = malloc(sizeof(char*) * (len + 1));
+	if (!result)
+		return (NULL);
+	result[len] = NULL;
+	while (len--)
+	{
+		result[len] = ft_strdup(array[len]);
+		if (!result[len])
+		{
+			freearray((void**)result);
+			free(result);
+			return (NULL);
+		}
+		if (len == 0)
+			break;
+	}
+	return (result);
 }
 
-/*
-** Allocate and returns a substring from the string given in argument.
-** The substring begins at index `start` and is of maximum size `len`.
-*/
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+extern char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	unsigned int	end;
 	char			*result;
@@ -76,11 +85,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (result);
 }
 
-/*
-** Allocates and returns a new string, result of the concatenation of s1 and s2
-*/
-
-char	*ft_strjoin(char const *s1, char const *s2)
+extern char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t		len;
 	int			i;
@@ -108,13 +113,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (result);
 }
 
-/*
-** Allocates and returns a copy of the string given as argument,
-** without the characters specified in the the set argument,
-** at the beginning and the end of the string.
-*/
-
-char	*ft_strtrim(char const *s1, char const *set)
+extern char	*ft_strtrim(char const *s1, char const *set)
 {
 	unsigned int	start;
 	unsigned int	end;

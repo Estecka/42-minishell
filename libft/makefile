@@ -1,12 +1,27 @@
+HDRS = \
+	libft.h \
+	libft_char.h \
+	libft_malloc.h \
+	libft_memory.h \
+	libft_string.h \
+
 SRCS	= \
-	character.c \
-	char_case.c \
-	whitespace.c \
 	integer.c integer2.c \
-	malloc.c \
-	memory.c memory2.c \
 	put_things.c put_things_fd.c \
-	string.c string2.c string3.c string4.c\
+	char/is_word.c \
+	char/is_special.c \
+	char/to_case.c \
+	string/misc.c \
+	string/strchr.c \
+	string/strdup.c \
+	string/strcmp.c \
+	string/strlcpy.c \
+	string/strstr.c \
+	memory/meminit.c \
+	memory/memcpy.c \
+	memory/misc.c \
+	malloc/free.c \
+	malloc/malloc.c \
 
 SRCS_BONUS = list.c list2.c
 
@@ -16,7 +31,6 @@ OBJS_BONUS = ${SRCS_BONUS:.c=.o}
 NAME	= libft.a
 
 CC		= gcc
-
 CFLAGS	= -Wall -Wextra -Werror
 
 ${NAME}: ${OBJS}
@@ -24,6 +38,9 @@ ${NAME}: ${OBJS}
 
 bonus: ${OBJS} ${OBJS_BONUS}
 	ar rcs ${NAME} ${OBJS} ${OBJS_BONUS}
+
+${OBJS}: ${HDRS}
+${OBJS_BONUS}: ${HDRS}
 
 all: bonus
 
