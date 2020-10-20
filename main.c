@@ -6,59 +6,22 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/20 12:18:41 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/20 12:47:45 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+
+#include "libft/libft.h"
 #include "parser/parser.h"
-#include "builtins/builtins.h"
 #include "get_next_line/get_next_line.h"
 #include "envvar/envvar.h"
 #include "stdrfd/stdrfd.h"
 
 #include <errno.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
-
-static int	exec_cmd(int argc, char **argv)
-{
-	t_builtin	builtin;
-	
-	builtin = builtins_process(argv[0]);
-	if (builtin)
-		return(builtin(argc, argv));
-	else
-	{
-		builtin = command_exec(argv);
-		if (builtin)
-			return (builtin(argc, argv));
-		else
-		{
-			print_error("bash: ", ": command not found\n", argv[0]);
-			return (127);
-		}
-	}
-}
-
-static int	execute_cmds_all(t_procexpr **cmdarray)
-{
-	int			status;
-	t_procexpr	**cmd;
-
-	status = 0;
-	cmd = cmdarray;
-	while (*cmd)
-	{
-		postproc_args_all((*cmd)->args);
-		status = exec_cmd((*cmd)->argc, (*cmd)->args);
-		cmd++;
-	}
-	if (cmdarray)
-		procexpr_destroy_all(cmdarray);
-	return (status);
-}
+#include <unistd.h>
 
 static int	shell_main(void)
 {

@@ -1,6 +1,11 @@
-SRCS	= main.c \
+HDRS = \
+	minishell.h \
 
-OBJS	= ${SRCS:.c=.o}
+SRCS = \
+	main.c \
+	exec_cmd.c \
+
+OBJS = ${SRCS:.c=.o}
 
 LIBS = \
 	libft/libft.a \
@@ -25,7 +30,6 @@ LIBFLAGS = \
 	-L dynarray -ldynarray \
 	-L get_next_line -lgnl \
 
-test: ${NAME}
 ${NAME}: ${LIBS} ${OBJS} 
 	${CC} ${OBJS} -o ${NAME} \
 		${LIBFLAGS} \
@@ -35,6 +39,7 @@ ${NAME}: ${LIBS} ${OBJS}
 %.a: sub_makefile
 	make $(@F) -C $(@D)
 
+${OBJS}: ${HDRS}
 
 
 all: ${NAME}
