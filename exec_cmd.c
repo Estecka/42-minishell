@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/20 15:14:57 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/21 14:42:42 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "parser/parser.h"
 #include "stdrfd/stdrfd.h"
 
+int int_stat;
 
 int	exec_cmd(int argc, char **argv)
 {
@@ -32,17 +33,15 @@ int	exec_cmd(int argc, char **argv)
 
 int	execute_cmds_all(t_procexpr **cmdarray)
 {
-	int			status;
 	t_procexpr	**cmd;
 
-	status = 0;
 	cmd = cmdarray;
 	while (*cmd)
 	{
 		postproc_args_all((*cmd)->args);
-		status = bootstrap_fds(*cmd);
-		if (!status)
-			status = exec_cmd((*cmd)->argc, (*cmd)->args);
+		int_stat = bootstrap_fds(*cmd);
+		if (!int_stat)
+			int_stat = exec_cmd((*cmd)->argc, (*cmd)->args);
 		cmd++;
 		if (!restore_stdrfd())
 		{
@@ -52,5 +51,5 @@ int	execute_cmds_all(t_procexpr **cmdarray)
 	}
 	if (cmdarray)
 		procexpr_destroy_all(cmdarray);
-	return (status);
+	return (int_stat);
 }

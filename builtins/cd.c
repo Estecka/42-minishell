@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:27:11 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/16 12:01:30 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/21 14:35:41 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,32 +24,51 @@ static void	print_error_cd(char **args, int error)
 static int		change_dir(char **args)
 {
 	char		*dir;
+	char		*exp;
 	
-	if (!args[1] || !args[1][0] || !ft_strncmp(args[1], "~", 2) || \
+	
+	exp = get_env_var("HOME");
+	if ((!args[1] || (args[1] && !*args[1])) && !(*exp))
+	{
+		free(exp);
+		print_error("bash: cd: ", " not set", "HOME");
+		return (errno);
+	}	if (!args[1] || !args[1][0] || !ft_strncmp(args[1], "~", 2) || \
 		!ft_strncmp(args[1], "~/", 2))
 		dir = home_dir(args[1]);
 	else
 		dir = ft_strdup(args[1]);
 	if (chdir(dir) == -1)
 		print_error_cd(args, errno);
+	if (pwd_save)
+	{
+		free(pwd_save);
+		pwd_save = ft_strdup(dir);
+	}
 	free(dir);
+	free(exp);
 	return (errno);
 }
 
+// static char		*set_oldpwd(char *args)
+// {
+// 	int			retro;
 
-int			cd_built(int argc, char **args)
+// 	retro = 0;
+// 	(!ft_strncmp(args[1], "./", 0)) ? args[1] += 2 : 0;
+// 	while (!ft_strncmp(args[1], "./", 0))
+// }
+
+static void		update_envvar(void)
 {
-	int		i;
-	char	**tmp;
-	char	*tmp2;
-	char	*tmp3;
+	int i;
+	char **tmp;
+	char *tmp2;
+	char *tmp3;
 
-	(void)argc;
 	i = 0;
 	tmp2 = NULL;
 	tmp = (char**)(g_envarray.content);
-	if (change_dir(args))
-		return (errno);
 	while (tmp[i])
 	{
 		if (!ft_strncmp("PWD", tmp[i], 3))
@@ -67,14 +86,21 @@ int			cd_built(int argc, char **args)
 		if (!ft_strncmp("OLDPWD", tmp[i], 6))
 		{
 			free(((char**)(g_envarray.content))[i]);
-			((char**)(g_envarray.content))[i] = ft_strjoin("OLDPWD=", tmp2 + 4);
+			((char**)(g_envarray.content))[i] = (!pwd_save) ? \
+				ft_strjoin("OLDPWD=", tmp2 + 4) : 0; // : set_oldpwd();
 		}
 		i++;
 	}
 	free(tmp2);
-	return (errno);
 }
 
-/*
-** cas //tmp pas gere
-*/
+
+// mettre a null quand on export HOME et PWD
+int			cd_built(int argc, char **args)
+{
+	(void)argc;
+	if (change_dir(args))
+		return (errno);
+	(!pwd_save) ? update_envvar() : 0;
+	return (errno);
+}

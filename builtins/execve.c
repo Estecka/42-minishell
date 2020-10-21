@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:20:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/20 10:08:03 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/20 11:53:17 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 #ifdef __linux__
 # include <wait.h>
 #endif
+
+void			free_all(char **tmp, char ***a_path)
+{
+	free(*tmp);	
+	free_mtab(a_path);
+}
 
 char			*get_path(char *args)
 {
@@ -31,22 +37,19 @@ char			*get_path(char *args)
 	tmp = (!ft_strncmp(args, "~", 1)) ? home_dir(args) : ft_strjoin("/", args);
 	if (!stat(tmp, &buf))
 	{
-		free(tmp);	
-		free_mtab(&a_path);
+		free_all(&tmp, &a_path);
 		return (tmp);
 	}
 	while (a_path[++i])
 	{
 		if ((path = ft_strjoin(a_path[i], tmp)) && !stat(path, &buf))
 		{
-			free(tmp);
-			free_mtab(&a_path);
+			free_all(&tmp, &a_path);
 			return (path);
 		}
 		free(path);
 	}
-	free(tmp);
-	free_mtab(&a_path);
+	free_all(&tmp, &a_path);
 	return (NULL);
 }
 

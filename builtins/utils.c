@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 16:46:03 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/20 12:35:21 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/21 14:30:34 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+
+extern char	*home_save;
 
 char		*home_dir(char *args)
 {
@@ -20,6 +22,11 @@ char		*home_dir(char *args)
 	int		curs;
 
 	tmp = get_env_var("HOME");
+	if (!(*tmp))
+	{
+		free(tmp);
+		tmp = ft_strdup(home_save + 5);
+	}
 	add_slash = ft_strjoin(tmp, "/");
 	curs = (args) ? 2 : 0;
 	dir = ft_strjoin(add_slash, args + curs);
