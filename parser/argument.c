@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 16:23:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 13:32:55 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/21 13:58:34 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,14 @@ static char				*next_arg(const char **cursor)
 	t_dynarray chars;
 
 	*cursor = ft_skipspace(*cursor);
-	if (!**cursor || is_punctuation(**cursor) 
+	if (!**cursor || is_punctuation(**cursor)
 		|| !dyninit(&chars, sizeof(char), 16, 1))
 		return (NULL);
 	while (**cursor && !ft_isspace(**cursor) && !is_punctuation(**cursor))
 	{
 		if (**cursor == '\'')
 			append_single_quote(&chars, cursor);
-		else if(**cursor == '"')
+		else if (**cursor == '"')
 			append_double_quote(&chars, cursor);
 		if (**cursor == '\\')
 			dynappendn(&chars, (*cursor)++, 2);

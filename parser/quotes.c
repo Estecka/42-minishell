@@ -6,15 +6,13 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 15:02:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 13:35:59 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/21 14:00:19 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_internals.h"
 #include "../libft/libft.h"
 #include "../dynarray/dynarray.h"
-
-
 
 /*
 ** Crawls through a quoted argument and appends it to the current argument.

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 11:50:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 13:52:51 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/21 14:00:36 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ extern char		*postproc_arg(const char *arg)
 	if (!dyninit(&narg, sizeof(char), ft_strlen(arg), 1))
 		return (NULL);
 	quote = 0;
-	while(*arg && !errno)
+	while (*arg && !errno)
 	{
 		if (!quote && (*arg == '\'' || *arg == '\"'))
 			quote = *arg;
@@ -96,16 +96,16 @@ extern char		*postproc_arg(const char *arg)
 			append_var(&narg, &arg);
 		else if (*arg == '\\' && (!quote || ft_strcontain("\"\\$", *(arg + 1))))
 			dynappend(&narg, &*++arg);
-		else 
+		else
 			dynappend(&narg, &*arg);
 		arg++;
 	}
 	if (errno)
 		free(narg.content);
-	return (char*)((!errno) * (long)narg.content);
+	return (errno ? NULL : narg.content);
 }
 
-void		postproc_args_all(char **args)
+void			postproc_args_all(char **args)
 {
 	int		i;
 	char	*r;

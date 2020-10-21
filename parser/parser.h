@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 12:00:10 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/21 13:57:57 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ struct		s_procexpr
 /*
 ** Parses all commands in the given line.
 ** This will overwrite errno, even in case of sucess !
-** The arguments of the command aren't fully processed at this points, they wil
-** l still contain ariable names, and the escape sequences "\\" and "\$".
+** The arguments of the command aren't fully processed at this points, they will
+**  still contain ariable names, and the escape sequences "\\" and "\$".
 ** @param char* line	The full line that contains the commands.
-** @return t_procexpr*	An array of command expressions, or NULL in case of err
-** or.
+** @return t_procexpr*	An array of command expressions, or NULL in case of erro
+** r.
 */
 
 t_procexpr	**get_next_cmdline(const char *line);
@@ -62,10 +62,11 @@ t_procexpr	**get_next_cmdline(const char *line);
 ** Parses a raw argument into its final form.
 ** This involves replacing variables name, escaped characters, and quotes.
 ** @param const char* arg	The raw argument to parse.
-** @return char*	An allocated copy of the parsed argument, or NULL in case of error
+** @return char*	An allocated copy of the parsed argument, or NULL in case of
+**  error.
 */
 
-char 		*postproc_arg(const char *arg);
+char		*postproc_arg(const char *arg);
 
 /*
 ** Process all arguments from an array jus as `postproc_arg` would.
@@ -76,8 +77,8 @@ char 		*postproc_arg(const char *arg);
 void		postproc_args_all(char **args);
 
 /*
-** Recursively frees a process expression, all of its components and chained pr
-** ocesses.
+** Recursively frees a process expression, all of its components and chained pro
+** cesses.
 ** @param t_procexpr* expr	The expression to destroy.
 */
 
@@ -89,7 +90,7 @@ void		procexpr_destroy(t_procexpr *expr);
 ** 	This is expected to be a valid array of valid t_procexpr.
 */
 
-void	procexpr_destroy_all(t_procexpr **exprarray);
+void		procexpr_destroy_all(t_procexpr **exprarray);
 
 /*
 ** Destroys n command expressions from an array.
@@ -98,7 +99,6 @@ void	procexpr_destroy_all(t_procexpr **exprarray);
 */
 
 void		procexpr_destroyarrayn(t_procexpr **array, size_t length);
-
 
 /*
 ** Fonction to be defined in another module, used in postproc_arg.
