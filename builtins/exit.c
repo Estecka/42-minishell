@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:05:31 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/21 14:12:22 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/21 15:55:43 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+
+extern char	g_prev_status;
 
 static int	is_str_digit(char *s)
 {

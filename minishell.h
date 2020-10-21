@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:41:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/20 14:20:09 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/21 15:55:43 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 
 # include "parser/parser.h"
+
+char	g_prev_status;
 
 /*
 ** Prepares the standard fds redirection.
@@ -26,9 +28,9 @@
 ** 	errno will not be not be set in case of error.
 */
 
-int	bootstrap_fds(t_procexpr *proc);
+int		bootstrap_fds(t_procexpr *proc);
 
-int	exec_cmd(int argc, char **argv);
-int	execute_cmds_all(t_procexpr **cmdarray);
+int		exec_cmd(int argc, char **argv);
+int		execute_cmds_all(t_procexpr **cmdarray);
 
 #endif

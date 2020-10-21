@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/20 12:47:45 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/21 15:55:42 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+char		g_prev_status = 0;
 
 static int	shell_main(void)
 {
