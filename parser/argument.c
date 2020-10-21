@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   argument.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 16:23:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/08/30 16:23:00 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/21 10:09:43 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,13 @@ static t_punctuation	next_punctuation(const char **cursor)
 /*
 ** Extracts the next argument from the string, and advances the cursors accordi
 ** ngly.
-** No dangling pointers will be created in case of error. (To be implemented.)
+** No dangling pointers will be created in case of error, errno will also be se
+** t.
 ** @param char** cursor	A pointer to where to start seeking the next argument.
 ** 	This pointer is moved after the end of the argument on return.
-** @return char*	The found argument NULL if none were found or an error occu
-** red (To be implemented).
-** In case of error, errno will also be set.
+** @return char*	The found argument, NULL if none were found or an error occu
+** red
+** Arguments are returned as-is, no interpretation whatsoever is made.
 */
 
 static char				*next_arg(const char **cursor)
