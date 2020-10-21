@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 15:33:41 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/21 15:38:45 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "parser/parser.h"
 #include "stdrfd/stdrfd.h"
 
-int g_int_stat = 0;
+char g_int_stat = 0;
 
 int	exec_cmd(int argc, char **argv)
 {
