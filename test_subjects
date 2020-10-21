@@ -13,3 +13,34 @@ echo $BEEP $BAA^D '"'$EQUAL'"' '"'NONE'"'
 
 echo  \a \\ \" \$BEEP ;
 echo "\a \\ \" \$BEEP";
+
+export toto tata=3 titi= tete tete+=2 tutu=5 tutu+=4 trtr+=3 twtw=dksdhfvsdfjvsdlfsdfgsd 1test test1 _tetsds tetdd2_dd ghgh=dd;
+export;
+export 1tets;
+export;
+
+unset tutu=;
+unset 1tutu;
+unset _tetsds;
+export;
+unset tete titi toto tutu twtw tata ghgh testdd2_dd;
+export;
+
+unset PWD;
+pwd;
+unset OLDPWD;
+cd ..;
+pwd;
+export;
+export OLDPWD;
+cd ..;
+cd .;
+pwd;
+export;
+
+unset HOME;
+cd;
+pwd;
+export HOME=;
+cd;
+pwd;

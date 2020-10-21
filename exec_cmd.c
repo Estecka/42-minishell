@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 14:42:42 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/21 15:33:41 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "parser/parser.h"
 #include "stdrfd/stdrfd.h"
 
-int int_stat;
+int g_int_stat = 0;
 
 int	exec_cmd(int argc, char **argv)
 {
@@ -39,9 +39,9 @@ int	execute_cmds_all(t_procexpr **cmdarray)
 	while (*cmd)
 	{
 		postproc_args_all((*cmd)->args);
-		int_stat = bootstrap_fds(*cmd);
-		if (!int_stat)
-			int_stat = exec_cmd((*cmd)->argc, (*cmd)->args);
+		g_int_stat = bootstrap_fds(*cmd);
+		if (!g_int_stat)
+			g_int_stat = exec_cmd((*cmd)->argc, (*cmd)->args);
 		cmd++;
 		if (!restore_stdrfd())
 		{
@@ -51,5 +51,5 @@ int	execute_cmds_all(t_procexpr **cmdarray)
 	}
 	if (cmdarray)
 		procexpr_destroy_all(cmdarray);
-	return (int_stat);
+	return (g_int_stat);
 }

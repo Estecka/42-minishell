@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 14:30:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 15:04:03 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/21 15:32:28 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../libft/libft.h"
 
 extern t_dynarray	g_envarray;
-extern int			int_stat;
+extern int			g_int_stat;
 static char			***g_environ;
 
 extern char			**envvarinit(char **environ)
@@ -58,8 +58,8 @@ extern char			*get_env_var(const char *name)
 	char	**cursor;
 
 	cursor = *g_environ;
-	if (!ft_strncmp("$?", name, 3))
-		return(ft_itoa(int_stat));
+	if (!ft_strncmp("?", name, 2))
+		return(ft_itoa(g_int_stat));
 	while (*cursor && (ft_strcmp(*cursor, name) != '='))
 		cursor++;
 	if (*cursor)

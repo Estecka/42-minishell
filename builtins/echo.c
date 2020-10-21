@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 10:53:41 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/21 15:02:28 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/21 15:35:08 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	echo_isnl(char *opt, int i, int size)
 
 int			echo_built(int argc, char **args)
 {
-	size_t	i;
+	int		i;
 	size_t	nl_bool;
 	size_t	wd_bool;
 	
