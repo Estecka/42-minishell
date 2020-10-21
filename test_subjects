@@ -1,15 +1,23 @@
-export;
-export BEEP=beep BOOP=boop;
-export BAA^D=bad EQUAL= NONE;
-echo ---
-export;
-
-echo beep boop;
-echo beep boop -nnn
-echo -nnn beep;
-echo -nnn boop;
-echo '$BEEP'; echo "$BOOP";
-echo $BEEP $BAA^D '"'$EQUAL'"' '"'NONE'"'
+echo beep;
+echo "beep boop";
+export BEEP=beep;
+echo "$BEEP"boop; echo $BEEP'boop'; echo '$BEEP boop';
+echo -n a b c d;
+echo -nn a b c d;
+echo a -n b c d;
 
 echo  \a \\ \" \$BEEP ;
 echo "\a \\ \" \$BEEP";
+echo '\a \\ \" \$BEEP';
+echo 'beep\' 'boop'
+
+export BAA^D=bad EQUAL= NONE;
+unset OLDPWD _ SHLVL
+export;
+
+echo beep >in >out;
+cat <in <out;
+echo boop >in >out;
+cat <in <out;
+echo baap >>in >>out;
+cat <in <out;
