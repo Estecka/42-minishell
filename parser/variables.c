@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 11:50:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/09 10:09:16 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/21 12:04:36 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 ** @return char*	A allocated copy of the name, or NULL in case of error.
 */
 
-static char		*get_var_name(char **cursor)
+static char		*get_var_name(const char **cursor)
 {
 	t_dynarray	name;
 
@@ -49,7 +49,7 @@ static char		*get_var_name(char **cursor)
 ** 	false	Error
 */
 
-static short	append_var(t_dynarray *narg, char **cursor)
+static short	append_var(t_dynarray *narg, const char **cursor)
 {
 	char	*varname;
 	char	*varvalue;
@@ -70,47 +70,41 @@ static short	append_var(t_dynarray *narg, char **cursor)
 	return (r);
 }
 
-/*
-** Seek all variable names in an argument and replaces them with their values.
-** @param char* arg	The argument to parse. Will be freed.
-** @return char*	The argument's final form.
-*/
-
-extern char		*postproc_arg(char *arg)
+extern char		*postproc_arg(const char *arg)
 {
 	t_dynarray	narg;
-	char		*cursor;
 
 	if (!dyninit(&narg, sizeof(char), ft_strlen(arg), 1))
 		return (NULL);
-	cursor = arg;
-	while(*cursor)
+	while(*arg)
 	{
-		if (*cursor != '$')
+		if (*arg != '$')
 		{
-			if (*cursor == '\\' && *(cursor + 1))
-				cursor++;
-			dynappend(&narg, cursor);
-			cursor++;
+			if (*arg == '\\' && *(arg + 1))
+				arg++;
+			dynappend(&narg, arg);
+			arg++;
 		}
-		else if (!append_var(&narg, &cursor))
+		else if (!append_var(&narg, &arg))
 		{
 			free(narg.content);
 			return (NULL);
 		}
 	}
-	free (arg);
 	return (narg.content);
 }
 
 void		postproc_args_all(char **args)
 {
 	int		i;
+	char	*r;
 
 	i = 0;
 	while (args[i])
 	{
-		args[i] = postproc_arg(args[i]);
+		r = postproc_arg(args[i]);
+		free(args[i]);
+		args[i] = r;
 		i++;
 	}
 }

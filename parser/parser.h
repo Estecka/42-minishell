@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/08 16:37:26 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/21 12:00:10 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,13 @@ struct		s_procexpr
 t_procexpr	**get_next_cmdline(const char *line);
 
 /*
-** Process an argument from a parsed command, turning it into its final, defini
-** tive form.
-** This involves parsing environnement variables, and the few remaining escape
-** sequences.
-** @param char* arg	The argument's temporary value.
-** 	this pointer will be freed on success.
-** @return char*	The argument's final form, or NULL in case of error.
+** Parses a raw argument into its final form.
+** This involves replacing variables name, escaped characters, and quotes.
+** @param const char* arg	The raw argument to parse.
+** @return char*	An allocated copy of the parsed argument, or NULL in case of error
 */
 
-char 		*postproc_arg(char *arg);
+char 		*postproc_arg(const char *arg);
 
 /*
 ** Process all arguments from an array jus as `postproc_arg` would.

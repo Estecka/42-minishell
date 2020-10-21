@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 18:17:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 10:06:15 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/21 12:03:22 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ extern int	main(int argc, char** argv)
 					printf("\t\t\tArg count: %u\n", expr->argc);
 					if (expr->args == NULL)
 						printf("No Args\n");
-					else for (int j=0; expr->args[j]; j++)
+					else if (argc<2 || strcmp(argv[1], "--raw"))
 					{
-						if (argc<2 || strcmp(argv[1], "--raw"))
-							expr->args[j] = postproc_arg(expr->args[j]);
-						printf("\t\t\tArg[%i]: %s\n", j, expr->args[j]);
+						postproc_args_all(expr->args);
+						for (int j=0; expr->args[j]; j++)
+							printf("\t\t\tArg[%i]: %s\n", j, expr->args[j]);
 					}
 
 					if (expr->inputs == NULL)
