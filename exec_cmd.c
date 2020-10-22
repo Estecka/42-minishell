@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/22 12:21:55 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/22 12:43:17 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,23 @@ int	exec_cmd(int argc, char **argv)
 int	execute_cmds_all(t_procexpr **cmdarray)
 {
 	t_procexpr	**cmd;
+	int			status;
 
 	cmd = cmdarray;
 	while (*cmd)
 	{
 		errno = 0;
 		postproc_args_all((*cmd)->args);
-		g_prev_status = bootstrap_fds(*cmd);
-		if (!g_prev_status)
+		status = bootstrap_fds(*cmd);
+		if (!status)
 			g_prev_status = exec_cmd((*cmd)->argc, (*cmd)->args);
+		else
+			g_prev_status = status;
 		cmd++;
 		if (!restore_stdrfd())
 		{
 			ft_putstr_fd("restore_stdrfd failed", 2);
-			ft_putstr_fd(strerror(errno), 2);
+			ft_putendl_fd(strerror(errno), 2);
 		}
 	}
 	if (cmdarray)
