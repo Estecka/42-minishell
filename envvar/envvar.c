@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 14:30:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 15:55:44 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/22 12:54:39 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ extern char			*get_env_var(const char *name)
 
 	cursor = *g_environ;
 	if (!ft_strncmp("?", name, 2))
-		return(ft_itoa(g_prev_status));
+		return (ft_itoa(g_prev_status));
 	while (*cursor && (ft_strcmp(*cursor, name) != '='))
 		cursor++;
 	if (*cursor)
@@ -78,7 +78,7 @@ extern short		set_env_var_raw(char *value)
 	while (*++vars)
 	{
 		if (!ft_strncmp(*vars, value, namelen))
-			break;
+			break ;
 	}
 	if (*vars)
 	{

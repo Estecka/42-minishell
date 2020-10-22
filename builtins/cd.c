@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:27:11 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/21 14:35:41 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/22 12:53:57 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ static int		change_dir(char **args)
 		dir = ft_strdup(args[1]);
 	if (chdir(dir) == -1)
 		print_error_cd(args, errno);
-	if (pwd_save)
+	if (g_pwd_save)
 	{
-		free(pwd_save);
-		pwd_save = ft_strdup(dir);
+		free(g_pwd_save);
+		g_pwd_save = ft_strdup(dir);
 	}
 	free(dir);
 	free(exp);
@@ -86,7 +86,7 @@ static void		update_envvar(void)
 		if (!ft_strncmp("OLDPWD", tmp[i], 6))
 		{
 			free(((char**)(g_envarray.content))[i]);
-			((char**)(g_envarray.content))[i] = (!pwd_save) ? \
+			((char**)(g_envarray.content))[i] = (!g_pwd_save) ? \
 				ft_strjoin("OLDPWD=", tmp2 + 4) : 0; // : set_oldpwd();
 		}
 		i++;
@@ -101,6 +101,6 @@ int			cd_built(int argc, char **args)
 	(void)argc;
 	if (change_dir(args))
 		return (errno);
-	(!pwd_save) ? update_envvar() : 0;
+	(!g_pwd_save) ? update_envvar() : 0;
 	return (errno);
 }

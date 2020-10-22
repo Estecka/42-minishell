@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 14:44:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/21 14:00:49 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/22 12:53:57 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <string.h>
 # include <stdio.h>
 
-extern char *home_save;
-extern char *pwd_save;
+extern char *g_home_save;
+extern char *g_pwd_save;
 
 typedef int (*t_builtin)(int argc, char **args);
 

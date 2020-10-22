@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envvar.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 13:51:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/19 13:27:44 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/22 12:54:26 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ char		*get_env_var(const char *name);
 
 short		set_env_var_raw(char *value);
 
-
 /*
 ** Sets an environnement variable.
 ** @param const char* name	The name of the variable to set.
@@ -79,5 +78,5 @@ char		*validate_var_name(const char *name);
 /*
 ** delete a variable of g_envarray.content and update his lenght
 */
-int		envclear(char *delet);
+int			envclear(char *delet);
 #endif
