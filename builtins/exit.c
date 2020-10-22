@@ -6,10 +6,11 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:05:31 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/21 15:55:43 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/22 10:27:42 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h"
 #include "builtins.h"
 
 extern char	g_prev_status;
@@ -40,6 +41,7 @@ int		exit_built(int argc, char **args)
 {
 	long long	nb;
 	
+	nb = g_prev_status;
 	if (argc > 1)
 	{
 		is_str_digit(args[1]);
@@ -47,18 +49,16 @@ int		exit_built(int argc, char **args)
 		if ((ft_strlen(args[1]) > 19 && ft_isdigit(args[1][0])) ||
 			(ft_strlen(args[1]) > 20 && args[1][0] == '-'))
 		{
-			write(1, "exit\n", 5);
 			print_error("minishell: exit: ", ": numeric argument required\n", args[0]);
-			exit(255);
+			nb =  255;
 		}
-		if ((args[1][0] == '-' && nb > 0) ||
+		else if ((args[1][0] == '-' && nb > 0) ||
 			(ft_isdigit(args[1][0]) && nb < 0))
 		{
-			write(1, "exit\n", 5);
 			print_error("minishell: exit: ", ": numeric argument required\n", args[0]);
-			exit(255);
+			nb = 255;
 		}
 	}
-	write(1, "exit\n", 5);
-	exit(EXIT_SUCCESS);
+	clean_exit(nb);
+	return (nb);
 }
