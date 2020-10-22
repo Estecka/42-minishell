@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 16:46:03 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/22 12:53:56 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/22 13:01:11 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void		free_mtab(char ***tab)
 	free((*tab));
 }
 
-int	print_error(char *s1, char *s2, char *args)
+int			print_error(char *s1, char *s2, char *args)
 {
 	ft_putstr_fd(s1, 2);
 	ft_putstr_fd(args, 2);
@@ -57,7 +57,7 @@ int	print_error(char *s1, char *s2, char *args)
 	return (-1);
 }
 
-long long			ft_atoi_ll(const char *str)
+long long	ft_atoi_ll(const char *str)
 {
 	short			sign;
 	long long		result;

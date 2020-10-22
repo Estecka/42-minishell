@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:27:11 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/22 12:53:57 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/22 13:14:02 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@ static void	print_error_cd(char **args, int error)
 	write(2, "\n", 1);
 }
 
-static int		change_dir(char **args)
+static int	change_dir(char **args)
 {
 	char		*dir;
 	char		*exp;
-	
-	
+
 	exp = get_env_var("HOME");
 	if ((!args[1] || (args[1] && !*args[1])) && !(*exp))
 	{
 		free(exp);
 		print_error("bash: cd: ", " not set", "HOME");
 		return (errno);
-	}	if (!args[1] || !args[1][0] || !ft_strncmp(args[1], "~", 2) || \
+	}
+	if (!args[1] || !args[1][0] || !ft_strncmp(args[1], "~", 2) || \
 		!ft_strncmp(args[1], "~/", 2))
 		dir = home_dir(args[1]);
 	else
@@ -50,21 +50,28 @@ static int		change_dir(char **args)
 	return (errno);
 }
 
-// static char		*set_oldpwd(char *args)
-// {
-// 	int			retro;
+/*
+** static char		*set_oldpwd(char *args)
+** {
+** 	int			retro;
+**
+** 	retro = 0;
+** 	(!ft_strncmp(args[1], "./", 0)) ? args[1] += 2 : 0;
+** 	while (!ft_strncmp(args[1], "./", 0))
+** }
+*/
 
-// 	retro = 0;
-// 	(!ft_strncmp(args[1], "./", 0)) ? args[1] += 2 : 0;
-// 	while (!ft_strncmp(args[1], "./", 0))
-// }
+/*
+** TODO: Peux probablement économiser des lignes en utilisant la fonction
+** `set_env_var(const char *name, const char *value)`
+*/
 
-static void		update_envvar(void)
+static void	update_envvar(void)
 {
-	int i;
-	char **tmp;
-	char *tmp2;
-	char *tmp3;
+	int		i;
+	char	**tmp;
+	char	*tmp2;
+	char	*tmp3;
 
 	i = 0;
 	tmp2 = NULL;
@@ -94,8 +101,10 @@ static void		update_envvar(void)
 	free(tmp2);
 }
 
+/*
+** mettre a null quand on export HOME et PWD
+*/
 
-// mettre a null quand on export HOME et PWD
 int			cd_built(int argc, char **args)
 {
 	(void)argc;

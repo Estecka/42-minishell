@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 14:44:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/22 12:53:57 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/22 13:22:20 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 extern char *g_home_save;
 extern char *g_pwd_save;
 
-typedef int (*t_builtin)(int argc, char **args);
+typedef int	(*t_builtin)(int argc, char **args);
 
 int			echo_built(int argc, char **args);
 int			pwd_built(int argc, char **args);
