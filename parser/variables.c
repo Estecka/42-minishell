@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 11:50:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 14:00:36 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/21 14:55:12 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ extern char		*postproc_arg(const char *arg)
 			quote = 0;
 		else if (quote != '\'' && *arg == '$')
 			append_var(&narg, &arg);
-		else if (*arg == '\\' && (!quote || ft_strcontain("\"\\$", *(arg + 1))))
+		else if (quote != '\'' && *arg == '\\'
+			&& (!quote || ft_strcontain("\"\\$", *(arg + 1))))
 			dynappend(&narg, &*++arg);
 		else
 			dynappend(&narg, &*arg);
