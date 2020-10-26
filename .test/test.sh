@@ -9,6 +9,7 @@ else
 	TEST_LISTS=(
 		echo
 		export
+		cd
 	);
 fi
 

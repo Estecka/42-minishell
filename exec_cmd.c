@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/22 12:43:17 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/26 14:35:15 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 #include <errno.h>
 
-int	exec_cmd(int argc, char **argv)
+extern int	exec_cmd(int argc, char **argv)
 {
 	t_builtin	builtin;
 
@@ -33,27 +33,41 @@ int	exec_cmd(int argc, char **argv)
 		return (127 & print_error("bash: ", ": command not found\n", argv[0]));
 }
 
-int	execute_cmds_all(t_procexpr **cmdarray)
+static int	exec_process(t_procexpr *proc)
+{
+	int	status;
+
+	postproc_args_all(proc->args);
+	status = bootstrap_fds(proc);
+	if (!status)
+		status = exec_cmd(proc->argc, proc->args);
+	if (!restore_stdrfd())
+	{
+		ft_putstr_fd("restore_stdrfd failed", 2);
+		ft_putendl_fd(strerror(errno), 2);
+		status = errno;
+	}
+	return (status);
+}
+
+static int	exec_pipechain(t_procexpr *chain)
+{
+	return (exec_process(chain));
+}
+
+extern int	execute_cmds_all(t_procexpr **cmdarray)
 {
 	t_procexpr	**cmd;
-	int			status;
 
 	cmd = cmdarray;
 	while (*cmd)
 	{
 		errno = 0;
-		postproc_args_all((*cmd)->args);
-		status = bootstrap_fds(*cmd);
-		if (!status)
-			g_prev_status = exec_cmd((*cmd)->argc, (*cmd)->args);
+		if (!(*cmd)->pipeout)
+			g_prev_status = exec_process(*cmd);
 		else
-			g_prev_status = status;
+			g_prev_status = exec_pipechain(*cmd);
 		cmd++;
-		if (!restore_stdrfd())
-		{
-			ft_putstr_fd("restore_stdrfd failed", 2);
-			ft_putendl_fd(strerror(errno), 2);
-		}
 	}
 	if (cmdarray)
 		procexpr_destroy_all(cmdarray);
