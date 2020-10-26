@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 14:44:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/21 14:00:49 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/26 17:12:46 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 # include <string.h>
 # include <stdio.h>
 
-extern char *home_save;
-extern char *pwd_save;
+char *g_home_save;
+char *g_pwd_save;
 
-typedef int (*t_builtin)(int argc, char **args);
+typedef	int	(*t_builtin)(int argc, char **args);
 
 int			echo_built(int argc, char **args);
 int			pwd_built(int argc, char **args);

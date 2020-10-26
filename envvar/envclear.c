@@ -6,15 +6,13 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 10:16:19 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/20 14:33:44 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/26 17:12:06 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envvar.h"
 #include "../libft/libft.h"
-
-char *pwd_save;
-char *home_save;
+#include  "../builtins/builtins.h"
 
 static int	is_envvar(char **env, char *delet)
 {
@@ -39,10 +37,10 @@ int		envclear(char *delet)
 	env = (char**)(g_envarray.content);
 	if ((curs = is_envvar(env, delet)) == -1)
 		return (0);
-	if (!ft_strncmp("HOME", delet, 5) && !home_save)
-		home_save = ft_strdup(env[curs]);
-	if (!ft_strncmp("PWD", delet, 4) && !pwd_save)
-		pwd_save = ft_strdup(env[curs]);
+	if (!ft_strncmp("HOME", delet, 5) && !g_home_save)
+		g_home_save = ft_strdup(env[curs]);
+	if (!ft_strncmp("PWD", delet, 5) && !g_pwd_save)
+		g_pwd_save = ft_strdup(env[curs]);
 	free(env[curs]);
 	while (env[curs++])
 		env[curs - 1] = env[curs]; 

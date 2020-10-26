@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 10:38:02 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/16 12:06:02 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/26 17:38:53 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int			pwd_built(int argc, char **args)
 	(void)args;
 	(void)argc;
 	buf = getcwd(NULL, 0);
+	if (!buf)
+		buf = ft_strdup(g_pwd_save);
 	ft_putstr(buf);
 	write(1, "\n", 1);
 	free(buf);

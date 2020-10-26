@@ -6,16 +6,15 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 10:53:41 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/21 15:35:08 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/26 17:16:15 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "builtins.h"
 
-int	echo_isnl(char *opt, int i, int size)
+int			echo_isnl(char *opt, int i, int size)
 {
-	int j;
+	int		j;
 
 	j = 1;
 	while (opt[j])
@@ -37,7 +36,7 @@ int			echo_built(int argc, char **args)
 	int		i;
 	size_t	nl_bool;
 	size_t	wd_bool;
-	
+
 	i = 0;
 	nl_bool = 1;
 	wd_bool = 0;

@@ -6,13 +6,11 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 16:46:03 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/21 14:30:34 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/26 17:48:26 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-extern char	*home_save;
 
 char		*home_dir(char *args)
 {
@@ -25,7 +23,7 @@ char		*home_dir(char *args)
 	if (!(*tmp))
 	{
 		free(tmp);
-		tmp = ft_strdup(home_save + 5);
+		tmp = ft_strdup(g_home_save + 5);
 	}
 	add_slash = ft_strjoin(tmp, "/");
 	curs = (args) ? 2 : 0;
@@ -35,9 +33,9 @@ char		*home_dir(char *args)
 	return (dir);
 }
 
-void		free_mtab(char ***tab)
+void	free_mtab(char ***tab)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while ((*tab)[i])
@@ -57,11 +55,11 @@ int	print_error(char *s1, char *s2, char *args)
 	return (-1);
 }
 
-long long			ft_atoi_ll(const char *str)
+long long		ft_atoi_ll(const char *str)
 {
-	short			sign;
-	long long		result;
-	int				digit;
+	short		sign;
+	long long	result;
+	int			digit;
 
 	while (ft_strcontain("\t\n\r\v\f ", *str))
 		str++;

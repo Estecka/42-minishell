@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 15:37:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/15 11:43:03 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/26 17:17:23 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	*get_next_var(const char *previous)
 	bestguess = worstguess;
 	while (*cursor)
 	{
-		if (ft_strccmp(bestguess, *cursor, '=') > 0 
+		if (ft_strccmp(bestguess, *cursor, '=') > 0
 			&& ft_strccmp(previous, *cursor, '=') < 0)
 			bestguess = *cursor;
 		cursor++;
