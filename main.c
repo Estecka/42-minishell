@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/20 12:47:45 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/22 10:33:20 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,46 @@
 #include <string.h>
 #include <unistd.h>
 
+char		g_prev_status = 0;
+static char			*g_currentline = NULL;
+static t_procexpr	**g_currentexpr = NULL;
+
+extern void clean_exit(int status)
+{
+	envvardeinit();
+	if (g_currentline)
+		free(g_currentline);
+	if (g_currentexpr)
+		procexpr_destroy_all(g_currentexpr);
+	write(2, "exit\n", 5);
+	exit(status);
+}
+
 static int	shell_main(void)
 {
-	char		*line;
-	t_procexpr	**cmd;
 	short		gnl;
 
 	gnl = 1;
 	while (0 < gnl)
 	{
 		write(0, "> ", 2);
-		gnl = get_next_line(0, (char**)&line);
-		cmd = get_next_cmdline(line);
-		if (errno || !cmd)
+		gnl = get_next_line(0, (char**)&g_currentline);
+		g_currentexpr = get_next_cmdline(g_currentline);
+		if (errno || !g_currentexpr)
 		{
 			ft_putstr_fd("Parsing failed unexpectedly: ", 2);
-			ft_putstr_fd(strerror(errno), 2);
-			ft_putchar_fd('\n', 1);
+			ft_putendl_fd(strerror(errno), 2);
 		}
 		else
-			execute_cmds_all(cmd);
-		if (line)
-			free(line);
+		{
+			execute_cmds_all(g_currentexpr);
+			g_currentexpr = NULL;
+		}
+		if (g_currentline)
+		{
+			free(g_currentline);
+			g_currentline = NULL;
+		}
 	}
 	return (0);
 }
@@ -75,6 +93,5 @@ extern int	main(int argc, char **argv, char **environ)
 		status = subprocess_main(argc - 1, argv + 1);
 	else
 		status = shell_main();
-	envvardeinit();
-	return (status);
+	clean_exit (status);
 }

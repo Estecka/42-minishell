@@ -1,46 +1,25 @@
-export;
-export BEEP=beep BOOP=boop;
-export BAA^D=bad EQUAL= NONE;
-echo ---
-export;
-
-echo beep boop;
-echo beep boop -nnn
-echo -nnn beep;
-echo -nnn boop;
-echo '$BEEP'; echo "$BOOP";
-echo $BEEP $BAA^D '"'$EQUAL'"' '"'NONE'"'
+echo beep;
+echo "beep boop";
+export BEEP=beep;
+echo "$BEEP"boop; echo $BEEP'boop'; echo '$BEEP boop';
+echo -n a b c d;
+echo -nn a b c d;
+echo a -n b c d;
 
 echo  \a \\ \" \$BEEP ;
 echo "\a \\ \" \$BEEP";
+echo '\a \\ \" \$BEEP';
+echo 'beep\' 'boop'
 
-export toto tata=3 titi= tete tete+=2 tutu=5 tutu+=4 trtr+=3 twtw=dksdhfvsdfjvsdlfsdfgsd 1test test1 _tetsds tetdd2_dd ghgh=dd;
-export;
-export 1tets;
-export;
-
-unset tutu=;
-unset 1tutu;
-unset _tetsds;
-export;
-unset tete titi toto tutu twtw tata ghgh testdd2_dd;
+export BAA^D=bad EQUAL= NONE;
+unset OLDPWD _ SHLVL
 export;
 
-unset PWD;
-pwd;
-unset OLDPWD;
-cd ..;
-pwd;
-export;
-export OLDPWD;
-cd ..;
-cd .;
-pwd;
-export;
+echo beep >in >out;
+cat <in <out;
+echo boop >in >out;
+cat <in <out;
+echo baap >>in >>out;
+cat <in <out;
 
-unset HOME;
-cd;
-pwd;
-export HOME=;
-cd;
-pwd;
+rm in out;

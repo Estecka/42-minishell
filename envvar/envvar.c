@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envvar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 14:30:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 15:32:28 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/21 15:55:44 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../libft/libft.h"
 
 extern t_dynarray	g_envarray;
-extern int			g_int_stat;
+extern int			g_prev_status;
 static char			***g_environ;
 
 extern char			**envvarinit(char **environ)
@@ -59,7 +59,7 @@ extern char			*get_env_var(const char *name)
 
 	cursor = *g_environ;
 	if (!ft_strncmp("?", name, 2))
-		return(ft_itoa(g_int_stat));
+		return(ft_itoa(g_prev_status));
 	while (*cursor && (ft_strcmp(*cursor, name) != '='))
 		cursor++;
 	if (*cursor)

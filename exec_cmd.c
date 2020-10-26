@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 15:38:45 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/21 15:55:39 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #include "builtins/builtins.h"
 #include "parser/parser.h"
 #include "stdrfd/stdrfd.h"
-
-char g_int_stat = 0;
 
 int	exec_cmd(int argc, char **argv)
 {
@@ -39,9 +37,9 @@ int	execute_cmds_all(t_procexpr **cmdarray)
 	while (*cmd)
 	{
 		postproc_args_all((*cmd)->args);
-		g_int_stat = bootstrap_fds(*cmd);
-		if (!g_int_stat)
-			g_int_stat = exec_cmd((*cmd)->argc, (*cmd)->args);
+		g_prev_status = bootstrap_fds(*cmd);
+		if (!g_prev_status)
+			g_prev_status = exec_cmd((*cmd)->argc, (*cmd)->args);
 		cmd++;
 		if (!restore_stdrfd())
 		{
@@ -51,5 +49,5 @@ int	execute_cmds_all(t_procexpr **cmdarray)
 	}
 	if (cmdarray)
 		procexpr_destroy_all(cmdarray);
-	return (g_int_stat);
+	return (g_prev_status);
 }
