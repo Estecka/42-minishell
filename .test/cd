@@ -1,0 +1,17 @@
+echo $PWD; pwd;
+
+cd directory;
+ls;
+echo $PWD;
+pwd;
+./beep.sh
+./boop.sh;
+
+cat -e beep.sh
+cat boop.sh;
+
+cd beep;
+cd boop.sh;
+
+pwd;
+echo $PWD;
