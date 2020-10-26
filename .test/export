@@ -1,0 +1,13 @@
+export BEEP=boop
+echo $BEEP;
+
+export BAA^D=bad EQUAL= NONE;
+echo "status: $?";
+unset OLDPWD _ SHLVL
+export;
+
+export BBEP+=bbop 
+
+export ?=3;
+echo $?;
+export;
