@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 15:37:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/27 13:18:06 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/27 17:09:01 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,21 @@ static int	print_env(void)
 	return (0);
 }
 
+static int	export_join(const char *var, size_t size)
+{
+	char *name;
+	char *tmp;
+	char *value;
+
+	name = ft_substr(var, 0, size);
+	tmp = get_env_var(name);
+	value = ft_strjoin(tmp, var + size + 2);
+	set_env_var(name, value);
+	free(tmp);
+	free(value);
+	return (0);
+}
+
 static int	export_one(const char *var)
 {
 	size_t		namelen;
@@ -79,13 +94,15 @@ static int	export_one(const char *var)
 
 	namelen = indexof('=', var);
 	valuestart = validate_var_name(var);
-	if (*valuestart && *valuestart != '=')
+	if (*valuestart && *valuestart != '=' && *valuestart != '+')
 	{
 		write(2, "not valid in this context: ", 27);
 		write(2, var, namelen);
 		write(2, "\n", 1);
 		return (1);
 	}
+	if (!ft_strncmp("+=", valuestart, 2))
+		return (0 || export_join(var, namelen - 1));
 	if (!(raw = ft_strdup(var)) || !set_env_var_raw(raw))
 	{
 		ft_putstr_fd("Unexpected error: ", 2);
