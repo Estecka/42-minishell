@@ -1,0 +1,13 @@
+echo beep | echo boop;
+
+echo beep | cat -e;
+
+echo oiIOiOioioioiioIO | tr I _ | tr '[:lower:]' '[:upper:]';
+echo oiIOiOioioioiioIO | tr '[:lower:]' '[:upper:]' | tr I _;
+
+echo beep | cat; echo $?
+echo beep | ls donk; echo $?
+exit 1 | exit 2 | exit 3; echo $?
+
+cat /dev/urandom | head -c 100
+cat /dev/urandom | head -c 200
