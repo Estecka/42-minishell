@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/26 14:35:15 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/27 12:12:55 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 #include "stdrfd/stdrfd.h"
 
 #include <errno.h>
+
+#ifdef __linux__
+# include <wait.h>
+#endif
 
 extern int	exec_cmd(int argc, char **argv)
 {
@@ -50,9 +54,53 @@ static int	exec_process(t_procexpr *proc)
 	return (status);
 }
 
+/*
+** @param t_procexpr* proc	The expression of the process to create.
+** @param int fdin	The fd the child process will listen to.
+** @param int* fdout	Outputs the fd the next process should listen to, or 0 i
+** f this was the last process in the chain.
+** @return pid_t	The pid of the created child process.
+*/
+
+static pid_t	exec_fork(t_procexpr *proc, int fdin, int *fdout)
+{
+	pid_t	child;
+	int		pipefds[2];
+
+	pipefds[0] = 0;
+	pipefds[1] = 0;
+	if (proc->pipeout && pipe(pipefds) < 0)
+		return (-1);
+	*fdout = pipefds[0];
+	child = fork();
+	errno = 0;
+	if (child)
+		return (child);
+	if (fdin && (dup2(fdin, 0) < 0) && close(fdin))
+		clean_exit(errno);
+	if (pipefds[1] && (dup2(pipefds[1], 1) < 0) && close(pipefds[1]))
+		exit (errno);
+	clean_exit(exec_process(proc));
+	exit (errno);
+}
+
 static int	exec_pipechain(t_procexpr *chain)
 {
-	return (exec_process(chain));
+	int pipein;
+	int status;
+
+	pipein = 0;
+	while (chain)
+	{
+		exec_fork(chain, pipein, &pipein);
+		chain = chain->pipeout;
+		errno = 0;
+	}
+	while(wait(&status) > -1)
+		;
+	if (errno == ECHILD)
+		errno = 0;
+	return (status);
 }
 
 extern int	execute_cmds_all(t_procexpr **cmdarray)
