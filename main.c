@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/22 10:33:20 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/22 10:45:08 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 #include <string.h>
 #include <unistd.h>
 
-char		g_prev_status = 0;
+char				g_prev_status = 0;
 static char			*g_currentline = NULL;
 static t_procexpr	**g_currentexpr = NULL;
 
-extern void clean_exit(int status)
+extern void 		clean_exit(int status)
 {
 	envvardeinit();
 	if (g_currentline)
@@ -38,7 +38,7 @@ extern void clean_exit(int status)
 	exit(status);
 }
 
-static int	shell_main(void)
+static int			shell_main(void)
 {
 	short		gnl;
 
@@ -55,7 +55,7 @@ static int	shell_main(void)
 		}
 		else
 		{
-			execute_cmds_all(g_currentexpr);
+			g_prev_status = execute_cmds_all(g_currentexpr);
 			g_currentexpr = NULL;
 		}
 		if (g_currentline)
@@ -64,34 +64,29 @@ static int	shell_main(void)
 			g_currentline = NULL;
 		}
 	}
-	return (0);
+	return (g_prev_status);
 }
 
-static int	subprocess_main(int argc, char** argv)
+static int			subprocess_main(int argc, char** argv)
 {
-	int	status;
-
 	argv = ft_strdupr((const char**)argv);
 	if (!argv)
 		return (EXIT_FAILURE);
-	status = exec_cmd(argc, argv);
+	g_prev_status = exec_cmd(argc, argv);
 	freearray((void**)argv);
 	free(argv);
-	return (status);
+	return (g_prev_status);
 }
 
-extern int	main(int argc, char **argv, char **environ)
+extern int			main(int argc, char **argv, char **environ)
 {
-	int status;
-
 	if (!envvarinit(environ))
 		return (errno | (0 & write(2, "Environnement init failed.\n", 14)));
 	if (!backup_stdrfd())
 		return (errno | (0 & write(2, "Stdrfd init failed.\n", 14)));
-	status = 0;
 	if (argc > 1)
-		status = subprocess_main(argc - 1, argv + 1);
+		g_prev_status = subprocess_main(argc - 1, argv + 1);
 	else
-		status = shell_main();
-	clean_exit (status);
+		g_prev_status = shell_main();
+	clean_exit (g_prev_status);
 }

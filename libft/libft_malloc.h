@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 19:17:09 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/17 19:30:49 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/22 12:58:21 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void		*ft_calloc(size_t count, size_t type);
 */
 
 void*const	*malloc2d(size_t width, size_t height, size_t type);
-
 
 /*
 ** Frees all pointers in a null-terminated array.

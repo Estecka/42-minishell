@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:20:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/26 17:38:34 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/27 13:19:35 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 # include <wait.h>
 #endif
 
-int				free_all(char **tmp, char ***a_path)
+short		free_all(char **tmp, char ***a_path)
 {
 	free(*tmp);
 	free_mtab(a_path);
-	return (1);
+	return (0);
 }
 
-char			*get_path(char *args)
+char		*get_path(char *args)
 {
 	char		*path;
 	char		*tmp;
@@ -36,19 +36,19 @@ char			*get_path(char *args)
 	free(path);
 	i = -1;
 	tmp = (!ft_strncmp(args, "~", 1)) ? home_dir(args) : ft_strjoin("/", args);
-	if (!stat(tmp, &buf) && free_all(&tmp, &a_path))
-		return (tmp);
+	if (!stat(tmp, &buf))
+		return (tmp + free_all(&tmp, &a_path));
 	while (a_path[++i])
 	{
-		if (!stat(tmp, &buf) && free_all(&tmp, &a_path))
-			return (tmp);
+		if ((path = ft_strjoin(a_path[i], tmp)) && !stat(path, &buf))
+			return (path + free_all(&tmp, &a_path));
 		free(path);
 	}
 	free_all(&tmp, &a_path);
 	return (NULL);
 }
 
-int				go_fork(int argc, char **args)
+int			go_fork(int argc, char **args)
 {
 	pid_t		pid;
 	int			status;
@@ -60,10 +60,11 @@ int				go_fork(int argc, char **args)
 	if (!pid)
 	{
 		if (S_ISDIR(buf.st_mode) &&
-		print_error("minishell: exe: ", ": is a directoy\n", args[0]))
+				print_error("minishell: exe: ", ": is a directoy\n", args[0]))
 			exit(EXIT_FAILURE);
 		else if (!(buf.st_mode & S_IXUSR) &&
-		print_error("minishell: exe: ", ": Permission denied\n", args[0]))
+				print_error("minishell: exe: ", ": Permission denied\n",
+					args[0]))
 			exit(EXIT_FAILURE);
 		else
 		{
@@ -76,7 +77,7 @@ int				go_fork(int argc, char **args)
 	return (errno);
 }
 
-t_builtin		command_exec(char **args)
+t_builtin	command_exec(char **args)
 {
 	char		*path;
 	char		*tmp;

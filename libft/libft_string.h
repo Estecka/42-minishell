@@ -6,12 +6,12 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 00:43:38 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/20 10:47:33 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/22 12:58:29 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFTH_STRING_H
-# define LIBFTH_STRING_H
+#ifndef LIBFT_STRING_H
+# define LIBFT_STRING_H
 
 # include <stdlib.h>
 

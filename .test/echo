@@ -1,0 +1,23 @@
+echo beep boop;
+echo "beep    boop";
+
+echo -n a b c d;
+echo -nn a b c d;
+echo a -n b c d;
+
+echo "$BEEP"boop; echo $BEEP'boop'; echo '$BEEP boop';
+echo $BOOP'boop' re$BE"EP"
+
+echo  \a \\ \" \$BEEP ;
+echo "\a \\ \" \$BEEP";
+echo '\a \\ \" \$BEEP';
+echo 'beep\' 'boop'
+
+echo beep >in >out;
+cat <in <out;
+echo boop >in >out;
+cat <in <out;
+echo baap >>in >>out;
+cat <in <out;
+
+rm in out;

@@ -6,17 +6,17 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 11:43:50 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/17 19:34:54 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/22 12:57:25 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-#include "libft_char.h"
-#include "libft_malloc.h"
-#include "libft_memory.h"
-#include "libft_string.h"
+# include "libft_char.h"
+# include "libft_malloc.h"
+# include "libft_memory.h"
+# include "libft_string.h"
 
 # include <stdlib.h>
 

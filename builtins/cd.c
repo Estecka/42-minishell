@@ -6,13 +6,13 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:27:11 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/26 17:39:25 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/27 13:23:51 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-static void		print_error_cd(char **args, int error)
+static void	print_error_cd(char **args, int error)
 {
 	ft_putstr_fd("bash: cd: ", 2);
 	ft_putstr_fd(args[1], 2);
@@ -21,7 +21,7 @@ static void		print_error_cd(char **args, int error)
 	write(2, "\n", 1);
 }
 
-static int		change_dir(char **args)
+static int	change_dir(char **args)
 {
 	char		*dir;
 	char		*exp;
@@ -45,7 +45,7 @@ static int		change_dir(char **args)
 	return (errno);
 }
 
-static char		*set_envpwd(void)
+static char	*set_envpwd(void)
 {
 	int			i;
 	char		**tmp;
@@ -69,7 +69,7 @@ static char		*set_envpwd(void)
 	return (tmp_pwd);
 }
 
-static void		set_envold(char *tmp2)
+static void	set_envold(char *tmp2)
 {
 	char		**tmp;
 	int			i;
@@ -87,7 +87,7 @@ static void		set_envold(char *tmp2)
 	}
 }
 
-int				cd_built(int argc, char **args)
+int			cd_built(int argc, char **args)
 {
 	char		*oldpwd;
 	char		*tmp_pwd;

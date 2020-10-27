@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:32:47 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/17 18:05:20 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/22 12:58:04 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	*ft_memcpy(void *dst, const void *src, size_t size);
 ** @param void* dst	The memory to overwrite.
 ** @param const void* src	The values to write with.
 ** @param size_t size	The maximum amount of bytes to write.
-** @return void* If a byte of the given value was found, returns the adress of 
-**  the next byte in dst. Otherwise, returns NULL.
+** @return void* If a byte of the given value was found, returns the adress of t
+** he next byte in dst. Otherwise, returns NULL.
 */
 
 void	*ft_memccpy(void *dst, const void *src, int value, size_t size);
