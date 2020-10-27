@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/27 10:54:12 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/27 15:12:29 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ extern int		clean_exit(int status)
 		free(g_currentline);
 	if (g_currentexpr)
 		procexpr_destroy_all(g_currentexpr);
-	write(2, "exit\n", 5);
 	exit(status);
 	return (status);
 }
@@ -89,5 +88,6 @@ extern int			main(int argc, char **argv, char **environ)
 		g_prev_status = subprocess_main(argc - 1, argv + 1);
 	else
 		g_prev_status = shell_main();
+	ft_putstr_fd("exit\n", 2);
 	clean_exit (g_prev_status);
 }
