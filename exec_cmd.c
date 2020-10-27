@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/27 12:12:55 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/27 12:41:30 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static pid_t	exec_fork(t_procexpr *proc, int fdin, int *fdout)
 {
 	pid_t	child;
 	int		pipefds[2];
+	int		status;
 
 	pipefds[0] = 0;
 	pipefds[1] = 0;
@@ -75,24 +76,33 @@ static pid_t	exec_fork(t_procexpr *proc, int fdin, int *fdout)
 	child = fork();
 	errno = 0;
 	if (child)
+	{
+		if (proc->pipeout)
+			close(pipefds[1]);
 		return (child);
-	if (fdin && (dup2(fdin, 0) < 0) && close(fdin))
+	}
+	if (fdin && ((dup2(fdin, 0) < 0) || close(fdin)))
 		clean_exit(errno);
-	if (pipefds[1] && (dup2(pipefds[1], 1) < 0) && close(pipefds[1]))
+	if (pipefds[1] && ((dup2(pipefds[1], 1) < 0) || close(pipefds[1])))
 		exit (errno);
-	clean_exit(exec_process(proc));
+	status = exec_process(proc);
+	clean_exit(status);
 	exit (errno);
 }
 
 static int	exec_pipechain(t_procexpr *chain)
 {
 	int pipein;
+	int pipeout;
 	int status;
 
 	pipein = 0;
 	while (chain)
 	{
-		exec_fork(chain, pipein, &pipein);
+		exec_fork(chain, pipein, &pipeout);
+		if (pipein)
+			close(pipein);
+		pipein = pipeout;
 		chain = chain->pipeout;
 		errno = 0;
 	}
