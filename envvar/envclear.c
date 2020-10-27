@@ -6,13 +6,13 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 10:16:19 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/27 13:15:54 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/27 13:40:58 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envvar.h"
 #include "../libft/libft.h"
-#include  "../builtins/builtins.h"
+#include "../builtins/builtins.h"
 
 static int	is_envvar(char **env, char *delet)
 {

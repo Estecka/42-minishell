@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 16:46:03 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/27 13:17:34 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/27 13:41:07 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char		*home_dir(char *args)
 
 void		free_mtab(char ***tab)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while ((*tab)[i])
