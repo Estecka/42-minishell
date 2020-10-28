@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/28 10:25:48 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/28 11:46:49 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,14 @@ static pid_t	exec_fork(t_procexpr *proc, int fdin, int *fdout)
 			close(pipefds[1]);
 		return (child);
 	}
+	if (pipefds[0])
+		close(pipefds[0]);
 	if (fdin && ((dup2(fdin, 0) < 0) || close(fdin)))
 		clean_exit(errno);
 	if (pipefds[1] && ((dup2(pipefds[1], 1) < 0) || close(pipefds[1])))
-		exit (errno);
+		clean_exit (errno);
 	status = exec_process(proc);
-	clean_exit(status);
-	exit (errno);
+	exit(clean_exit(status));
 }
 
 static int	exec_pipechain(t_procexpr *chain)
