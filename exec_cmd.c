@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/27 12:41:30 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/28 10:25:48 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static pid_t	exec_fork(t_procexpr *proc, int fdin, int *fdout)
 
 static int	exec_pipechain(t_procexpr *chain)
 {
+	pid_t	last;
 	int pipein;
 	int pipeout;
 	int status;
@@ -99,14 +100,16 @@ static int	exec_pipechain(t_procexpr *chain)
 	pipein = 0;
 	while (chain)
 	{
-		exec_fork(chain, pipein, &pipeout);
+		last = exec_fork(chain, pipein, &pipeout);
 		if (pipein)
 			close(pipein);
 		pipein = pipeout;
 		chain = chain->pipeout;
 		errno = 0;
 	}
-	while(wait(&status) > -1)
+	waitpid(last, &status, 0);
+	status = WEXITSTATUS(status);
+	while(wait(&(int){0}) > -1)
 		;
 	if (errno == ECHILD)
 		errno = 0;
