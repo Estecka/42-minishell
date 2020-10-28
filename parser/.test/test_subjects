@@ -7,6 +7,8 @@ aa bb;cc dd
 aa bb;
 "" | "" | ""
 "" | | ""
+'' 'a' 'bb' '
+"" "a" "bb" "
 aa >>b <c |<d ee >f > g | h; i
 aa "\\ \a \" \$" '\\ \a \" \$'
 aa $bb cc$dd ee
