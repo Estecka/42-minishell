@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 11:50:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 14:55:12 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/28 15:46:02 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,29 @@ static short	append_var(t_dynarray *narg, const char **cursor)
 	r = (dynappendn(narg, varvalue, ft_strlen(varvalue)) != NULL);
 	free(varname);
 	free(varvalue);
-	return (r);
+	return (!!r);
 }
 
-extern char		*postproc_arg(const char *arg)
+/*
+** Parses a raw argument into its final form.
+** This involves replacing variables name, escaped characters, and quotes.
+** This may result into a single argument splitting into multiple ones, in which
+**  case the resulting string will contain multiple null-terminators.
+** @param const char* arg	The raw argument to parse.
+** @param char** result	Outputs the resulting string, or NULL if an error occure
+** d.
+** @param char quote	Must be 0.
+** @param int argc	Must be 1.
+** @return int	The amount of arguments and null-terminators in the resulting st
+** ring, or 0 if an error occured.
+*/
+
+static int		postproc_arg(const char *arg, char **dst, char quote, int argc)
 {
 	t_dynarray	narg;
-	char		quote;
 
 	if (!dyninit(&narg, sizeof(char), ft_strlen(arg), 1))
-		return (NULL);
-	quote = 0;
+		return (0);
 	while (*arg && !errno)
 	{
 		if (!quote && (*arg == '\'' || *arg == '\"'))
@@ -93,7 +105,7 @@ extern char		*postproc_arg(const char *arg)
 		else if (quote && *arg == quote)
 			quote = 0;
 		else if (quote != '\'' && *arg == '$')
-			append_var(&narg, &arg);
+			argc += append_var(&narg, &arg);
 		else if (quote != '\'' && *arg == '\\'
 			&& (!quote || ft_strcontain("\"\\$", *(arg + 1))))
 			dynappend(&narg, &*++arg);
@@ -103,7 +115,8 @@ extern char		*postproc_arg(const char *arg)
 	}
 	if (errno)
 		free(narg.content);
-	return (errno ? NULL : narg.content);
+	*dst = (errno ? NULL : narg.content);
+	return (errno ? 0 : argc);
 }
 
 void			postproc_args_all(char **args)
@@ -114,7 +127,7 @@ void			postproc_args_all(char **args)
 	i = 0;
 	while (args[i])
 	{
-		r = postproc_arg(args[i]);
+		postproc_arg(args[i], &r, 0, 1);
 		free(args[i]);
 		args[i] = r;
 		i++;

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/26 13:12:44 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/28 14:14:04 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,6 @@ struct		s_procexpr
 */
 
 t_procexpr	**get_next_cmdline(const char *line);
-
-/*
-** Parses a raw argument into its final form.
-** This involves replacing variables name, escaped characters, and quotes.
-** @param const char* arg	The raw argument to parse.
-** @return char*	An allocated copy of the parsed argument, or NULL in case of
-**  error.
-*/
-
-char		*postproc_arg(const char *arg);
 
 /*
 ** Process all arguments from an array jus as `postproc_arg` would.
