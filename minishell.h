@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:41:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/22 10:24:06 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/27 10:54:39 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ int		bootstrap_fds(t_procexpr *proc);
 int		exec_cmd(int argc, char **argv);
 int		execute_cmds_all(t_procexpr **cmdarray);
 
-void	clean_exit(int status);
+int		clean_exit(int status);
 
 #endif
