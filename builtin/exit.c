@@ -28,8 +28,8 @@ static int	is_str_digit(char *s)
 				break ;
 			else
 			{
-				print_error("bash: exit: ",
-					": numeric argument required", s);
+				print_error("bash:  ligne 1 : exit: ",
+					": argument numérique nécessaire", s);
 				exit(255);
 			}
 		}
@@ -43,14 +43,14 @@ static void	num_arg(char **args, long long nb)
 	if ((ft_strlen(args[1]) > 19 && ft_isdigit(args[1][0])) ||
 	(ft_strlen(args[1]) > 20 && args[1][0] == '-'))
 	{
-		print_error("bash: ", ": numeric argument required", args[0]);
+		print_error("bash:  ligne 1 :", ": argument numérique nécessaire", args[0]);
 		nb = 255;
 		clean_exit(nb);
 	}
 	else if ((args[1][0] == '-' && nb > 0) ||
 	(ft_isdigit(args[1][0]) && nb < 0))
 	{
-		print_error("bash: ", ": numeric argument required", args[0]);
+		print_error("bash:  ligne 1 :", ": argument numérique nécessaire", args[0]);
 		nb = 255;
 		clean_exit(nb);
 	}
@@ -70,6 +70,6 @@ int			exit_built(int argc, char **args)
 		num_arg(args, nb);
 	}
 	if (argc > 2)
-		print_error("bash: ", ": too many arguments", args[0]);
+		print_error("bash:  ligne 1 :", ": trop d'arguments", args[0]);
 	return (nb);
 }

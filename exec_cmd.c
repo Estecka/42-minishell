@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-#include "builtins/builtins.h"
+#include "builtin/builtins.h"
 #include "parser/parser.h"
 #include "stdrfd/stdrfd.h"
 

@@ -12,7 +12,7 @@
 
 #include "envvar.h"
 #include "../libft/libft.h"
-#include "../builtins/builtins.h"
+#include "../builtin/builtins.h"
 
 static int	is_envvar(char **env, char *delet)
 {

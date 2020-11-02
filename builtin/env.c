@@ -37,21 +37,23 @@ int			env_built(int argc, char **args)
 	char	*name;
 
 	i = 0;
-	(void)argc;
 	env = ((char**)(g_envarray.content));
 	(void)args;
-	while (env[i])
+	if (argc ==1)
 	{
-		name = get_envname(env[i]);
-		value = (name) ? get_env_var(name) : NULL;
-		if (value)
+		while (env[i])
 		{
-			ft_putstr(env[i]);
-			write(1, "\n", 1);
+			name = get_envname(env[i]);
+			value = (name) ? get_env_var(name) : NULL;
+			if (value)
+			{
+				ft_putstr(env[i]);
+				write(1, "\n", 1);
+			}
+			free(name);
+			free(value);
+			i++;
 		}
-		free(name);
-		free(value);
-		i++;
 	}
 	return (errno);
 }
