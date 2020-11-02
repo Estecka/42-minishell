@@ -6,11 +6,24 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 18:01:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/09/05 18:01:00 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/26 13:10:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_internals.h"
+
+extern int	procexpr_pipelen(t_procexpr *expr)
+{
+	int	len;
+
+	len = 0;
+	while (expr)
+	{
+		len++;
+		expr = expr->pipeout;
+	}
+	return (len);
+}
 
 extern void	procexpr_destroy(t_procexpr *expr)
 {

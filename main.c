@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/27 13:25:28 by hherin           ###   ########.fr       */
+/*   Updated: 2020/11/02 11:57:04 by heleneherin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char				g_prev_status = 0;
 static char			*g_currentline = NULL;
 static t_procexpr	**g_currentexpr = NULL;
 
-extern void 		clean_exit(int status)
+extern int		clean_exit(int status)
 {
 	envvardeinit();
 	if (g_currentline)
@@ -88,5 +88,6 @@ extern int			main(int argc, char **argv, char **environ)
 		g_prev_status = subprocess_main(argc - 1, argv + 1);
 	else
 		g_prev_status = shell_main();
+	ft_putstr_fd("exit\n", 2);
 	clean_exit (g_prev_status);
 }

@@ -1,6 +1,8 @@
 export BEEP=boop
 echo $BEEP;
 
+export BEEP=beep; echo -n $BEEP" "; export BEEP=boop; echo $BEEP;
+
 export BAA^D=bad EQUAL= NONE;
 echo "status: $?";
 unset OLDPWD _ SHLVL

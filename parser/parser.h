@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 13:57:57 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/26 13:12:44 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,14 @@ char		*postproc_arg(const char *arg);
 */
 
 void		postproc_args_all(char **args);
+
+/*
+** Measures the amount of processes in a chain of pipes.
+** @param t_procexpr* expr	The first process expression in the chain.
+** @return int	The total amount of processes.
+*/
+
+int			procexpr_pipelen(t_procexpr *expr);
 
 /*
 ** Recursively frees a process expression, all of its components and chained pro

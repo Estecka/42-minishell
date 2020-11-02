@@ -10,6 +10,7 @@ else
 		echo
 		export
 		cd
+		pipe
 	);
 fi
 

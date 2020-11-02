@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:05:31 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/22 14:01:30 by abaur            ###   ########.fr       */
+/*   Updated: 2020/10/27 15:13:44 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int			exit_built(int argc, char **args)
 			nb = 255;
 		}
 	}
+	ft_putstr_fd("exit\n", 2);
 	clean_exit(nb);
 	return (nb);
 }
