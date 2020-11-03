@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/28 11:46:49 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/03 12:51:10 by heleneherin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ extern int	exec_cmd(int argc, char **argv)
 	if (builtin)
 		return (builtin(argc, argv));
 	else
-		return (127 & print_error("bash: ", ": command not found\n", argv[0]));
+		return (127 & print_error("bash: ", ": command not found", argv[0]));
 }
 
 static int	exec_process(t_procexpr *proc)

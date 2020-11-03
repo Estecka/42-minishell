@@ -3,20 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 15:37:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/27 13:18:06 by hherin           ###   ########.fr       */
+/*   Updated: 2020/11/03 12:56:13 by heleneherin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../envvar/envvar.h"
 #include "../libft/libft.h"
+#include "builtins.h"
 
 #include <errno.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
 
 /*
 ** Iterates over environnement variables in alphabetical order.
@@ -79,13 +77,9 @@ static int	export_one(const char *var)
 
 	namelen = indexof('=', var);
 	valuestart = validate_var_name(var);
-	if (*valuestart && *valuestart != '=')
-	{
-		write(2, "not valid in this context: ", 27);
-		write(2, var, namelen);
-		write(2, "\n", 1);
-		return (1);
-	}
+	if ((*valuestart && *valuestart != '=' )|| valuestart == var)
+		return (print_error("bash: export: `", "': not a valid identifier", \
+				(char*)var));
 	if (!(raw = ft_strdup(var)) || !set_env_var_raw(raw))
 	{
 		ft_putstr_fd("Unexpected error: ", 2);
