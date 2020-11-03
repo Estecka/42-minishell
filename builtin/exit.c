@@ -69,6 +69,6 @@ int			exit_built(int argc, char **args)
 		num_arg(args, nb);
 	}
 	if (argc > 2)
-		print_error("bash: line 1: ", ": too many arguments", args[0]);
+		return (1 && print_error("bash: line 1: ", ": too many arguments", args[0]));
 	return (nb);
 }
