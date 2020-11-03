@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envvar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 14:30:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/22 12:54:39 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/03 19:11:25 by heleneherin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ extern char			**envvarinit(char **environ)
 			free(g_envarray.content);
 			g_envarray = (t_dynarray){0};
 			return (NULL);
+		}
+		if (!ft_strncmp("OLDPWD", var, 6))
+		{
+			free((char*)var);
+			var = ft_strdup("OLDPWD");
 		}
 		dynappend(&g_envarray, &var);
 		environ++;
