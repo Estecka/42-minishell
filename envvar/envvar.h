@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envvar.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 13:51:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/22 12:54:26 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/03 17:36:00 by heleneherin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,5 @@ char		*validate_var_name(const char *name);
 ** delete a variable of g_envarray.content and update his lenght
 */
 int			envclear(char *delet);
+void	shell_level(void);
 #endif

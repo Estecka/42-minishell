@@ -6,7 +6,7 @@
 /*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 15:37:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/03 13:18:07 by heleneherin      ###   ########.fr       */
+/*   Updated: 2020/11/03 17:50:08 by heleneherin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,11 @@ static int	export_one(const char *var)
 
 	namelen = indexof('=', var);
 	valuestart = validate_var_name(var);
-	if ((*valuestart && *valuestart != '=' )|| valuestart == var)
-		return (print_error("bash: export: `", "': not a valid identifier", \
-				(char*)var));
-	if (!(raw = ft_strdup(var)) || !set_env_var_raw(raw))
+	if ((*valuestart && *valuestart != '=' && ft_strncmp("+=", valuestart, 2))|| valuestart == var)
+		return (print_error("bash: export: `", "': not a valid identifier", (char*)var));
+	if (!ft_strncmp("+=", valuestart, 2))
+		export_join(var, namelen - 1);
+	else if (!(raw = ft_strdup(var)) || !set_env_var_raw(raw))
 	{
 		ft_putstr_fd("Unexpected error: ", 2);
 		ft_putstr_fd(strerror(errno), 2);
