@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:20:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/27 13:19:35 by hherin           ###   ########.fr       */
+/*   Updated: 2020/11/03 12:36:26 by heleneherin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char		*get_path(char *args)
 	free_all(&tmp, &a_path);
 	return (NULL);
 }
-
+#include <string.h>
 int			go_fork(int argc, char **args)
 {
 	pid_t		pid;
@@ -74,7 +74,7 @@ int			go_fork(int argc, char **args)
 	}
 	else
 		wait(&status);
-	return (errno);
+	return (0);
 }
 
 t_builtin	command_exec(char **args)
