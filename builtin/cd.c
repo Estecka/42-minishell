@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:27:11 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/27 13:36:53 by hherin           ###   ########.fr       */
+/*   Updated: 2020/11/03 19:19:54 by heleneherin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	print_error_cd(char **args, int error)
 {
-	ft_putstr_fd("bash: cd: ", 2);
+	ft_putstr_fd("bash: line 1: cd: ", 2);
 	ft_putstr_fd(args[1], 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(strerror(error), 2);
@@ -30,7 +30,7 @@ static int	change_dir(char **args)
 	if ((!args[1] || (args[1] && !*args[1])) && !(*exp))
 	{
 		free(exp);
-		print_error("bash: cd: ", " not set", "HOME");
+		print_error("bash: line 1: cd: ", " not set", "HOME");
 		return (-1);
 	}
 	if (!args[1] || !args[1][0] || !ft_strncmp(args[1], "~", 2) || \
