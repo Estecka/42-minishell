@@ -6,7 +6,7 @@
 /*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/02 11:57:04 by heleneherin      ###   ########.fr       */
+/*   Updated: 2020/11/03 17:36:42 by heleneherin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ extern int			main(int argc, char **argv, char **environ)
 		return (errno | (0 & write(2, "Environnement init failed.\n", 14)));
 	if (!backup_stdrfd())
 		return (errno | (0 & write(2, "Stdrfd init failed.\n", 14)));
+	shell_level();
 	if (argc > 1)
 		g_prev_status = subprocess_main(argc - 1, argv + 1);
 	else
