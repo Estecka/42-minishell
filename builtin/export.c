@@ -6,7 +6,7 @@
 /*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 15:37:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/03 12:56:13 by heleneherin      ###   ########.fr       */
+/*   Updated: 2020/11/03 13:18:07 by heleneherin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,21 @@ static int	print_env(void)
 		}
 		ft_putchar('\n');
 	}
+	return (0);
+}
+
+static int	export_join(const char *var, size_t size)
+{
+	char *name;
+	char *tmp;
+	char *value;
+
+	name = ft_substr(var, 0, size);
+	tmp = get_env_var(name);
+	value = ft_strjoin(tmp, var + size + 2);
+	set_env_var(name, value);
+	free(tmp);
+	free(value);
 	return (0);
 }
 

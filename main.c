@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/27 15:12:29 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/02 11:57:04 by heleneherin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ extern int		clean_exit(int status)
 		free(g_currentline);
 	if (g_currentexpr)
 		procexpr_destroy_all(g_currentexpr);
-	exit(status);
-	return (status);
+	write(2, "exit\n", 5);
+	exit(status); // free g_home_save + g_pwd_save
 }
 
 static int			shell_main(void)

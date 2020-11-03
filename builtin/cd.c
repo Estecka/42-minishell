@@ -6,7 +6,7 @@
 /*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:27:11 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/27 13:23:51 by hherin           ###   ########.fr       */
+/*   Updated: 2020/10/27 13:36:53 by hherin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,33 +58,13 @@ static char	*set_envpwd(void)
 	while (tmp[i])
 	{
 		if (!ft_strncmp("PWD", tmp[i], 3))
-		{
 			tmp_pwd = ((char**)(g_envarray.content))[i];
-			tmp3 = getcwd(NULL, 0);
-			((char**)(g_envarray.content))[i] = ft_strjoin("PWD=", tmp3);
-			free(tmp3);
-		}
 		i++;
 	}
+	tmp3 = getcwd(NULL, 0);
+	set_env_var("PWD", tmp3);
+	free(tmp3);
 	return (tmp_pwd);
-}
-
-static void	set_envold(char *tmp2)
-{
-	char		**tmp;
-	int			i;
-
-	tmp = (char**)(g_envarray.content);
-	i = 0;
-	while (tmp[i])
-	{
-		if (!ft_strncmp("OLDPWD", tmp[i], 6))
-		{
-			free(((char**)(g_envarray.content))[i]);
-			((char**)(g_envarray.content))[i] = ft_strjoin("OLDPWD=", tmp2);
-		}
-		i++;
-	}
 }
 
 int			cd_built(int argc, char **args)
@@ -102,7 +82,7 @@ int			cd_built(int argc, char **args)
 	free(g_pwd_save);
 	g_pwd_save = getcwd(NULL, 0);
 	tmp_pwd = set_envpwd();
-	(!tmp_pwd) ? set_envold(oldpwd) : set_envold(tmp_pwd + 4);
+	(!tmp_pwd) ? set_env_var("OLDPWD", oldpwd) : set_env_var("OLDPWD", tmp_pwd + 4);
 	free(oldpwd);
 	return (errno);
 }
