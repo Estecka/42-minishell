@@ -43,15 +43,13 @@ static void	num_arg(char **args, long long nb)
 	(ft_strlen(args[1]) > 20 && args[1][0] == '-'))
 	{
 		print_error("bash: ligne 1 : exit: ", " : argument numérique nécessaire", args[1]);
-		nb = 2;
-		clean_exit(nb);
+		clean_exit(2);
 	}
 	else if ((args[1][0] == '-' && nb > 0) ||
 	(ft_isdigit(args[1][0]) && nb < 0))
 	{
 		print_error("bash: ligne 1 : exit: ", " : argument numérique nécessaire", args[1]);
-		nb = 2;
-		clean_exit(nb);
+		clean_exit(2);
 	}
 }
 

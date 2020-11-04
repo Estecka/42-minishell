@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:27:11 by hherin            #+#    #+#             */
-/*   Updated: 2020/11/03 19:19:54 by heleneherin      ###   ########.fr       */
+/*   Updated: 2020/11/04 21:22:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int			cd_built(int argc, char **args)
 	if (change_dir(args))
 	{
 		free(oldpwd);
-		return (errno);
+		return ((errno == 2) ? 1 : errno);
 	}
 	free(g_pwd_save);
 	g_pwd_save = getcwd(NULL, 0);
