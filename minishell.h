@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:41:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/27 10:54:39 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/04 20:49:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int		bootstrap_fds(t_procexpr *proc);
 
 int		exec_cmd(int argc, char **argv);
 int		execute_cmds_all(t_procexpr **cmdarray);
+
+int    signal_exec(void);
 
 int		clean_exit(int status);
 

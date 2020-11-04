@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/03 17:36:42 by heleneherin      ###   ########.fr       */
+/*   Updated: 2020/11/04 21:08:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ extern int		clean_exit(int status)
 		free(g_currentline);
 	if (g_currentexpr)
 		procexpr_destroy_all(g_currentexpr);
-	//write(2, "exit\n", 5);
+	write(2, "exit\n", 5);
 	exit(status); // free g_home_save + g_pwd_save
 }
 
@@ -45,7 +45,7 @@ static int			shell_main(void)
 	gnl = 1;
 	while (0 < gnl)
 	{
-		//write(0, "> ", 2);
+		write(0, "> ", 2);
 		gnl = get_next_line(0, (char**)&g_currentline);
 		g_currentexpr = get_next_cmdline(g_currentline);
 		if (errno || !g_currentexpr)
@@ -85,10 +85,11 @@ extern int			main(int argc, char **argv, char **environ)
 	if (!backup_stdrfd())
 		return (errno | (0 & write(2, "Stdrfd init failed.\n", 14)));
 	shell_level();
+	if (!signal_exec())
+		return (errno | (0 & write(2, "Could not set signal handler\n", 29)));
 	if (argc > 1)
 		g_prev_status = subprocess_main(argc - 1, argv + 1);
 	else
 		g_prev_status = shell_main();
-	//ft_putstr_fd("exit\n", 2);
 	clean_exit (g_prev_status);
 }

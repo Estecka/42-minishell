@@ -4,6 +4,7 @@ HDRS = \
 SRCS = \
 	main.c \
 	exec_cmd.c \
+	handler.c \
 	bootstrap_fd.c \
 
 OBJS = ${SRCS:.c=.o}
