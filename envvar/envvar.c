@@ -32,11 +32,6 @@ extern char			**envvarinit(char **environ)
 			g_envarray = (t_dynarray){0};
 			return (NULL);
 		}
-		if (!ft_strncmp("OLDPWD", var, 6))
-		{
-			free((char*)var);
-			var = ft_strdup("OLDPWD");
-		}
 		dynappend(&g_envarray, &var);
 		environ++;
 	}

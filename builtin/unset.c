@@ -25,7 +25,7 @@ int			unset_built(int argc, char **args)
 		equ = ft_strlen(args[i]) - 1;
 		if ((!ft_isalpha(args[i][0]) && args[i][0] != '_') ||
 		args[i][equ] == '=')
-			print_error("bash: line 1: unset: `", "': not a valid identifier", args[i]);
+			print_error("bash: ligne 1 : unset: « ", " » : identifiant non valable", args[i]);
 		else
 			ret = envclear(args[i]);
 		i++;

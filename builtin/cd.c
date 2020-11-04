@@ -14,10 +14,11 @@
 
 static void	print_error_cd(char **args, int error)
 {
-	ft_putstr_fd("bash: line 1: cd: ", 2);
+	ft_putstr_fd("bash: ligne 1 : cd: ", 2);
 	ft_putstr_fd(args[1], 2);
 	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(strerror(error), 2);
+	(error == 2) ? 
+	ft_putstr_fd("Aucun fichier ou dossier de ce type", 2) : ft_putstr_fd(strerror(error), 2);
 	write(2, "\n", 1);
 }
 
@@ -72,8 +73,9 @@ int			cd_built(int argc, char **args)
 	char		*oldpwd;
 	char		*tmp_pwd;
 
-	(void)argc;
 	oldpwd = getcwd(NULL, 0);
+	if (argc > 2)
+		return (print_error("bash: ligne 1 : ", ": trop d'arguments", args[0]));
 	if (change_dir(args))
 	{
 		free(oldpwd);

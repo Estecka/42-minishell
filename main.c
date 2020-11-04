@@ -34,7 +34,7 @@ extern int		clean_exit(int status)
 		free(g_currentline);
 	if (g_currentexpr)
 		procexpr_destroy_all(g_currentexpr);
-	write(2, "exit\n", 5);
+	//write(2, "exit\n", 5);
 	exit(status); // free g_home_save + g_pwd_save
 }
 
@@ -45,7 +45,7 @@ static int			shell_main(void)
 	gnl = 1;
 	while (0 < gnl)
 	{
-		write(0, "> ", 2);
+		//write(0, "> ", 2);
 		gnl = get_next_line(0, (char**)&g_currentline);
 		g_currentexpr = get_next_cmdline(g_currentline);
 		if (errno || !g_currentexpr)
@@ -89,6 +89,6 @@ extern int			main(int argc, char **argv, char **environ)
 		g_prev_status = subprocess_main(argc - 1, argv + 1);
 	else
 		g_prev_status = shell_main();
-	ft_putstr_fd("exit\n", 2);
+	//ft_putstr_fd("exit\n", 2);
 	clean_exit (g_prev_status);
 }

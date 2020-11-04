@@ -34,7 +34,7 @@ extern int	exec_cmd(int argc, char **argv)
 	if (builtin)
 		return (builtin(argc, argv));
 	else
-		return (127 & print_error("bash: ", ": command not found", argv[0]));
+		return (127 & print_error("bash: ligne 1: ", " : commande introuvable", argv[0]));
 }
 
 static int	exec_process(t_procexpr *proc)
