@@ -6,13 +6,13 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/04 16:06:39 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/05 14:29:13 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#include "builtins/builtins.h"
+#include "builtin/builtins.h"
 #include "parser/parser.h"
 #include "stdrfd/stdrfd.h"
 
@@ -34,7 +34,10 @@ extern int	exec_cmd(int argc, char **argv)
 	if (builtin)
 		return (builtin(argc, argv));
 	else
-		return (127 & print_error("bash: ", ": command not found\n", argv[0]));
+	{
+		print_error("bash: ligne 1: ", " : commande introuvable", argv[0]);
+		return (127);
+	}
 }
 
 static int	exec_process(t_procexpr *proc)

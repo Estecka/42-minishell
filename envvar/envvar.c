@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 14:30:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/04 15:12:51 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/05 14:28:16 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 extern t_dynarray	g_envarray;
 extern int			g_prev_status;
-static char			***g_environ;
 
 extern char			**envvarinit(char **environ)
 {

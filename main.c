@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/27 15:12:29 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/05 14:22:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ extern int		clean_exit(int status)
 		free(g_currentline);
 	if (g_currentexpr)
 		procexpr_destroy_all(g_currentexpr);
-	exit(status);
-	return (status);
+	write(2, "exit\n", 5);
+	exit(status); // free g_home_save + g_pwd_save
 }
 
 static int			shell_main(void)
@@ -80,14 +80,21 @@ static int			subprocess_main(int argc, char** argv)
 
 extern int			main(int argc, char **argv, char **environ)
 {
-	if (!envvarinit(environ))
-		return (errno | (0 & write(2, "Environnement init failed.\n", 14)));
+	if (!(*environ))
+	{
+		if (!envnulinit())
+			return (errno | (0 & write(2, "Environnement init failed.\n", 14)));
+	}
+	else if (!envvarinit(environ))
+			return (errno | (0 & write(2, "Environnement init failed.\n", 14)));
 	if (!backup_stdrfd())
 		return (errno | (0 & write(2, "Stdrfd init failed.\n", 14)));
+	shell_level();
+	if (!signal_exec())
+		return (errno | (0 & write(2, "Could not set signal handler\n", 29)));
 	if (argc > 1)
 		g_prev_status = subprocess_main(argc - 1, argv + 1);
 	else
 		g_prev_status = shell_main();
-	ft_putstr_fd("exit\n", 2);
 	clean_exit (g_prev_status);
 }

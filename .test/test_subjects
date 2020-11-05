@@ -15,6 +15,10 @@ export BAA^D=bad EQUAL= NONE;
 unset OLDPWD _ SHLVL
 export;
 
+
+echo $'\n'
+
+
 echo beep >in >out;
 cat <in <out;
 echo boop >in >out;
