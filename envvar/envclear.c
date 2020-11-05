@@ -3,16 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   envclear.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 10:16:19 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/27 13:40:58 by hherin           ###   ########.fr       */
+/*   Updated: 2020/11/05 13:55:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envvar.h"
 #include "../libft/libft.h"
 #include "../builtin/builtins.h"
+
+extern t_dynarray	g_envarray;
+//static char	***g_environ;
 
 static int	is_envvar(char **env, char *delet)
 {
@@ -47,4 +50,46 @@ extern int	envclear(char *delet)
 	env[curs] = NULL;
 	g_envarray.length--;
 	return (1);
+}
+
+static char			**free_envarray(char **pwd)
+{
+	if (*pwd)
+		free(*pwd);
+	free(g_envarray.content);
+	g_envarray = (t_dynarray){0};
+	return (0);
+}
+
+extern char			**envnulinit(void)
+{
+	const char		*var;
+	char			*pwd;
+	int				size;
+
+	size = 7;
+	pwd = NULL;
+	if (!dyninit(&g_envarray, sizeof(char**), size, 1))
+		return (NULL);
+	if (!(var = ft_strdup("LESSCLOSE=/usr/bin/lesspipe %s %s")))
+		return (free_envarray(&pwd));
+	dynappend(&g_envarray, &var);
+	if (!(var = ft_strdup("LESSOPEN=| /usr/bin/lesspipe %s")))
+		return (free_envarray(&pwd));
+	dynappend(&g_envarray, &var);
+	if (!(var = ft_strdup("LS_COLORS")))
+		return (free_envarray(&pwd));
+	dynappend(&g_envarray, &var);
+	if (!(var = ft_strdup("OLDPWD")))
+		return (free_envarray(&pwd));
+	dynappend(&g_envarray, &var);
+	pwd = getcwd(NULL, 0);
+	if (!(var = ft_strjoin("PWD=", pwd)))
+		return (free_envarray(&pwd));
+	dynappend(&g_envarray, &var);
+	if (!(var = ft_strdup("SHLVL")))
+		return (free_envarray(&pwd));
+	dynappend(&g_envarray, &var);
+	g_environ = (char***)&g_envarray.content;
+	return (char**)(g_envarray.content);
 }

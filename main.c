@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/04 21:08:10 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/05 14:22:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,13 @@ static int			subprocess_main(int argc, char** argv)
 
 extern int			main(int argc, char **argv, char **environ)
 {
-	if (!envvarinit(environ))
-		return (errno | (0 & write(2, "Environnement init failed.\n", 14)));
+	if (!(*environ))
+	{
+		if (!envnulinit())
+			return (errno | (0 & write(2, "Environnement init failed.\n", 14)));
+	}
+	else if (!envvarinit(environ))
+			return (errno | (0 & write(2, "Environnement init failed.\n", 14)));
 	if (!backup_stdrfd())
 		return (errno | (0 & write(2, "Stdrfd init failed.\n", 14)));
 	shell_level();
