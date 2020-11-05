@@ -13,7 +13,7 @@ valgrind \
 	$EXEC $@ \
 ;
 
-grep '==\d*==' <${LOG}.log --only-matching | sort --unique | tr -d = |
+grep '==[0-9]*==' <valgrind.log --only-matching | sort --unique | tr -d = |
 	while read -r pid; 
 	do \
 		pidlog=${LOG}.${pid}.log;
