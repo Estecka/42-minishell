@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/03 12:51:10 by heleneherin      ###   ########.fr       */
+/*   Updated: 2020/11/05 12:30:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ extern int	exec_cmd(int argc, char **argv)
 	if (builtin)
 		return (builtin(argc, argv));
 	else
-		return (127 & print_error("bash: ligne 1: ", " : commande introuvable", argv[0]));
+	{
+		print_error("bash: ligne 1: ", " : commande introuvable", argv[0]);
+		return (127);
+	}
 }
 
 static int	exec_process(t_procexpr *proc)

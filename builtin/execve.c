@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:20:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/11/03 19:20:27 by heleneherin      ###   ########.fr       */
+/*   Updated: 2020/11/05 12:26:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int			go_fork(int argc, char **args)
 	struct stat	buf;
 
 	(void)argc;
+	status = 0;
 	pid = fork();
 	stat(args[0], &buf);
 	if (!pid)
@@ -67,14 +68,11 @@ int			go_fork(int argc, char **args)
 					args[0]))
 			exit(EXIT_FAILURE);
 		else
-		{
 			execve(args[0], args, (char**)(g_envarray.content));
-			exit(EXIT_SUCCESS);
-		}
 	}
 	else
-		wait(&status);
-	return (0);
+		wait(&status); //retour signaux
+	return (WEXITSTATUS(status));
 }
 
 t_builtin	command_exec(char **args)
