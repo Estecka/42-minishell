@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 14:17:25 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/20 15:37:55 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/05 14:58:12 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <fcntl.h>
 #include <string.h>
 
-static int	err_msg(char* context, int err)
+static int	err_msg(char *context, int err)
 {
 	ft_putstr_fd(context, 2);
 	ft_putstr_fd(": ", 2);
@@ -55,10 +55,9 @@ static int	bootstraps_outputs(t_procexpr *proc)
 	i = -1;
 	while (proc->outputs[++i])
 	{
-		fd = open(proc->outputs[i], 
+		fd = open(proc->outputs[i],
 			O_RDWR | O_CREAT | (proc->outtypes[i] ? O_TRUNC : O_APPEND),
-			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH
-			);
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 		if (fd < 0)
 			return (err_msg(proc->outputs[i], errno));
 		status = dup2(fd, 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:20:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/11/05 12:26:09 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/05 15:19:11 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ int			go_fork(int argc, char **args)
 	stat(args[0], &buf);
 	if (!pid)
 	{
-		if (S_ISDIR(buf.st_mode) &&
-				print_error("bash: line 1: exe: ", ": is a directoy\n", args[0]))
+		if (S_ISDIR(buf.st_mode)
+			&& print_error("bash: line 1: exe: ", ": is a directoy\n", args[0]))
 			exit(EXIT_FAILURE);
 		else if (!(buf.st_mode & S_IXUSR) &&
 				print_error("bash: line 1: exe: ", ": Permission denied\n",
@@ -71,7 +71,7 @@ int			go_fork(int argc, char **args)
 			execve(args[0], args, (char**)(g_envarray.content));
 	}
 	else
-		wait(&status); //retour signaux
+		wait(&status);
 	return (WEXITSTATUS(status));
 }
 

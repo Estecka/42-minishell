@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/05 14:22:17 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/05 15:01:19 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char				g_prev_status = 0;
 static char			*g_currentline = NULL;
 static t_procexpr	**g_currentexpr = NULL;
 
-extern int		clean_exit(int status)
+extern int			clean_exit(int status)
 {
 	envvardeinit();
 	if (g_currentline)
@@ -35,7 +35,7 @@ extern int		clean_exit(int status)
 	if (g_currentexpr)
 		procexpr_destroy_all(g_currentexpr);
 	write(2, "exit\n", 5);
-	exit(status); // free g_home_save + g_pwd_save
+	exit(status);
 }
 
 static int			shell_main(void)
@@ -67,7 +67,7 @@ static int			shell_main(void)
 	return (g_prev_status);
 }
 
-static int			subprocess_main(int argc, char** argv)
+static int			subprocess_main(int argc, char **argv)
 {
 	argv = ft_strdupr((const char**)argv);
 	if (!argv)
@@ -86,7 +86,7 @@ extern int			main(int argc, char **argv, char **environ)
 			return (errno | (0 & write(2, "Environnement init failed.\n", 14)));
 	}
 	else if (!envvarinit(environ))
-			return (errno | (0 & write(2, "Environnement init failed.\n", 14)));
+		return (errno | (0 & write(2, "Environnement init failed.\n", 14)));
 	if (!backup_stdrfd())
 		return (errno | (0 & write(2, "Stdrfd init failed.\n", 14)));
 	shell_level();
@@ -96,5 +96,5 @@ extern int			main(int argc, char **argv, char **environ)
 		g_prev_status = subprocess_main(argc - 1, argv + 1);
 	else
 		g_prev_status = shell_main();
-	clean_exit (g_prev_status);
+	clean_exit(g_prev_status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:27:11 by hherin            #+#    #+#             */
-/*   Updated: 2020/11/04 21:22:26 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/05 15:23:54 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ static void	print_error_cd(char **args, int error)
 	ft_putstr_fd("bash: ligne 1 : cd: ", 2);
 	ft_putstr_fd(args[1], 2);
 	ft_putstr_fd(": ", 2);
-	(error == 2) ? 
-	ft_putstr_fd("Aucun fichier ou dossier de ce type", 2) : ft_putstr_fd(strerror(error), 2);
+	if (error == 2)
+		ft_putstr_fd("Aucun fichier ou dossier de ce type", 2);
+	else
+		ft_putstr_fd(strerror(error), 2);
 	write(2, "\n", 1);
 }
 
@@ -84,7 +86,10 @@ int			cd_built(int argc, char **args)
 	free(g_pwd_save);
 	g_pwd_save = getcwd(NULL, 0);
 	tmp_pwd = set_envpwd();
-	(!tmp_pwd) ? set_env_var("OLDPWD", oldpwd) : set_env_var("OLDPWD", tmp_pwd + 4);
+	if (!tmp_pwd)
+		set_env_var("OLDPWD", oldpwd);
+	else
+		set_env_var("OLDPWD", tmp_pwd + 4);
 	free(oldpwd);
 	return (errno);
 }

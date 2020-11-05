@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 15:37:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/05 14:31:52 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/05 15:29:35 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,11 @@ static int	export_one(const char *var)
 
 	namelen = indexof('=', var);
 	valuestart = validate_var_name(var);
-	if ((*valuestart && *valuestart != '=' && ft_strncmp("+=", valuestart, 2))|| valuestart == var)
-		return (print_error("bash: ligne 1 : export: « ", " » : identifiant non valable", (char*)var));
-	if (!ft_strncmp("+=", valuestart, 2))
+	if ((*valuestart && *valuestart != '=' && ft_strncmp("+=", valuestart, 2))
+		|| valuestart == var)
+		return (print_error("bash: ligne 1 : export: « ",
+				" » : identifiant non valable", (char*)var));
+		if (!ft_strncmp("+=", valuestart, 2))
 		export_join(var, namelen - 1);
 	else if (!(raw = ft_strdup(var)) || !set_env_var_raw(raw))
 	{

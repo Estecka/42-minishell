@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/05 14:29:13 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/05 15:23:02 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <wait.h>
 #endif
 
-extern int	exec_cmd(int argc, char **argv)
+extern int		exec_cmd(int argc, char **argv)
 {
 	t_builtin	builtin;
 
@@ -40,7 +40,7 @@ extern int	exec_cmd(int argc, char **argv)
 	}
 }
 
-static int	exec_process(t_procexpr *proc)
+static int		exec_process(t_procexpr *proc)
 {
 	int	status;
 
@@ -91,17 +91,17 @@ static pid_t	exec_fork(t_procexpr *proc, int fdin, int *fdout)
 	if (fdin && ((dup2(fdin, 0) < 0) || close(fdin)))
 		clean_exit(errno);
 	if (pipefds[1] && ((dup2(pipefds[1], 1) < 0) || close(pipefds[1])))
-		clean_exit (errno);
+		clean_exit(errno);
 	status = exec_process(proc);
 	exit(clean_exit(status));
 }
 
-static int	exec_pipechain(t_procexpr *chain)
+static int		exec_pipechain(t_procexpr *chain)
 {
 	pid_t	last;
-	int pipein;
-	int pipeout;
-	int status;
+	int		pipein;
+	int		pipeout;
+	int		status;
 
 	pipein = 0;
 	while (chain)
@@ -115,14 +115,14 @@ static int	exec_pipechain(t_procexpr *chain)
 	}
 	waitpid(last, &status, 0);
 	status = WEXITSTATUS(status);
-	while(wait(&(int){0}) > -1)
+	while (wait(&(int){0}) > -1)
 		;
 	if (errno == ECHILD)
 		errno = 0;
 	return (status);
 }
 
-extern int	execute_cmds_all(t_procexpr **cmdarray)
+extern int		execute_cmds_all(t_procexpr **cmdarray)
 {
 	t_procexpr	**cmd;
 

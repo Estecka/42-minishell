@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envvar.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 13:51:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/05 13:57:32 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/05 15:17:17 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "../dynarray/dynarray.h"
 
 t_dynarray	g_envarray;
-char			***g_environ;
+char		***g_environ;
 
 /*
 ** Duplicates the provided array to initialize the environnement.
@@ -80,6 +80,6 @@ char		*validate_var_name(const char *name);
 ** delete a variable of g_envarray.content and update his lenght
 */
 int			envclear(char *delet);
-void	    shell_level(void);
+void		shell_level(void);
 char		**envnulinit(void);
 #endif

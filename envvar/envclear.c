@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envclear.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 10:16:19 by hherin            #+#    #+#             */
-/*   Updated: 2020/11/05 13:55:32 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/05 15:27:33 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 #include "../builtin/builtins.h"
 
 extern t_dynarray	g_envarray;
-//static char	***g_environ;
 
-static int	is_envvar(char **env, char *delet)
+static int			is_envvar(char **env, char *delet)
 {
 	int		i_env;
 
@@ -32,7 +31,7 @@ static int	is_envvar(char **env, char *delet)
 	return (-1);
 }
 
-extern int	envclear(char *delet)
+extern int			envclear(char *delet)
 {
 	int		curs;
 	char	**env;
@@ -61,6 +60,7 @@ static char			**free_envarray(char **pwd)
 	return (0);
 }
 
+// Many lines can be saved using `set_env_var` instead of dynnapend
 extern char			**envnulinit(void)
 {
 	const char		*var;
