@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 16:23:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 13:58:34 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/05 17:58:41 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char				*next_arg(const char **cursor)
 			append_single_quote(&chars, cursor);
 		else if (**cursor == '"')
 			append_double_quote(&chars, cursor);
-		if (**cursor == '\\')
+		else if (**cursor == '\\')
 			dynappendn(&chars, (*cursor)++, 2);
 		else
 			dynappend(&chars, &(**cursor));
