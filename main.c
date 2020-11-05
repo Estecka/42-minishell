@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/05 15:01:19 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/05 18:32:48 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,10 @@ static int			shell_main(void)
 		write(0, "> ", 2);
 		gnl = get_next_line(0, (char**)&g_currentline);
 		g_currentexpr = get_next_cmdline(g_currentline);
-		if (errno || !g_currentexpr)
-		{
-			ft_putstr_fd("Parsing failed unexpectedly: ", 2);
+		if (errno == EINVAL)
+			ft_putstr_fd("Invalid syntax.\n", 2);
+		else if (errno || !g_currentexpr)
 			ft_putendl_fd(strerror(errno), 2);
-		}
 		else
 		{
 			g_prev_status = execute_cmds_all(g_currentexpr);

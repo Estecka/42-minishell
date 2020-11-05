@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 16:23:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/05 17:58:41 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/05 18:21:38 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,8 @@ short					parse_cmd(t_exprbuilder *builder)
 			else if (punc == punc_input)
 				dynappend(&builder->inarray, &current_arg);
 		}
-		else if (errno)
-			return (0);
+		else if (errno || punc != punc_none)
+			return (0 & (errno ? 0 : (errno = EINVAL)));
 	}
 	return (1);
 }
