@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 10:16:19 by hherin            #+#    #+#             */
-/*   Updated: 2020/11/05 15:27:33 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/05 16:13:39 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,45 +51,24 @@ extern int			envclear(char *delet)
 	return (1);
 }
 
-static char			**free_envarray(char **pwd)
-{
-	if (*pwd)
-		free(*pwd);
-	free(g_envarray.content);
-	g_envarray = (t_dynarray){0};
-	return (0);
-}
-
-// Many lines can be saved using `set_env_var` instead of dynnapend
 extern char			**envnulinit(void)
 {
-	const char		*var;
-	char			*pwd;
-	int				size;
+	char	*pwd;
 
-	size = 7;
-	pwd = NULL;
-	if (!dyninit(&g_envarray, sizeof(char**), size, 1))
+	if (!dyninit(&g_envarray, sizeof(char**), 7, 1))
 		return (NULL);
-	if (!(var = ft_strdup("LESSCLOSE=/usr/bin/lesspipe %s %s")))
-		return (free_envarray(&pwd));
-	dynappend(&g_envarray, &var);
-	if (!(var = ft_strdup("LESSOPEN=| /usr/bin/lesspipe %s")))
-		return (free_envarray(&pwd));
-	dynappend(&g_envarray, &var);
-	if (!(var = ft_strdup("LS_COLORS")))
-		return (free_envarray(&pwd));
-	dynappend(&g_envarray, &var);
-	if (!(var = ft_strdup("OLDPWD")))
-		return (free_envarray(&pwd));
-	dynappend(&g_envarray, &var);
 	pwd = getcwd(NULL, 0);
-	if (!(var = ft_strjoin("PWD=", pwd)))
-		return (free_envarray(&pwd));
-	dynappend(&g_envarray, &var);
-	if (!(var = ft_strdup("SHLVL")))
-		return (free_envarray(&pwd));
-	dynappend(&g_envarray, &var);
 	g_environ = (char***)&g_envarray.content;
-	return (char**)(g_envarray.content);
+	if (!set_env_var("LESSCLOSE", "/usr/bin/lesspipe %s %s")
+		|| !set_env_var("LESSOPEN", "| /usr/bin/lesspipe %s")
+		|| !set_env_var("LSCOLORS", "")
+		|| !set_env_var("OLDPWD", "")
+		|| !set_env_var("SHLVL", "")
+		|| !set_env_var("PWD", pwd))
+	{
+		free(g_envarray.content);
+		g_envarray = (t_dynarray){0};
+	}
+	free(pwd);
+	return (*g_environ);
 }
