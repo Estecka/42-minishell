@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:27:11 by hherin            #+#    #+#             */
-/*   Updated: 2020/11/05 15:23:54 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/06 14:54:43 by heleneherin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ int			cd_built(int argc, char **args)
 	char		*oldpwd;
 	char		*tmp_pwd;
 
-	oldpwd = getcwd(NULL, 0);
 	if (argc > 2)
 		return (print_error("bash: ligne 1 : ", ": trop d'arguments", args[0]));
+	oldpwd = getcwd(NULL, 0);
 	if (change_dir(args))
 	{
 		free(oldpwd);
