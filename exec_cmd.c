@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/05 15:23:02 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/06 15:36:42 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ extern int		exec_cmd(int argc, char **argv)
 {
 	t_builtin	builtin;
 
+	if (!argc)
+		return (0);
 	if (!argv[0])
 		return (-1 | write(2, "[FATAL] Corrupted arg list.\n", 28));
 	builtin = builtins_process(argv[0]);
