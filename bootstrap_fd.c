@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 14:17:25 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/09 16:27:07 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/09 17:42:57 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@ extern int	bootstrap_fds(t_procexpr *proc)
 	i = -1;
 	while (proc->ioarray[++i])
 		if (!bootstrap_fds2(proc->ioarray[i], proc->iotypes[i]))
-			return (-1);
+			return (1);
 	return (0);
 }
