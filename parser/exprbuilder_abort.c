@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 18:01:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/09/05 18:01:00 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/09 15:40:17 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,10 @@ void	exprbuild_abort(t_exprbuilder *this)
 		freearrayn(this->argsarray.content, this->argsarray.length);
 		free(this->argsarray.content);
 	}
-	if (this->inarray.content)
+	if (this->ioarray.content)
 	{
-		freearrayn(this->inarray.content, this->inarray.length);
-		free(this->inarray.content);
-	}
-	if (this->outarray.content)
-	{
-		freearrayn(this->outarray.content, this->outarray.length);
-		free(this->outarray.content);
+		freearrayn(this->ioarray.content, this->ioarray.length);
+		free(this->ioarray.content);
 	}
 	if (this->typearray.content)
 		free(this->typearray.content);

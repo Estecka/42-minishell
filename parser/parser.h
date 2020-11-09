@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/26 13:12:44 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/09 15:00:04 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,27 @@
 # define PARSER_H
 
 # include <unistd.h>
+
+/*
+** Describes how to parse an element in a command.
+** @var punc_none    	The next element is a standard argument.
+** @var punc_append  	The next element is an output. (Append)
+** @var punc_truncate	The next element is an output. (Truncate)
+** @var punc_input   	The next element is an input.
+** @var punc_pipe    	The next element is part of a new process.
+** @var punc_end     	The next element is part of a new command.
+*/
+
+typedef enum e_punctuation		t_punctuation;
+enum		e_punctuation
+{
+	punc_none = 0,
+	punc_truncate = 1,
+	punc_append = 2,
+	punc_input = 3,
+	punc_pipe = 4,
+	punc_end = 5,
+};
 
 /*
 ** A breakdown of a single process.
@@ -41,9 +62,8 @@ struct		s_procexpr
 	t_procexpr		*pipein;
 	t_procexpr		*pipeout;
 
-	char			**inputs;
-	char			**outputs;
-	short			*outtypes;
+	char			**ioarray;
+	t_punctuation	*iotypes;
 };
 
 /*

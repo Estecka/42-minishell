@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/06 15:36:42 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/09 16:25:58 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ static int		exec_process(t_procexpr *proc)
 	int	status;
 
 	postproc_args_all(proc->args);
-	postproc_args_all(proc->inputs);
-	postproc_args_all(proc->outputs);
+	postproc_args_all(proc->ioarray);
 	status = bootstrap_fds(proc);
 	if (!status)
 		status = exec_cmd(proc->argc, proc->args);
