@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 13:51:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/05 15:17:17 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/11 19:14:03 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ char		**envvarinit(char **environ);
 */
 
 void		envvardeinit(void);
+
+/*
+** Checks whether an environnement variable exists
+** @param const char* name	The name of the variable to check.
+** @return bool	true if the variable exists.
+*/
+
+short		isset_envvar(const char *name);
 
 /*
 ** Fetches the value of an environnement variable.

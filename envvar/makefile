@@ -3,6 +3,7 @@ HDRS = \
 
 SRCS = \
 	envvar.c \
+	envvar2.c \
 	envclear.c \
 	shlvl.c \
 	varnames.c \
