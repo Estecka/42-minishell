@@ -6,14 +6,14 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:11:43 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/11 19:19:25 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/11 19:39:45 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
 #include "envvar.h"
 
-short	isset_envvar(const char *name)
+short		isset_envvar(const char *name)
 {
 	const char **cursor;
 
@@ -22,4 +22,22 @@ short	isset_envvar(const char *name)
 		if (!ft_strccmp(name, *cursor, '='))
 			return (1);
 	return (0);
+}
+
+const char	*get_envvar_rdonly(const char *name)
+{
+	const char	**cursor;
+	const char	*result;
+
+	cursor = (const char**)g_envarray.content;
+	while (*cursor)
+		if (!ft_strccmp(name, *cursor, '='))
+		{
+			result = validate_var_name(*cursor);
+			if (*result == '=')
+				return (result + 1);
+			else
+				return (result);
+		}
+	return (NULL);
 }
