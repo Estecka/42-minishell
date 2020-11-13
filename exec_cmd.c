@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/09 16:25:58 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/13 16:13:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ static pid_t	exec_fork(t_procexpr *proc, int fdin, int *fdout)
 	int		pipefds[2];
 	int		status;
 
-	pipefds[0] = 0;
-	pipefds[1] = 0;
+	ft_memset(pipefds, 0, sizeof(int[2]));
 	if (proc->pipeout && pipe(pipefds) < 0)
 		return (-1);
 	*fdout = pipefds[0];
@@ -87,6 +86,7 @@ static pid_t	exec_fork(t_procexpr *proc, int fdin, int *fdout)
 			close(pipefds[1]);
 		return (child);
 	}
+	g_is_subprocess = 1;
 	if (pipefds[0])
 		close(pipefds[0]);
 	if (fdin && ((dup2(fdin, 0) < 0) || close(fdin)))
