@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 15:28:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/09 15:27:59 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/15 17:07:34 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ struct		s_exprbuilder
 
 short		is_punctuation(char c);
 short		append_single_quote(t_dynarray *chars, const char **cursor);
+char		**reinsert_multivar(char **argaray, int argi, char *argv, int argc);
 short		append_double_quote(t_dynarray *chars, const char **cursor);
 
 short		parse_cmd(t_exprbuilder *builder);
