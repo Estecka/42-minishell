@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 00:43:38 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/22 12:58:29 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/15 16:39:15 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@
 */
 
 size_t	ft_strlen(const char *s);
+
+/*
+** Measures the lenght of a null-terminator array of pointers.
+** @param const char* s	The array to measure.
+** @return size_t	The length of the array.
+*/
+
+size_t	ft_ptrlen(const void **array);
 
 /*
 ** Compare to string.
