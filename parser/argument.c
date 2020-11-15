@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 16:23:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 13:58:34 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/09 15:31:55 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char				*next_arg(const char **cursor)
 			append_single_quote(&chars, cursor);
 		else if (**cursor == '"')
 			append_double_quote(&chars, cursor);
-		if (**cursor == '\\')
+		else if (**cursor == '\\')
 			dynappendn(&chars, (*cursor)++, 2);
 		else
 			dynappend(&chars, &(**cursor));
@@ -116,8 +116,8 @@ short					parse_cmd(t_exprbuilder *builder)
 
 	while ((punc = next_punctuation(&builder->cursor)) != punc_end)
 	{
-		if (!dynexpand(&builder->argsarray, 1) || !dynexpand(&builder->inarray,
-1) || !dynexpand(&builder->outarray, 1) || !dynexpand(&builder->typearray, 1))
+		if (!dynexpand(&builder->argsarray, 1) || !dynexpand(&builder->ioarray,
+1) || !dynexpand(&builder->typearray, 1))
 			return (0);
 		if (punc == punc_pipe && !exprbuild_pipe(builder))
 			return (0);
@@ -125,14 +125,13 @@ short					parse_cmd(t_exprbuilder *builder)
 		{
 			if (punc == punc_none || punc == punc_pipe)
 				dynappend(&builder->argsarray, &current_arg);
-			else if (punc == punc_append || punc == punc_truncate)
-				(void)(dynappend(&builder->outarray, &current_arg) && dynappend(
-&builder->typearray, &(short){(punc == punc_truncate) ? 1 : 0 }));
-			else if (punc == punc_input)
-				dynappend(&builder->inarray, &current_arg);
+			else if (punc == punc_append || punc == punc_truncate
+				|| punc == punc_input)
+				(void)(dynappend(&builder->ioarray, &current_arg)
+					&& dynappend(&builder->typearray, &punc));
 		}
-		else if (errno)
-			return (0);
+		else if (errno || punc != punc_none)
+			return (0 & (errno ? 0 : (errno = EINVAL)));
 	}
 	return (1);
 }

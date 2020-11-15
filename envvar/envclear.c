@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   envclear.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 10:16:19 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/27 13:15:54 by hherin           ###   ########.fr       */
+/*   Updated: 2020/11/05 16:13:39 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envvar.h"
 #include "../libft/libft.h"
-#include  "../builtins/builtins.h"
+#include "../builtin/builtins.h"
 
-static int	is_envvar(char **env, char *delet)
+extern t_dynarray	g_envarray;
+
+static int			is_envvar(char **env, char *delet)
 {
 	int		i_env;
 
@@ -29,7 +31,7 @@ static int	is_envvar(char **env, char *delet)
 	return (-1);
 }
 
-extern int	envclear(char *delet)
+extern int			envclear(char *delet)
 {
 	int		curs;
 	char	**env;
@@ -47,4 +49,26 @@ extern int	envclear(char *delet)
 	env[curs] = NULL;
 	g_envarray.length--;
 	return (1);
+}
+
+extern char			**envnulinit(void)
+{
+	char	*pwd;
+
+	if (!dyninit(&g_envarray, sizeof(char**), 7, 1))
+		return (NULL);
+	pwd = getcwd(NULL, 0);
+	g_environ = (char***)&g_envarray.content;
+	if (!set_env_var("LESSCLOSE", "/usr/bin/lesspipe %s %s")
+		|| !set_env_var("LESSOPEN", "| /usr/bin/lesspipe %s")
+		|| !set_env_var("LSCOLORS", "")
+		|| !set_env_var("OLDPWD", "")
+		|| !set_env_var("SHLVL", "")
+		|| !set_env_var("PWD", pwd))
+	{
+		free(g_envarray.content);
+		g_envarray = (t_dynarray){0};
+	}
+	free(pwd);
+	return (*g_environ);
 }

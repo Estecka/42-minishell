@@ -3,7 +3,9 @@ HDRS = \
 
 SRCS = \
 	envvar.c \
+	envvar2.c \
 	envclear.c \
+	shlvl.c \
 	varnames.c \
 
 OBJS = ${SRCS:.c=.o}

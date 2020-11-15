@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/27 15:12:29 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/13 16:03:40 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,20 @@
 #include <unistd.h>
 
 char				g_prev_status = 0;
+short				g_is_subprocess = 0;
 static char			*g_currentline = NULL;
 static t_procexpr	**g_currentexpr = NULL;
 
-extern int		clean_exit(int status)
+extern int			clean_exit(int status)
 {
 	envvardeinit();
 	if (g_currentline)
 		free(g_currentline);
 	if (g_currentexpr)
 		procexpr_destroy_all(g_currentexpr);
+	if (!g_is_subprocess)
+		write(2, "exit\n", 5);
 	exit(status);
-	return (status);
 }
 
 static int			shell_main(void)
@@ -48,11 +50,10 @@ static int			shell_main(void)
 		write(0, "> ", 2);
 		gnl = get_next_line(0, (char**)&g_currentline);
 		g_currentexpr = get_next_cmdline(g_currentline);
-		if (errno || !g_currentexpr)
-		{
-			ft_putstr_fd("Parsing failed unexpectedly: ", 2);
+		if (errno == EINVAL)
+			ft_putstr_fd("Invalid syntax.\n", 2);
+		else if (errno || !g_currentexpr)
 			ft_putendl_fd(strerror(errno), 2);
-		}
 		else
 		{
 			g_prev_status = execute_cmds_all(g_currentexpr);
@@ -67,7 +68,7 @@ static int			shell_main(void)
 	return (g_prev_status);
 }
 
-static int			subprocess_main(int argc, char** argv)
+static int			subprocess_main(int argc, char **argv)
 {
 	argv = ft_strdupr((const char**)argv);
 	if (!argv)
@@ -80,14 +81,21 @@ static int			subprocess_main(int argc, char** argv)
 
 extern int			main(int argc, char **argv, char **environ)
 {
-	if (!envvarinit(environ))
+	if (!(*environ))
+	{
+		if (!envnulinit())
+			return (errno | (0 & write(2, "Environnement init failed.\n", 14)));
+	}
+	else if (!envvarinit(environ))
 		return (errno | (0 & write(2, "Environnement init failed.\n", 14)));
 	if (!backup_stdrfd())
 		return (errno | (0 & write(2, "Stdrfd init failed.\n", 14)));
+	shell_level();
+	if (!signal_exec())
+		return (errno | (0 & write(2, "Could not set signal handler\n", 29)));
 	if (argc > 1)
 		g_prev_status = subprocess_main(argc - 1, argv + 1);
 	else
 		g_prev_status = shell_main();
-	ft_putstr_fd("exit\n", 2);
-	clean_exit (g_prev_status);
+	clean_exit(g_prev_status);
 }

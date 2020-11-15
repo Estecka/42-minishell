@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 13:51:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/22 12:54:26 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/11 19:43:38 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../dynarray/dynarray.h"
 
 t_dynarray	g_envarray;
+char		***g_environ;
 
 /*
 ** Duplicates the provided array to initialize the environnement.
@@ -33,8 +34,28 @@ char		**envvarinit(char **environ);
 void		envvardeinit(void);
 
 /*
+** Checks whether an environnement variable exists
+** @param const char* name	The name of the variable to check.
+** @return bool	true if the variable exists.
+*/
+
+short		isset_envvar(const char *name);
+
+/*
 ** Fetches the value of an environnement variable.
-** @param const char* name	The name of the variable.
+** @param const char* name	The name of the variable to get.
+** @return const char*	A pointer to the value of the variable. NULL if the vari
+** able is not set, or a pointer to `\0` if the variable exists but is empty.
+** 	This pointer is managed internally and does not need to be freed.
+** 	The pointed memory is volatile and may be freed if the variables value is ch
+** 	anged later on.
+*/
+
+const char	*get_envvar_rdonly(const char *name);
+
+/*
+** Fetches the value of an environnement variable.
+** @param const char* name	The name of the variable to get.
 ** @return char*	An allocated copy of the variable's value.
 */
 
@@ -79,4 +100,6 @@ char		*validate_var_name(const char *name);
 ** delete a variable of g_envarray.content and update his lenght
 */
 int			envclear(char *delet);
+void		shell_level(void);
+char		**envnulinit(void);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:19:10 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/27 13:19:43 by hherin           ###   ########.fr       */
+/*   Updated: 2020/11/03 13:18:21 by heleneherin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,23 @@ int			env_built(int argc, char **args)
 	char	*name;
 
 	i = 0;
-	(void)argc;
 	env = ((char**)(g_envarray.content));
 	(void)args;
-	while (env[i])
+	if (argc == 1)
 	{
-		name = get_envname(env[i]);
-		value = (name) ? get_env_var(name) : NULL;
-		if (value)
+		while (env[i])
 		{
-			ft_putstr(env[i]);
-			write(1, "\n", 1);
+			name = get_envname(env[i]);
+			value = (name) ? get_env_var(name) : NULL;
+			if (value)
+			{
+				ft_putstr(env[i]);
+				write(1, "\n", 1);
+			}
+			free(name);
+			free(value);
+			i++;
 		}
-		free(name);
-		free(value);
-		i++;
 	}
 	return (errno);
 }

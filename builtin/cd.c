@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:27:11 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/27 13:23:51 by hherin           ###   ########.fr       */
+/*   Updated: 2020/11/11 19:56:11 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 static void	print_error_cd(char **args, int error)
 {
-	ft_putstr_fd("bash: cd: ", 2);
+	ft_putstr_fd("bash: ligne 1 : cd: ", 2);
 	ft_putstr_fd(args[1], 2);
 	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(strerror(error), 2);
+	if (error == 2)
+		ft_putstr_fd("Aucun fichier ou dossier de ce type", 2);
+	else
+		ft_putstr_fd(strerror(error), 2);
 	write(2, "\n", 1);
 }
 
@@ -30,7 +33,7 @@ static int	change_dir(char **args)
 	if ((!args[1] || (args[1] && !*args[1])) && !(*exp))
 	{
 		free(exp);
-		print_error("bash: cd: ", " not set", "HOME");
+		print_error("bash: line 1: cd: ", " not set", "HOME");
 		return (-1);
 	}
 	if (!args[1] || !args[1][0] || !ft_strncmp(args[1], "~", 2) || \
@@ -45,64 +48,24 @@ static int	change_dir(char **args)
 	return (errno);
 }
 
-static char	*set_envpwd(void)
-{
-	int			i;
-	char		**tmp;
-	char		*tmp_pwd;
-	char		*tmp3;
-
-	i = 0;
-	tmp_pwd = NULL;
-	tmp = (char**)(g_envarray.content);
-	while (tmp[i])
-	{
-		if (!ft_strncmp("PWD", tmp[i], 3))
-		{
-			tmp_pwd = ((char**)(g_envarray.content))[i];
-			tmp3 = getcwd(NULL, 0);
-			((char**)(g_envarray.content))[i] = ft_strjoin("PWD=", tmp3);
-			free(tmp3);
-		}
-		i++;
-	}
-	return (tmp_pwd);
-}
-
-static void	set_envold(char *tmp2)
-{
-	char		**tmp;
-	int			i;
-
-	tmp = (char**)(g_envarray.content);
-	i = 0;
-	while (tmp[i])
-	{
-		if (!ft_strncmp("OLDPWD", tmp[i], 6))
-		{
-			free(((char**)(g_envarray.content))[i]);
-			((char**)(g_envarray.content))[i] = ft_strjoin("OLDPWD=", tmp2);
-		}
-		i++;
-	}
-}
-
 int			cd_built(int argc, char **args)
 {
 	char		*oldpwd;
-	char		*tmp_pwd;
 
-	(void)argc;
-	oldpwd = getcwd(NULL, 0);
+	if (argc > 2)
+		return (print_error("bash: ligne 1 : ", ": trop d'arguments", args[0]));
+	oldpwd = get_env_var("PWD");
 	if (change_dir(args))
 	{
 		free(oldpwd);
-		return (errno);
+		return ((errno == 2) ? 1 : errno);
 	}
 	free(g_pwd_save);
 	g_pwd_save = getcwd(NULL, 0);
-	tmp_pwd = set_envpwd();
-	(!tmp_pwd) ? set_envold(oldpwd) : set_envold(tmp_pwd + 4);
+	if (isset_envvar("OLDPWD"))
+		set_env_var("OLDPWD", oldpwd);
+	if (isset_envvar("PWD"))
+		set_env_var("PWD", g_pwd_save);
 	free(oldpwd);
 	return (errno);
 }

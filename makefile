@@ -4,6 +4,7 @@ HDRS = \
 SRCS = \
 	main.c \
 	exec_cmd.c \
+	handler.c \
 	bootstrap_fd.c \
 
 OBJS = ${SRCS:.c=.o}
@@ -15,7 +16,7 @@ LIBS = \
 	envvar/libenvvar.a \
 	parser/libparser.a \
 	envvar/libenvvar.a \
-	builtins/lib_builtins.a \
+	builtin/lib_builtins.a \
 	stdrfd/libstdrfd.a \
 
 NAME	= minishell
@@ -23,7 +24,7 @@ NAME	= minishell
 CC		= clang
 CFLAGS	= -Wall -Wextra -Werror
 LIBFLAGS = \
-	-L builtins -l_builtins \
+	-L builtin -l_builtins \
 	-L parser -lparser \
 	-L envvar -lenvvar \
 	-L stdrfd -lstdrfd \

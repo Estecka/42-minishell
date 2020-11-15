@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:41:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/27 10:54:39 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/13 16:03:58 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 # include "parser/parser.h"
 
 char	g_prev_status;
+short	g_is_subprocess;
 
 /*
 ** Prepares the standard fds redirection.
-** This will DEFINITELY affect stdin and stdout !! 
+** This will DEFINITELY affect stdin and stdout !!
 ** Don't forget to use `restore_stdrfd` to undo these changes !
 ** @param t_procexpr* proc	The process expression that contains the redirectio
 ** ns.
@@ -32,6 +33,8 @@ int		bootstrap_fds(t_procexpr *proc);
 
 int		exec_cmd(int argc, char **argv);
 int		execute_cmds_all(t_procexpr **cmdarray);
+
+int		signal_exec(void);
 
 int		clean_exit(int status);
 

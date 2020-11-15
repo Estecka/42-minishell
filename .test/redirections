@@ -1,0 +1,29 @@
+echo .
+echo beep > boop
+cat boop;
+
+echo .
+echo beep <beep >'boop'
+cat boop
+
+echo .
+echo beep >boop >"beep"
+cat -e beep boop
+
+echo .
+echo beep > boop | cat
+
+echo .
+echo beep >beep
+echo boop >'bo'op
+cat < beep <boop
+cat <beep < boop
+
+echo .
+export beep=boop
+echo baap > $beep
+cat < boop
+ls | grep '$beep'
+ls | grep 'boop'
+
+rm '$beep' beep boop -f

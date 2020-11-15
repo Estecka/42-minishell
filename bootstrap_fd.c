@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 14:17:25 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/20 15:37:55 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/09 17:42:57 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,61 +18,41 @@
 #include <fcntl.h>
 #include <string.h>
 
-static int	err_msg(char* context, int err)
+static int	err_msg(char *context, int err)
 {
 	ft_putstr_fd(context, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putendl_fd(strerror(err), 2);
-	return (-1);
-}
-
-static int	bootstraps_inputs(t_procexpr *proc)
-{
-	int i;
-	int fd;
-	int status;
-
-	i = -1;
-	while (proc->inputs[++i])
-	{
-		fd = open(proc->inputs[i], O_RDONLY);
-		if (fd < 0)
-			return (err_msg(proc->inputs[i], errno));
-		status = dup2(fd, 0);
-		close(fd);
-		if (status < 0)
-			return (err_msg("STDIN hook", errno));
-	}
 	return (0);
 }
 
-static int	bootstraps_outputs(t_procexpr *proc)
+static int	bootstrap_fds2(char *path, t_punctuation mode)
 {
-	int i;
 	int fd;
 	int status;
 
-	i = -1;
-	while (proc->outputs[++i])
-	{
-		fd = open(proc->outputs[i], 
-			O_RDWR | O_CREAT | (proc->outtypes[i] ? O_TRUNC : O_APPEND),
-			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH
-			);
-		if (fd < 0)
-			return (err_msg(proc->outputs[i], errno));
-		status = dup2(fd, 1);
-		close(fd);
-		if (status < 0)
-			return (err_msg("STDOUT hook", errno));
-	}
-	return (0);
+	if (mode == punc_input)
+		fd = open(path, O_RDONLY);
+	else
+		fd = open(path,
+			O_RDWR | O_CREAT | (mode == punc_truncate ? O_TRUNC : O_APPEND),
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+	if (fd < 0)
+		return (0 & err_msg(path, errno));
+	status = dup2(fd, mode == punc_input ? 0 : 1);
+	close(fd);
+	if (status < 0)
+		return (0 & err_msg("Redirection hook", errno));
+	return (1);
 }
 
 extern int	bootstrap_fds(t_procexpr *proc)
 {
-	if (bootstraps_inputs(proc) || bootstraps_outputs(proc))
-		return (-1);
-	else
-		return (0);
+	int i;
+
+	i = -1;
+	while (proc->ioarray[++i])
+		if (!bootstrap_fds2(proc->ioarray[i], proc->iotypes[i]))
+			return (1);
+	return (0);
 }

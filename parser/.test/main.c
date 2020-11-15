@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 18:17:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 12:49:46 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/09 15:46:54 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,19 @@ extern int	main(int argc, char** argv)
 							printf("\t\t\tArg[%i]: %s\n", j, expr->args[j]);
 					}
 
-					if (expr->inputs == NULL)
-						printf("\t\t\t/!\\No Inputs\n");
-					else for (int j=0; expr->inputs[j]; j++)
-						printf("\t\t\t< \t%s\n", expr->inputs[j]);
-
-					if (expr->outputs == NULL)
-						printf("\t\t\t/!\\ No Outputs\n");
-					else for (int j=0; expr->outputs[j]; j++)
+					if (expr->ioarray == NULL)
+						printf("\t\t\t/!\\ No redirections\n");
+					else for (int j=0; expr->ioarray[j]; j++)
 					{
-						char* type = expr->outtypes[j] ? "> " : ">>";
-						printf("\t\t\t%s\t%s\n", type, expr->outputs[j]);
+						char* type;
+						switch (expr->iotypes[j])
+						{
+							default: type = "??"; break;
+							case punc_input:    type = "< "; break;
+							case punc_truncate: type = "> "; break;
+							case punc_append:   type = ">>"; break;
+						}
+						printf("\t\t\t%s\t%s\n", type, expr->ioarray[j]);
 					}
 					printf("\t\t\tPipe OUT: [%p]\n", expr->pipeout);
 				}

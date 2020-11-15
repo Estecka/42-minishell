@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 14:30:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/22 12:54:39 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/05 15:15:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 extern t_dynarray	g_envarray;
 extern int			g_prev_status;
-static char			***g_environ;
 
 extern char			**envvarinit(char **environ)
 {
@@ -57,9 +56,11 @@ extern char			*get_env_var(const char *name)
 {
 	char	**cursor;
 
-	cursor = *g_environ;
+	if (!*name)
+		return (ft_strdup("$"));
 	if (!ft_strncmp("?", name, 2))
 		return (ft_itoa(g_prev_status));
+	cursor = *g_environ;
 	while (*cursor && (ft_strcmp(*cursor, name) != '='))
 		cursor++;
 	if (*cursor)
@@ -96,7 +97,7 @@ extern short		set_env_var(const char *name, const char *value)
 	size_t	namelen;
 	size_t	valulen;
 
-	if (ft_strcontain(name, '='))
+	if (ft_strcontain(name, '=') || !*name)
 		return (0);
 	namelen = ft_strlen(name);
 	valulen = ft_strlen(value);

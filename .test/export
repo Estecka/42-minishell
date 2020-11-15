@@ -13,3 +13,9 @@ export BBEP+=bbop
 export ?=3;
 echo $?;
 export;
+
+echo $;
+export =beep;
+export ''=beep;
+echo $;
+export;

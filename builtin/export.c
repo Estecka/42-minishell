@@ -3,20 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 15:37:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/27 13:18:06 by hherin           ###   ########.fr       */
+/*   Updated: 2020/11/05 15:29:35 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../envvar/envvar.h"
 #include "../libft/libft.h"
+#include "builtins.h"
 
 #include <errno.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
 
 /*
 ** Iterates over environnement variables in alphabetical order.
@@ -71,6 +69,21 @@ static int	print_env(void)
 	return (0);
 }
 
+static int	export_join(const char *var, size_t size)
+{
+	char *name;
+	char *tmp;
+	char *value;
+
+	name = ft_substr(var, 0, size);
+	tmp = get_env_var(name);
+	value = ft_strjoin(tmp, var + size + 2);
+	set_env_var(name, value);
+	free(tmp);
+	free(value);
+	return (0);
+}
+
 static int	export_one(const char *var)
 {
 	size_t		namelen;
@@ -79,14 +92,13 @@ static int	export_one(const char *var)
 
 	namelen = indexof('=', var);
 	valuestart = validate_var_name(var);
-	if (*valuestart && *valuestart != '=')
-	{
-		write(2, "not valid in this context: ", 27);
-		write(2, var, namelen);
-		write(2, "\n", 1);
-		return (1);
-	}
-	if (!(raw = ft_strdup(var)) || !set_env_var_raw(raw))
+	if ((*valuestart && *valuestart != '=' && ft_strncmp("+=", valuestart, 2))
+		|| valuestart == var)
+		return (print_error("bash: ligne 1 : export: « ",
+				" » : identifiant non valable", (char*)var));
+		if (!ft_strncmp("+=", valuestart, 2))
+		export_join(var, namelen - 1);
+	else if (!(raw = ft_strdup(var)) || !set_env_var_raw(raw))
 	{
 		ft_putstr_fd("Unexpected error: ", 2);
 		ft_putstr_fd(strerror(errno), 2);

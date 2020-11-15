@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hherin <hherin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:20:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/10/27 13:19:35 by hherin           ###   ########.fr       */
+/*   Updated: 2020/11/05 15:19:11 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,26 +55,24 @@ int			go_fork(int argc, char **args)
 	struct stat	buf;
 
 	(void)argc;
+	status = 0;
 	pid = fork();
 	stat(args[0], &buf);
 	if (!pid)
 	{
-		if (S_ISDIR(buf.st_mode) &&
-				print_error("minishell: exe: ", ": is a directoy\n", args[0]))
+		if (S_ISDIR(buf.st_mode)
+			&& print_error("bash: line 1: exe: ", ": is a directoy\n", args[0]))
 			exit(EXIT_FAILURE);
 		else if (!(buf.st_mode & S_IXUSR) &&
-				print_error("minishell: exe: ", ": Permission denied\n",
+				print_error("bash: line 1: exe: ", ": Permission denied\n",
 					args[0]))
 			exit(EXIT_FAILURE);
 		else
-		{
 			execve(args[0], args, (char**)(g_envarray.content));
-			exit(EXIT_SUCCESS);
-		}
 	}
 	else
 		wait(&status);
-	return (errno);
+	return (WEXITSTATUS(status));
 }
 
 t_builtin	command_exec(char **args)
