@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/05 15:23:02 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/17 00:04:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,17 @@ extern int		exec_cmd(int argc, char **argv)
 static int		exec_process(t_procexpr *proc)
 {
 	int	status;
+	int i;
 
-	postproc_args_all(proc->args);
-	postproc_args_all(proc->inputs);
-	postproc_args_all(proc->outputs);
+	i = 0;
+	proc->args = postproc_args_all(proc->args);
+	while ((proc->args)[i])
+		i++;
+	proc->inputs = postproc_args_all(proc->inputs);
+	proc->outputs = postproc_args_all(proc->outputs);
 	status = bootstrap_fds(proc);
 	if (!status)
-		status = exec_cmd(proc->argc, proc->args);
+		status = exec_cmd(i, proc->args);
 	if (!restore_stdrfd())
 	{
 		ft_putstr_fd("restore_stdrfd failed", 2);

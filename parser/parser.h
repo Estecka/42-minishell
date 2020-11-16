@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/26 13:12:44 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/16 23:47:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char		*postproc_arg(const char *arg);
 ** 	The argument are processed in-place.
 */
 
-void		postproc_args_all(char **args);
+char**		postproc_args_all(char **args);
 
 /*
 ** Measures the amount of processes in a chain of pipes.

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_internals.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 15:28:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/09/01 15:28:00 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/16 23:50:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,6 @@ short		exprbuild_pipe(t_exprbuilder *this);
 void		exprbuild_complete(t_exprbuilder *this);
 void		exprbuild_abort(t_exprbuilder *this);
 
+void			ch_envvar(int sp, char out);
+char**     post_varproc(char **args);
 #endif
