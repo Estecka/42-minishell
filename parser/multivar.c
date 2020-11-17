@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 16:28:51 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/16 21:18:38 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/17 20:04:39 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,17 @@ static char	*next_substring(const char *metastring)
 
 static char	**realloc_argarray(char **argarray, int argi, int argc)
 {
-	char **result;
+	char	**result;
+	int		arraylen;
 
-	result = malloc(sizeof(char*) * (argc + ft_ptrlen((const void**)argarray)));
+	arraylen = ft_ptrlen((const void**)argarray);
+	result = malloc(sizeof(char*) * (argc + arraylen));
 	if (!result)
 		return (NULL);
 	ft_memcpy(result, argarray, argi * sizeof(char*));
 	ft_memcpy(result + argi + argc, argarray + argi + 1,
-		(ft_ptrlen((const void**)argarray) - argi - 1) * sizeof(char*));
+		(arraylen - argi - 1) * sizeof(char*));
+	result[arraylen + argc - 1] = NULL;
 	free(argarray[argi]);
 	free(argarray);
 	return (result);

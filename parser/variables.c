@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 11:50:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/17 19:28:25 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/17 20:08:38 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,8 @@ char		**postproc_args_all(char **args)
 	char	*argv;
 	int		argc;
 
-	i = 0;
-	while (args[i])
+	i = ft_ptrlen((const void**)args);
+	while (i--)
 	{
 		argc = postproc_arg(args[i], &argv, 0, 1);
 		if (argc <= 0)
@@ -164,8 +164,10 @@ char		**postproc_args_all(char **args)
 			args[i] = argv;
 		}
 		else if (argc > 1)
+		{
 			args = reinsert_multivar(args, i, argv, argc);
-		i++;
+			free(argv);
+		}
 	}
 	return (args);
 }

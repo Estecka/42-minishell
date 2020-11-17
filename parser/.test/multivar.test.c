@@ -1,4 +1,4 @@
-#include "multivar.c"
+#include "../multivar.c"
 
 #define SRC_size 10
 
