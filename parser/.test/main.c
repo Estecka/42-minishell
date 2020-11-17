@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 18:17:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/09 15:46:54 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/17 19:40:53 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ extern char* get_env_var(const char* name)
 {
 	char* result;
 
-	result = malloc(strlen(WCYAN) + strlen(WCLEAR) + strlen(name) + 1);
+	result = malloc(strlen(WCYAN) + 2 + strlen(WCLEAR) + 2 + strlen(name) + 1);
 	if (!result)
 		return NULL;
 
 	result[0] = '\0';
 	strcat(result, WCYAN);
+	strcat(result, "  ");
 	strcat(result, name);
+	strcat(result, "  ");
 	strcat(result, WCLEAR);
 	return result;
 }
@@ -77,7 +79,7 @@ extern int	main(int argc, char** argv)
 					else 
 					{
 						if (argc<2 || strcmp(argv[1], "--raw"))
-							postproc_args_all(expr->args);
+							expr->args = postproc_args_all(expr->args);
 						for (int j=0; expr->args[j]; j++)
 							printf("\t\t\tArg[%i]: %s\n", j, expr->args[j]);
 					}

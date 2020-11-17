@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 11:50:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/17 04:04:23 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/17 19:28:25 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*get_var_name(const char **cursor)
 	return (name.content);
 }
 
-static int	append_multivar(t_dynarray *narg, const char **varvalue)
+static int	append_multivar(t_dynarray *narg, const char *varvalue)
 {
 	int r;
 
@@ -146,17 +146,26 @@ static int	postproc_arg(const char *arg, char **dst, char quote, int argc)
 	return (errno ? 0 : argc);
 }
 
-void		postproc_args_all(char **args)
+char		**postproc_args_all(char **args)
 {
 	int		i;
-	char	*r;
+	char	*argv;
+	int		argc;
 
 	i = 0;
 	while (args[i])
 	{
-		postproc_arg(args[i], &r, 0, 1);
-		free(args[i]);
-		args[i] = r;
+		argc = postproc_arg(args[i], &argv, 0, 1);
+		if (argc <= 0)
+			return (NULL);
+		if (argc == 1)
+		{
+			free(args[i]);
+			args[i] = argv;
+		}
+		else if (argc > 1)
+			args = reinsert_multivar(args, i, argv, argc);
 		i++;
 	}
+	return (args);
 }
