@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 11:50:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/28 15:46:02 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/17 04:04:23 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 ** @return char*	A allocated copy of the name, or NULL in case of error.
 */
 
-static char		*get_var_name(const char **cursor)
+static char	*get_var_name(const char **cursor)
 {
 	t_dynarray	name;
 
@@ -45,22 +45,45 @@ static char		*get_var_name(const char **cursor)
 	return (name.content);
 }
 
+static int	append_multivar(t_dynarray *narg, const char **varvalue)
+{
+	int r;
+
+	r = 0;
+	varvalue--;
+	while (*++varvalue)
+	{
+		if (ft_isspace(*varvalue))
+		{
+			dynappendnull(narg);
+			varvalue = ft_skipspace(varvalue) - 1;
+			r++;
+		}
+		else
+			dynappend(narg, &*varvalue);
+	}
+	return (r);
+}
+
 /*
 ** Replaces a single variable's name with its value.
+** If the variable is not under quotes, the parsed argument may turn into multip
+** le ones. In which case, the formed string will contains all the arguments, se
+** parated with null-terminators.
 ** @param t_dynarray* narg	The stringbuilder that contains the newly formed arg
 ** ument.
 ** @param char** cursor	A cursor to the '$' preceding the variable's name.
 ** 	On success, it will point to the last character of the variable's name.
-** @return
-** 	true 	OK
-** 	false	Error
+** @param bool quote	Wether the variable is under quotes.
+** @return int	The amount of NEW arguments created in the process.
+** 	This will always be underquotes
 */
 
-static short	append_var(t_dynarray *narg, const char **cursor)
+static int	append_var(t_dynarray *narg, const char **cursor, short quote)
 {
 	char	*varname;
 	char	*varvalue;
-	short	r;
+	int		r;
 
 	varname = get_var_name(cursor);
 	(*cursor)--;
@@ -72,10 +95,14 @@ static short	append_var(t_dynarray *narg, const char **cursor)
 		free(varname);
 		return (0);
 	}
-	r = (dynappendn(narg, varvalue, ft_strlen(varvalue)) != NULL);
+	r = 0;
+	if (quote)
+		dynappendn(narg, varvalue, ft_strlen(varvalue));
+	else
+		r = append_multivar(narg, varvalue);
 	free(varname);
 	free(varvalue);
-	return (!!r);
+	return (r);
 }
 
 /*
@@ -88,11 +115,11 @@ static short	append_var(t_dynarray *narg, const char **cursor)
 ** d.
 ** @param char quote	Must be 0.
 ** @param int argc	Must be 1.
-** @return int	The amount of arguments and null-terminators in the resulting st
-** ring, or 0 if an error occured.
+** @return int	The total amount of arguments (and thus null-terminators) in the
+**  resulting string. Or 0 if an error occured.
 */
 
-static int		postproc_arg(const char *arg, char **dst, char quote, int argc)
+static int	postproc_arg(const char *arg, char **dst, char quote, int argc)
 {
 	t_dynarray	narg;
 
@@ -105,7 +132,7 @@ static int		postproc_arg(const char *arg, char **dst, char quote, int argc)
 		else if (quote && *arg == quote)
 			quote = 0;
 		else if (quote != '\'' && *arg == '$')
-			argc += append_var(&narg, &arg);
+			argc += append_var(&narg, &arg, quote);
 		else if (quote != '\'' && *arg == '\\'
 			&& (!quote || ft_strcontain("\"\\$", *(arg + 1))))
 			dynappend(&narg, &*++arg);
@@ -119,7 +146,7 @@ static int		postproc_arg(const char *arg, char **dst, char quote, int argc)
 	return (errno ? 0 : argc);
 }
 
-void			postproc_args_all(char **args)
+void		postproc_args_all(char **args)
 {
 	int		i;
 	char	*r;
