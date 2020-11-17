@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 16:28:51 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/17 20:04:39 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/17 21:58:05 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char		**reinsert_multivar(char **argarray, int argi, char *argv, int argc)
 		*cursor = ft_strdup(argv);
 		argv = next_substring(argv);
 		argc--;
-		cursor++ ;
+		cursor++;
 	}
 	return (result);
 }
