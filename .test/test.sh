@@ -12,6 +12,7 @@ else
 		cd
 		redirections
 		pipe
+		multivar
 	);
 fi
 
