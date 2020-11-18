@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:20:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/11/18 12:22:08 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/18 18:52:35 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,16 @@ int			go_fork(int argc, char **args)
 t_builtin	command_exec(char **args)
 {
 	char		*path;
+	char		*envpath;
 	char		*tmp;
 	struct stat	buf;
 
-	if (!(stat(args[0], &buf)) && (!ft_strncmp(args[0], "./", 2) || !ft_strncmp(args[0], "..", 2) ||
-	!ft_strncmp(args[0], "/", 1)))
-		return (&go_fork);
-	else
+	envpath = get_env_var("PATH");
+	if (*envpath)
 	{
+		if (ft_strncmp(args[0], "./", 2) || ft_strncmp(args[0], "..", 2) || 
+		ft_strncmp(args[0], "/", 1))
+			return (NULL);
 		if ((path = get_path(args[0])))
 		{
 			tmp = args[0];
@@ -94,5 +96,7 @@ t_builtin	command_exec(char **args)
 			return (&go_fork);
 		}
 	}
+	if (!(stat(args[0], &buf)))
+		return (&go_fork);
 	return (NULL);
 }
