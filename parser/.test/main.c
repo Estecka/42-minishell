@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 18:17:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 12:49:46 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/17 19:40:53 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ extern char* get_env_var(const char* name)
 {
 	char* result;
 
-	result = malloc(strlen(WCYAN) + strlen(WCLEAR) + strlen(name) + 1);
+	result = malloc(strlen(WCYAN) + 2 + strlen(WCLEAR) + 2 + strlen(name) + 1);
 	if (!result)
 		return NULL;
 
 	result[0] = '\0';
 	strcat(result, WCYAN);
+	strcat(result, "  ");
 	strcat(result, name);
+	strcat(result, "  ");
 	strcat(result, WCLEAR);
 	return result;
 }
@@ -77,22 +79,24 @@ extern int	main(int argc, char** argv)
 					else 
 					{
 						if (argc<2 || strcmp(argv[1], "--raw"))
-							postproc_args_all(expr->args);
+							expr->args = postproc_args_all(expr->args);
 						for (int j=0; expr->args[j]; j++)
 							printf("\t\t\tArg[%i]: %s\n", j, expr->args[j]);
 					}
 
-					if (expr->inputs == NULL)
-						printf("\t\t\t/!\\No Inputs\n");
-					else for (int j=0; expr->inputs[j]; j++)
-						printf("\t\t\t< \t%s\n", expr->inputs[j]);
-
-					if (expr->outputs == NULL)
-						printf("\t\t\t/!\\ No Outputs\n");
-					else for (int j=0; expr->outputs[j]; j++)
+					if (expr->ioarray == NULL)
+						printf("\t\t\t/!\\ No redirections\n");
+					else for (int j=0; expr->ioarray[j]; j++)
 					{
-						char* type = expr->outtypes[j] ? "> " : ">>";
-						printf("\t\t\t%s\t%s\n", type, expr->outputs[j]);
+						char* type;
+						switch (expr->iotypes[j])
+						{
+							default: type = "??"; break;
+							case punc_input:    type = "< "; break;
+							case punc_truncate: type = "> "; break;
+							case punc_append:   type = ">>"; break;
+						}
+						printf("\t\t\t%s\t%s\n", type, expr->ioarray[j]);
 					}
 					printf("\t\t\tPipe OUT: [%p]\n", expr->pipeout);
 				}

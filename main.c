@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/10 13:32:10 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/18 17:15:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <unistd.h>
 
 char				g_prev_status = 0;
+short				g_is_subprocess = 0;
 static char			*g_currentline = NULL;
 static t_procexpr	**g_currentexpr = NULL;
 short				p_prompt = 0;
@@ -35,7 +36,8 @@ extern int			clean_exit(int status)
 		free(g_currentline);
 	if (g_currentexpr)
 		procexpr_destroy_all(g_currentexpr);
-	write(2, "exit\n", 5);
+	if (!g_is_subprocess)
+		write(2, "exit\n", 5);
 	exit(status);
 }
 

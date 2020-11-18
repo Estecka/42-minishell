@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 18:01:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/26 13:10:24 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/09 15:45:55 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,9 @@ extern void	procexpr_destroy(t_procexpr *expr)
 	{
 		freearray((void**)expr->args);
 		free(expr->args);
-		freearray((void**)expr->inputs);
-		free(expr->inputs);
-		freearray((void**)expr->outputs);
-		free(expr->outputs);
-		free(expr->outtypes);
+		freearray((void**)expr->ioarray);
+		free(expr->ioarray);
+		free(expr->iotypes);
 		prev = expr;
 		expr = expr->pipeout;
 		free(prev);

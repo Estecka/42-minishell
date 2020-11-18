@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exprbuilder                                        :+:      :+:    :+:   */
+/*   exprbuilder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 18:01:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/09/05 18:01:00 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/09 15:39:10 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ static short	exprbuild_procinit(t_exprbuilder *this)
 {
 	if ((this->currentproc = malloc(sizeof(t_procexpr)))
 		&& dyninit(&this->argsarray, sizeof(char*), 4, 1)
-		&& dyninit(&this->inarray, sizeof(char*), 1, 1)
-		&& dyninit(&this->outarray, sizeof(char*), 1, 1)
-		&& dyninit(&this->typearray, sizeof(short), 1, 1))
+		&& dyninit(&this->ioarray, sizeof(char*), 1, 1)
+		&& dyninit(&this->typearray, sizeof(t_punctuation), 1, 1))
 	{
 		this->currentproc->pipein = NULL;
 		this->currentproc->pipeout = NULL;
@@ -47,9 +46,8 @@ static void		exprbuild_procend(t_exprbuilder *this)
 {
 	this->currentproc->argc = this->argsarray.length;
 	this->currentproc->args = this->argsarray.content;
-	this->currentproc->inputs = this->inarray.content;
-	this->currentproc->outputs = this->outarray.content;
-	this->currentproc->outtypes = this->typearray.content;
+	this->currentproc->ioarray = this->ioarray.content;
+	this->currentproc->iotypes = this->typearray.content;
 	if (!this->firstproc)
 		this->firstproc = this->currentproc;
 	this->currentproc = NULL;

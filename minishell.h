@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:41:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/05 15:23:39 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/13 16:03:58 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "parser/parser.h"
 
 char	g_prev_status;
+short	g_is_subprocess;
 
 /*
 ** Prepares the standard fds redirection.

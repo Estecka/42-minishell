@@ -1,0 +1,11 @@
+gcc argc/main.c -o argc.out
+
+./argc.out a b c;
+
+export beep="boop"
+./argc.out a $beep c
+
+export beep="0 1 2 3"
+./argc.out a $beep c
+./argc.out a "$beep" c
+./argc.out a '$beep' c

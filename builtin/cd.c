@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heleneherin <heleneherin@student.42.fr>    +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:27:11 by hherin            #+#    #+#             */
-/*   Updated: 2020/11/06 14:54:43 by heleneherin      ###   ########.fr       */
+/*   Updated: 2020/11/11 19:56:11 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,36 +48,13 @@ static int	change_dir(char **args)
 	return (errno);
 }
 
-static char	*set_envpwd(void)
-{
-	int			i;
-	char		**tmp;
-	char		*tmp_pwd;
-	char		*tmp3;
-
-	i = 0;
-	tmp_pwd = NULL;
-	tmp = (char**)(g_envarray.content);
-	while (tmp[i])
-	{
-		if (!ft_strncmp("PWD", tmp[i], 3))
-			tmp_pwd = ((char**)(g_envarray.content))[i];
-		i++;
-	}
-	tmp3 = getcwd(NULL, 0);
-	set_env_var("PWD", tmp3);
-	free(tmp3);
-	return (tmp_pwd);
-}
-
 int			cd_built(int argc, char **args)
 {
 	char		*oldpwd;
-	char		*tmp_pwd;
 
 	if (argc > 2)
 		return (print_error("bash: ligne 1 : ", ": trop d'arguments", args[0]));
-	oldpwd = getcwd(NULL, 0);
+	oldpwd = get_env_var("PWD");
 	if (change_dir(args))
 	{
 		free(oldpwd);
@@ -85,11 +62,10 @@ int			cd_built(int argc, char **args)
 	}
 	free(g_pwd_save);
 	g_pwd_save = getcwd(NULL, 0);
-	tmp_pwd = set_envpwd();
-	if (!tmp_pwd)
+	if (isset_envvar("OLDPWD"))
 		set_env_var("OLDPWD", oldpwd);
-	else
-		set_env_var("OLDPWD", tmp_pwd + 4);
+	if (isset_envvar("PWD"))
+		set_env_var("PWD", g_pwd_save);
 	free(oldpwd);
 	return (errno);
 }

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 15:28:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/09/01 15:28:00 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/15 17:07:34 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,34 +44,13 @@ struct		s_exprbuilder
 	t_procexpr			*currentproc;
 
 	t_dynarray			argsarray;
-	t_dynarray			inarray;
-	t_dynarray			outarray;
+	t_dynarray			ioarray;
 	t_dynarray			typearray;
-};
-
-/*
-** Describes how to parse an element in a command.
-** @var punc_none    	The next element is a standard argument.
-** @var punc_append  	The next element is an output. (Append)
-** @var punc_truncate	The next element is an output. (Truncate)
-** @var punc_input   	The next element is an input.
-** @var punc_pipe    	The next element is part of a new process.
-** @var punc_end     	The next element is part of a new command.
-*/
-
-typedef enum e_punctuation		t_punctuation;
-enum		e_punctuation
-{
-	punc_none = 0,
-	punc_truncate = 1,
-	punc_append = 2,
-	punc_input = 3,
-	punc_pipe = 4,
-	punc_end = 5,
 };
 
 short		is_punctuation(char c);
 short		append_single_quote(t_dynarray *chars, const char **cursor);
+char		**reinsert_multivar(char **argaray, int argi, char *argv, int argc);
 short		append_double_quote(t_dynarray *chars, const char **cursor);
 
 short		parse_cmd(t_exprbuilder *builder);

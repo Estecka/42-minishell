@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 11:58:31 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/20 11:00:05 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/15 16:45:36 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ extern char	**ft_strdupr(const char*const *array)
 			return (NULL);
 		}
 		if (len == 0)
-			break;
+			break ;
 	}
 	return (result);
 }

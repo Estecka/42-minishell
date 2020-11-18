@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/05 15:23:02 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/18 17:09:48 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ extern int		exec_cmd(int argc, char **argv)
 {
 	t_builtin	builtin;
 
+	if (!argc)
+		return (0);
 	if (!argv[0])
 		return (-1 | write(2, "[FATAL] Corrupted arg list.\n", 28));
 	builtin = builtins_process(argv[0]);
@@ -44,9 +46,9 @@ static int		exec_process(t_procexpr *proc)
 {
 	int	status;
 
-	postproc_args_all(proc->args);
-	postproc_args_all(proc->inputs);
-	postproc_args_all(proc->outputs);
+	proc->args = postproc_args_all(proc->args);
+	proc->ioarray = postproc_args_all(proc->ioarray);
+	proc->argc = ft_ptrlen((const void**)proc->args);
 	status = bootstrap_fds(proc);
 	if (!status)
 		status = exec_cmd(proc->argc, proc->args);
@@ -73,8 +75,7 @@ static pid_t	exec_fork(t_procexpr *proc, int fdin, int *fdout)
 	int		pipefds[2];
 	int		status;
 
-	pipefds[0] = 0;
-	pipefds[1] = 0;
+	ft_memset(pipefds, 0, sizeof(int[2]));
 	if (proc->pipeout && pipe(pipefds) < 0)
 		return (-1);
 	*fdout = pipefds[0];
@@ -86,6 +87,7 @@ static pid_t	exec_fork(t_procexpr *proc, int fdin, int *fdout)
 			close(pipefds[1]);
 		return (child);
 	}
+	g_is_subprocess = 1;
 	if (pipefds[0])
 		close(pipefds[0]);
 	if (fdin && ((dup2(fdin, 0) < 0) || close(fdin)))
