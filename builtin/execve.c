@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:20:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/11/05 15:19:11 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/18 12:22:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ t_builtin	command_exec(char **args)
 	char		*tmp;
 	struct stat	buf;
 
-	if (!(stat(args[0], &buf)))
+	if (!(stat(args[0], &buf)) && (!ft_strncmp(args[0], "./", 2) || !ft_strncmp(args[0], "..", 2) ||
+	!ft_strncmp(args[0], "/", 1)))
 		return (&go_fork);
 	else
 	{

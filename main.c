@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 15:12:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/13 16:03:40 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/18 18:03:25 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char				g_prev_status = 0;
 short				g_is_subprocess = 0;
 static char			*g_currentline = NULL;
 static t_procexpr	**g_currentexpr = NULL;
+short				p_prompt = 0;
 
 extern int			clean_exit(int status)
 {
@@ -47,8 +48,10 @@ static int			shell_main(void)
 	gnl = 1;
 	while (0 < gnl)
 	{
+		p_prompt = 0;
 		write(0, "> ", 2);
 		gnl = get_next_line(0, (char**)&g_currentline);
+		p_prompt = 1;
 		g_currentexpr = get_next_cmdline(g_currentline);
 		if (errno == EINVAL)
 			ft_putstr_fd("Invalid syntax.\n", 2);
