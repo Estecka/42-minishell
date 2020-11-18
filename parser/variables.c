@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 11:50:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/10/21 14:55:12 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/18 17:42:16 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 ** @return char*	A allocated copy of the name, or NULL in case of error.
 */
 
-static char		*get_var_name(const char **cursor)
+static char	*get_var_name(const char **cursor)
 {
 	t_dynarray	name;
 
@@ -45,22 +45,45 @@ static char		*get_var_name(const char **cursor)
 	return (name.content);
 }
 
+static int	append_multivar(t_dynarray *narg, const char *varvalue)
+{
+	int r;
+
+	r = 0;
+	varvalue--;
+	while (*++varvalue)
+	{
+		if (ft_isspace(*varvalue))
+		{
+			dynappendnull(narg);
+			varvalue = ft_skipspace(varvalue) - 1;
+			r++;
+		}
+		else
+			dynappend(narg, &*varvalue);
+	}
+	return (r);
+}
+
 /*
 ** Replaces a single variable's name with its value.
+** If the variable is not under quotes, the parsed argument may turn into multip
+** le ones. In which case, the formed string will contains all the arguments, se
+** parated with null-terminators.
 ** @param t_dynarray* narg	The stringbuilder that contains the newly formed arg
 ** ument.
 ** @param char** cursor	A cursor to the '$' preceding the variable's name.
 ** 	On success, it will point to the last character of the variable's name.
-** @return
-** 	true 	OK
-** 	false	Error
+** @param bool quote	Wether the variable is under quotes.
+** @return int	The amount of NEW arguments created in the process.
+** 	This will always be underquotes
 */
 
-static short	append_var(t_dynarray *narg, const char **cursor)
+static int	append_var(t_dynarray *narg, const char **cursor, short quote)
 {
 	char	*varname;
 	char	*varvalue;
-	short	r;
+	int		r;
 
 	varname = get_var_name(cursor);
 	(*cursor)--;
@@ -72,20 +95,36 @@ static short	append_var(t_dynarray *narg, const char **cursor)
 		free(varname);
 		return (0);
 	}
-	r = (dynappendn(narg, varvalue, ft_strlen(varvalue)) != NULL);
+	r = 0;
+	if (quote)
+		dynappendn(narg, varvalue, ft_strlen(varvalue));
+	else
+		r = append_multivar(narg, varvalue);
 	free(varname);
 	free(varvalue);
 	return (r);
 }
 
-extern char		*postproc_arg(const char *arg)
+/*
+** Parses a raw argument into its final form.
+** This involves replacing variables name, escaped characters, and quotes.
+** This may result into a single argument splitting into multiple ones, in which
+**  case the resulting string will contain multiple null-terminators.
+** @param const char* arg	The raw argument to parse.
+** @param char** result	Outputs the resulting string, or NULL if an error occure
+** d.
+** @param char quote	Must be 0.
+** @param int argc	Must be 1.
+** @return int	The total amount of arguments (and thus null-terminators) in the
+**  resulting string. Or 0 if an error occured.
+*/
+
+static int	postproc_arg(const char *arg, char **dst, char quote, int argc)
 {
 	t_dynarray	narg;
-	char		quote;
 
 	if (!dyninit(&narg, sizeof(char), ft_strlen(arg), 1))
-		return (NULL);
-	quote = 0;
+		return (0);
 	while (*arg && !errno)
 	{
 		if (!quote && (*arg == '\'' || *arg == '\"'))
@@ -93,7 +132,7 @@ extern char		*postproc_arg(const char *arg)
 		else if (quote && *arg == quote)
 			quote = 0;
 		else if (quote != '\'' && *arg == '$')
-			append_var(&narg, &arg);
+			argc += append_var(&narg, &arg, quote);
 		else if (quote != '\'' && *arg == '\\'
 			&& (!quote || ft_strcontain("\"\\$", *(arg + 1))))
 			dynappend(&narg, &*++arg);
@@ -103,20 +142,35 @@ extern char		*postproc_arg(const char *arg)
 	}
 	if (errno)
 		free(narg.content);
-	return (errno ? NULL : narg.content);
+	*dst = (errno ? NULL : narg.content);
+	return (errno ? 0 : argc);
 }
 
-void			postproc_args_all(char **args)
+int			postproc_args_all(char ***args)
 {
 	int		i;
-	char	*r;
+	char	*argv;
+	int		argc;
+	int		r;
 
-	i = 0;
-	while (args[i])
+	r = 0;
+	i = ft_ptrlen((const void**)*args);
+	while (i--)
 	{
-		r = postproc_arg(args[i]);
-		free(args[i]);
-		args[i] = r;
-		i++;
+		argc = postproc_arg((*args)[i], &argv, 0, 1);
+		r += argc - 1;
+		if (argc <= 0)
+			return (-1);
+		if (argc == 1)
+		{
+			free((*args)[i]);
+			(*args)[i] = argv;
+		}
+		else if (argc > 1)
+		{
+			*args = reinsert_multivar(*args, i, argv, argc);
+			free(argv);
+		}
 	}
+	return (r);
 }

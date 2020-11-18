@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/09 15:00:04 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/18 17:24:32 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,16 @@ struct		s_procexpr
 t_procexpr	**get_next_cmdline(const char *line);
 
 /*
-** Parses a raw argument into its final form.
-** This involves replacing variables name, escaped characters, and quotes.
-** @param const char* arg	The raw argument to parse.
-** @return char*	An allocated copy of the parsed argument, or NULL in case of
-**  error.
-*/
-
-char		*postproc_arg(const char *arg);
-
-/*
-** Process all arguments from an array jus as `postproc_arg` would.
+** Process all arguments into their final forms.
+** This involves processsing quotes, escape characters, and variables.
+** This may result in some arguments being split into more.
 ** @param char** args	A null-terminated array of argument to process.
-** 	The argument are processed in-place.
+** 	This pointer may be reallocated.
+** @return int	The amount of arguments that where ADDED to the array. Or -1 in
+**  case of error.
 */
 
-void		postproc_args_all(char **args);
+int			postproc_args_all(char ***args);
 
 /*
 ** Measures the amount of processes in a chain of pipes.

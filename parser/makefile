@@ -11,6 +11,7 @@ SRCS = \
 	quotes.c \
 	punctuation.c \
 	variables.c \
+	multivar.c \
 
 OBJS = ${SRCS:.c=.o}
 
