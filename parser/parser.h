@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/17 04:21:10 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/18 17:24:32 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ t_procexpr	**get_next_cmdline(const char *line);
 ** This involves processsing quotes, escape characters, and variables.
 ** This may result in some arguments being split into more.
 ** @param char** args	A null-terminated array of argument to process.
-** 	This pointer may be freed and reallocated.
-** @return char**	A reallocated array containing all the new arguments. Or NUL
-** L in case of error
+** 	This pointer may be reallocated.
+** @return int	The amount of arguments that where ADDED to the array. Or -1 in
+**  case of error.
 */
 
-char		**postproc_args_all(char **args);
+int			postproc_args_all(char ***args);
 
 /*
 ** Measures the amount of processes in a chain of pipes.

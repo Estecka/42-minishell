@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:40:45 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/18 17:09:48 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/18 17:35:17 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,15 @@ extern int		exec_cmd(int argc, char **argv)
 static int		exec_process(t_procexpr *proc)
 {
 	int	status;
+	int	ioc;
 
-	proc->args = postproc_args_all(proc->args);
-	proc->ioarray = postproc_args_all(proc->ioarray);
-	proc->argc = ft_ptrlen((const void**)proc->args);
+	proc->argc += postproc_args_all(&proc->args);
+	ioc = postproc_args_all(&proc->ioarray);
+	if (ioc > 0)
+	{
+		ft_putstr_fd("Ambiguous redirection.\n", 2);
+		return (EXIT_FAILURE);
+	}
 	status = bootstrap_fds(proc);
 	if (!status)
 		status = exec_cmd(proc->argc, proc->args);

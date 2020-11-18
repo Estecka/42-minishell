@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 18:17:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/17 19:40:53 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/18 17:39:57 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ extern int	main(int argc, char** argv)
 					else 
 					{
 						if (argc<2 || strcmp(argv[1], "--raw"))
-							expr->args = postproc_args_all(expr->args);
+							expr->argc += postproc_args_all(&expr->args);
 						for (int j=0; expr->args[j]; j++)
 							printf("\t\t\tArg[%i]: %s\n", j, expr->args[j]);
 					}

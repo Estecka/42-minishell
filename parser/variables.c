@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 11:50:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/17 20:08:38 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/18 17:42:16 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,28 +146,31 @@ static int	postproc_arg(const char *arg, char **dst, char quote, int argc)
 	return (errno ? 0 : argc);
 }
 
-char		**postproc_args_all(char **args)
+int			postproc_args_all(char ***args)
 {
 	int		i;
 	char	*argv;
 	int		argc;
+	int		r;
 
-	i = ft_ptrlen((const void**)args);
+	r = 0;
+	i = ft_ptrlen((const void**)*args);
 	while (i--)
 	{
-		argc = postproc_arg(args[i], &argv, 0, 1);
+		argc = postproc_arg((*args)[i], &argv, 0, 1);
+		r += argc - 1;
 		if (argc <= 0)
-			return (NULL);
+			return (-1);
 		if (argc == 1)
 		{
-			free(args[i]);
-			args[i] = argv;
+			free((*args)[i]);
+			(*args)[i] = argv;
 		}
 		else if (argc > 1)
 		{
-			args = reinsert_multivar(args, i, argv, argc);
+			*args = reinsert_multivar(*args, i, argv, argc);
 			free(argv);
 		}
 	}
-	return (args);
+	return (r);
 }

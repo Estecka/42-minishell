@@ -9,3 +9,6 @@ export beep="0 1 2 3"
 ./argc.out a $beep c
 ./argc.out a "$beep" c
 ./argc.out a '$beep' c
+
+./argc.out a b c d <$beep
+echo $?;
