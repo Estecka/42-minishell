@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 14:30:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/05 15:15:24 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/18 18:54:20 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../libft/libft.h"
 
 extern t_dynarray	g_envarray;
-extern int			g_prev_status;
+extern char			g_prev_status;
 
 extern char			**envvarinit(char **environ)
 {
