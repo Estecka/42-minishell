@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 17:32:49 by heleneherin       #+#    #+#             */
-/*   Updated: 2020/11/05 15:25:35 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/19 16:13:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void		shell_level(void)
 		(level > 1000) ? print_error("bash: warning: shell level (",
 			"1001) too high, resetting to 1", "") : 0;
 		set_env_var("SHLVL", "1");
+		free(lvl);
 	}
 	else
 	{
