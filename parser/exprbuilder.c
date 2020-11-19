@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 18:01:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/19 17:46:20 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/19 18:13:10 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static short	exprbuild_procinit(t_exprbuilder *this)
 ** 	False	Invalid syntax.
 */
 
-static short		exprbuild_procend(t_exprbuilder *this)
+static short	exprbuild_procend(t_exprbuilder *this)
 {
 	if (this->argsarray.length <= 0 && this->ioarray.length <= 0)
 	{

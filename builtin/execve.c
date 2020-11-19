@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:20:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/11/19 16:20:46 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/19 18:14:13 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char		*get_path(char *args, char *envpath)
 			return (path + free_all(&tmp, &a_path, &tmp2));
 		free(path);
 	}
-	if (!stat(tmp, &buf) && (!ft_strncmp(tmp, "./", 2) || 
+	if (!stat(tmp, &buf) && (!ft_strncmp(tmp, "./", 2) ||
 	!ft_strncmp(tmp, "..", 2) || !ft_strncmp(tmp, "/", 1)))
 		return (tmp + free_all(&tmp, &a_path, &tmp2));
 	free_all(&tmp, &a_path, &tmp2);
@@ -85,8 +85,8 @@ t_builtin	command_exec(char **args)
 	struct stat	buf;
 
 	envpath = get_env_var("PATH");
-	if (*envpath && !(stat(args[0], &buf)) && (!ft_strncmp(args[0], "./",  2) 
-	|| !ft_strncmp(args[0], "..",  2) || !ft_strncmp(args[0], "/", 1)))
+	if (*envpath && !(stat(args[0], &buf)) && (!ft_strncmp(args[0], "./", 2) 
+	|| !ft_strncmp(args[0], "..", 2) || !ft_strncmp(args[0], "/", 1)))
 	{
 		free(envpath);
 		return (&go_fork);
@@ -99,7 +99,7 @@ t_builtin	command_exec(char **args)
 		return (&go_fork);
 	}
 	else if (!(*envpath) && !(stat(args[0], &buf)))
-	{	
+	{
 		free(envpath);
 		return (&go_fork);
 	}
