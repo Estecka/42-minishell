@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 18:01:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/19 17:06:14 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/19 17:46:20 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ static short	exprbuild_procinit(t_exprbuilder *this)
 
 static short		exprbuild_procend(t_exprbuilder *this)
 {
+	if (this->argsarray.length <= 0 && this->ioarray.length <= 0)
+	{
+		errno = EINVAL;
+		return (0);
+	}
 	this->currentproc->argc = this->argsarray.length;
 	this->currentproc->args = this->argsarray.content;
 	this->currentproc->ioarray = this->ioarray.content;
@@ -54,11 +59,6 @@ static short		exprbuild_procend(t_exprbuilder *this)
 	if (!this->firstproc)
 		this->firstproc = this->currentproc;
 	this->currentproc = NULL;
-	if (this->argsarray.length <= 0 && this->ioarray.length <= 0)
-	{
-		errno = EINVAL;
-		return (0);
-	}
 	return (1);
 }
 
