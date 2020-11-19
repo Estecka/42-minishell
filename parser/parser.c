@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 16:23:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/08/30 16:23:00 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/19 16:54:23 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ static t_procexpr	*get_next_cmd(const char **cursor)
 	*cursor = ft_skipspace(*cursor);
 	if (!**cursor)
 		return (NULL);
-	if (exprbuild_init(&builder, *cursor) && parse_cmd(&builder))
+	if (exprbuild_init(&builder, *cursor) && parse_cmd(&builder)
+		&& exprbuild_complete(&builder))
 	{
 		*cursor = builder.cursor;
-		exprbuild_complete(&builder);
 		return (builder.firstproc);
 	}
 	exprbuild_abort(&builder);
