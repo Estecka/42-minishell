@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 12:20:48 by hherin            #+#    #+#             */
-/*   Updated: 2020/11/19 18:14:13 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/19 18:30:11 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,28 @@ short		free_all(char **tmp, char ***a_path, char **tmp2)
 	return (0);
 }
 
-char		*get_path(char *args, char *envpath)
+char		*get_path(char *args, const char *envpath)
 {
 	char		*path;
-	char		*tmp;
-	char		*tmp2;
+	char		*tmp[2];
 	char		**a_path;
 	int			i;
 	struct stat	buf;
 
 	a_path = ft_split(envpath, ':');
 	i = -1;
-	tmp = (!ft_strncmp(args, "~", 1)) ? home_dir(args) : ft_strdup(args);
-	tmp2 = ft_strjoin("/", tmp);
+	tmp[0] = (!ft_strncmp(args, "~", 1)) ? home_dir(args) : ft_strdup(args);
+	tmp[1] = ft_strjoin("/", tmp[0]);
 	while (a_path[++i])
 	{
-		if ((path = ft_strjoin(a_path[i], tmp2)) && !stat(path, &buf))
-			return (path + free_all(&tmp, &a_path, &tmp2));
+		if ((path = ft_strjoin(a_path[i], tmp[1])) && !stat(path, &buf))
+			return (path + free_all(&tmp[0], &a_path, &tmp[1]));
 		free(path);
 	}
-	if (!stat(tmp, &buf) && (!ft_strncmp(tmp, "./", 2) ||
-	!ft_strncmp(tmp, "..", 2) || !ft_strncmp(tmp, "/", 1)))
-		return (tmp + free_all(&tmp, &a_path, &tmp2));
-	free_all(&tmp, &a_path, &tmp2);
+	if (!stat(tmp[0], &buf) && (!ft_strncmp(tmp[0], "./", 2) ||
+	!ft_strncmp(tmp[0], "..", 2) || !ft_strncmp(tmp[0], "/", 1)))
+		return (tmp[0] + free_all(&tmp[0], &a_path, &tmp[1]));
+	free_all(&tmp[0], &a_path, &tmp[1]);
 	return (NULL);
 }
 
@@ -80,29 +79,22 @@ int			go_fork(int argc, char **args)
 t_builtin	command_exec(char **args)
 {
 	char		*path;
-	char		*envpath;
+	const char	*envpath;
 	char		*tmp;
 	struct stat	buf;
 
-	envpath = get_env_var("PATH");
-	if (*envpath && !(stat(args[0], &buf)) && (!ft_strncmp(args[0], "./", 2) 
+	envpath = get_envvar_rdonly("PATH");
+	if (*envpath && !(stat(args[0], &buf)) && (!ft_strncmp(args[0], "./", 2)
 	|| !ft_strncmp(args[0], "..", 2) || !ft_strncmp(args[0], "/", 1)))
-	{
-		free(envpath);
 		return (&go_fork);
-	}
 	else if (*envpath && (path = get_path(args[0], envpath)))
 	{
 		tmp = args[0];
 		args[0] = path;
-		free_all(&tmp, NULL, &envpath);
+		free(tmp);
 		return (&go_fork);
 	}
 	else if (!(*envpath) && !(stat(args[0], &buf)))
-	{
-		free(envpath);
 		return (&go_fork);
-	}
-	free(envpath);
 	return (NULL);
 }

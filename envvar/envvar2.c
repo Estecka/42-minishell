@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:11:43 by abaur             #+#    #+#             */
-/*   Updated: 2020/11/11 20:03:11 by abaur            ###   ########.fr       */
+/*   Updated: 2020/11/19 18:30:23 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,5 @@ const char	*get_envvar_rdonly(const char *name)
 			else
 				return (result);
 		}
-	return (NULL);
+	return ("");
 }
